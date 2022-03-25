@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{5AC3D20D-AF7C-4C83-AB1F-96E9C9A2540F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Packages", "Packages", "{105BFDE1-2FF5-4E0D-A2D7-A3C412FF7255}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PatrickStar.MVU", "PatrickStar.MVU", "{00ED433A-061C-4419-A4F6-33CA170337BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{F94B28E8-D225-45E4-B084-D557830C6218}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eggplant.Telegram", "Core\Eggplant.Telegram\Eggplant.Telegram.csproj", "{A2D017D8-120B-4F7C-8715-7F6337AF8AD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lagalike.Telegram.Shared", "Core\Lagalike.Telegram.Shared\Lagalike.Telegram.Shared.csproj", "{75A064B5-8E86-4581-8B55-509CA2C32E3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatrickStar.MVU", "Packages\PatrickStar.MVU\PatrickStar.MVU.csproj", "{B745B70D-C567-4584-908C-20A9017177B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatrickStar.MVU.Tests", "Packages\PatrickStar.MVU.Tests\PatrickStar.MVU.Tests.csproj", "{0010C267-3790-4690-92B6-9A45D69CF2D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lagalike.Demo.Eggplant.MVU", "Demos\Lagalike.Demo.CockSizer.MVU\Lagalike.Demo.Eggplant.MVU\Lagalike.Demo.Eggplant.MVU.csproj", "{48DA4846-667C-4944-85D1-07CD0D16E6DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2D017D8-120B-4F7C-8715-7F6337AF8AD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2D017D8-120B-4F7C-8715-7F6337AF8AD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2D017D8-120B-4F7C-8715-7F6337AF8AD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2D017D8-120B-4F7C-8715-7F6337AF8AD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75A064B5-8E86-4581-8B55-509CA2C32E3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75A064B5-8E86-4581-8B55-509CA2C32E3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75A064B5-8E86-4581-8B55-509CA2C32E3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75A064B5-8E86-4581-8B55-509CA2C32E3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B745B70D-C567-4584-908C-20A9017177B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B745B70D-C567-4584-908C-20A9017177B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B745B70D-C567-4584-908C-20A9017177B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B745B70D-C567-4584-908C-20A9017177B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0010C267-3790-4690-92B6-9A45D69CF2D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0010C267-3790-4690-92B6-9A45D69CF2D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0010C267-3790-4690-92B6-9A45D69CF2D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0010C267-3790-4690-92B6-9A45D69CF2D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48DA4846-667C-4944-85D1-07CD0D16E6DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48DA4846-667C-4944-85D1-07CD0D16E6DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48DA4846-667C-4944-85D1-07CD0D16E6DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48DA4846-667C-4944-85D1-07CD0D16E6DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{00ED433A-061C-4419-A4F6-33CA170337BB} = {105BFDE1-2FF5-4E0D-A2D7-A3C412FF7255}
+		{A2D017D8-120B-4F7C-8715-7F6337AF8AD7} = {F94B28E8-D225-45E4-B084-D557830C6218}
+		{75A064B5-8E86-4581-8B55-509CA2C32E3D} = {F94B28E8-D225-45E4-B084-D557830C6218}
+		{B745B70D-C567-4584-908C-20A9017177B2} = {00ED433A-061C-4419-A4F6-33CA170337BB}
+		{0010C267-3790-4690-92B6-9A45D69CF2D3} = {00ED433A-061C-4419-A4F6-33CA170337BB}
+		{48DA4846-667C-4944-85D1-07CD0D16E6DA} = {5AC3D20D-AF7C-4C83-AB1F-96E9C9A2540F}
+	EndGlobalSection
+EndGlobal
