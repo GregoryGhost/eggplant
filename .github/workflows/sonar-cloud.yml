@@ -46,7 +46,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"GregoryGhost_lagalike" /o:"gregoryghost" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.dotcover.reportsPaths=dotCover.Output.html
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"GregoryGhost_eggplant" /o:"gregoryghost" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.dotcover.reportsPaths=dotCover.Output.html
 
           dotnet build /p:ContinuousIntegrationBuild=false
           dotnet dotcover test --dcReportType=HTML --no-build

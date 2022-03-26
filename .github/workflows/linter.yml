@@ -9,7 +9,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       RESHARPER_PROFILE_NAME: "TAP Cleanup"
-      MAIN_SOLUTION_NAME: "./Lagalike.sln"
+      MAIN_SOLUTION_NAME: "./Eggplant.sln"
       PROJECT_WORKING_DIRECTORY: "./"
 
     steps:
