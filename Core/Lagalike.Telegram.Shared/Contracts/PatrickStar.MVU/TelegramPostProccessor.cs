@@ -38,9 +38,11 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
             if (update.RequestType is RequestTypes.InlineQuery)
             {
                 var inlineQueryResult = GetInlineQueryResult(view);
+                
                 await _client.AnswerInlineQueryAsync(
                     update.Update.InlineQuery.Id,
-                    inlineQueryResult);
+                    inlineQueryResult, 
+                    isPersonal: true);
             }
             else
             {
@@ -76,10 +78,18 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
                                     .ToArray();
 
             return results;
-            // return new InlineQueryResultBase[]
-            // {
-            //     new InlineQueryResultArticle("kekw23444", "kekw23444", new InputTextMessageContent("kekw text241222"))
-            // };
+        }
+        
+        private static IReadOnlyCollection<InlineQueryResultBase> DoKekwSergey(IView<TCmdType> view)
+        {
+            var inlineMenu = (InlineQueryMenu)view.Menu;
+            var results = inlineMenu.Buttons.Select(button => new InlineQueryResultArticle(
+                                        button.Id,
+                                        button.Label,
+                                        new InputTextMessageContent("А теперь епта работает? Your cocksize is 10 cm Kappa")))
+                                    .ToArray();
+
+            return results;
         }
 
         private async Task ProccessStatefullUpdate(IView<TCmdType> view, TelegramUpdate update)

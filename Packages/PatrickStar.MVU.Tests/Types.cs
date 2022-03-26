@@ -148,6 +148,9 @@ namespace PatrickStar.MVU.Tests
 
         /// <inheritdoc />
         public string ChatId { get; init; } = null!;
+
+        /// <inheritdoc />
+        public bool IsSendingCachedModel { get; init; } = false;
     }
 
     public enum ModelType

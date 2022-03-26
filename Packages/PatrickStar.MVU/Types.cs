@@ -101,6 +101,11 @@
         /// A chat id.
         /// </summary>
         string ChatId { get; init; }
+        
+        /// <summary>
+        /// Set it if need to send not updated model to update view.
+        /// </summary>
+        bool IsSendingCachedModel { get; init; }
     }
 
     /// <summary>
@@ -196,6 +201,14 @@
 
                 var view = ViewMapper.Map(info.UpdatedModel);
                 await PostProccessor.ProccessAsync(view, info.UpdateInfo).ConfigureAwait(false);
+            } else if (info.UpdateInfo.IsSendingCachedModel)
+            {
+                var view = ViewMapper.Map(info.UpdatedModel);
+                await PostProccessor.ProccessAsync(view, info.UpdateInfo).ConfigureAwait(false);
+            }
+            else
+            {
+                //NOTE: nothing to proccess
             }
         }
 

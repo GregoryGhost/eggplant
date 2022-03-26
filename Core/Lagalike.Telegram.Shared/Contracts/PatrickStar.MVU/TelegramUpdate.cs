@@ -12,6 +12,9 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
         /// <inheritdoc />
         public string ChatId { get; init; } = null!;
 
+        /// <inheritdoc />
+        public virtual bool IsSendingCachedModel { get; init; } = false;
+
         /// <summary>
         /// A Telegram update.
         /// </summary>
@@ -48,6 +51,9 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
     {
         /// <inheritdoc />
         public override RequestTypes RequestType => RequestTypes.InlineQuery;
+
+        /// <inheritdoc />
+        public override bool IsSendingCachedModel { get; init; } = true;
     }
     
     /// <summary>
