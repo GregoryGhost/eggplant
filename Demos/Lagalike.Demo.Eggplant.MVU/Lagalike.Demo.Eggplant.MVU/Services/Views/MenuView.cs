@@ -4,6 +4,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
 
     using Lagalike.Demo.Eggplant.MVU.Commands;
     using Lagalike.Demo.Eggplant.MVU.Models;
+    using Lagalike.Demo.Eggplant.MVU.Services.Views.Staff;
 
     using PatrickStar.MVU;
 
@@ -12,6 +13,8 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
     /// </summary>
     public record MenuView : BaseMenuView<CommandTypes>
     {
+        private readonly EmotionBotReactionsHandler _emotionBotReactionsHandler;
+
         private readonly InlineQueryButton _initialShareCockSizeButton = new()
         {
             Id = $"InitialMenuId_{Guid.NewGuid()}",
@@ -19,9 +22,10 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
             Label = "Share your cock size"
         };
 
-        public MenuView()
+        public MenuView(EmotionBotReactionsHandler emotionBotReactionsHandler, InlineQueryMenuBuilder inlineQueryMenuBuilder)
         {
-            InitialMenu = new InlineQueryMenuBuilder()
+            _emotionBotReactionsHandler = emotionBotReactionsHandler;
+            InitialMenu = inlineQueryMenuBuilder
                           .Button(_initialShareCockSizeButton)
                           .Build();
             Menu = InitialMenu;
@@ -50,11 +54,12 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
         {
             if (model.CockSize is null)
                 return Update(InitialMenu);
-            
+
+            var botEmoution = _emotionBotReactionsHandler.GetBotEmoution(model.CockSize.Value);
             var shareButton = _initialShareCockSizeButton with
             {
                 Id = Guid.NewGuid().ToString(),
-                Value = $"Your cock size is {model.CockSize} cm"
+                Value = $"Your cock size is {model.CockSize.Value.Size} cm {botEmoution.Reaction}"
             };
             var updatedMenu = InitialMenu with
             {

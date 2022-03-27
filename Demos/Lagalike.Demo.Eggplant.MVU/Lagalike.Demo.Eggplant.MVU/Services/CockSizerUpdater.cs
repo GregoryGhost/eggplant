@@ -11,8 +11,6 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
     /// <inheritdoc />
     public class CockSizerUpdater : IUpdater<CommandTypes, Model>
     {
-        private static readonly Random Random = new ();
-
         /// <inheritdoc />
         public async Task<(ICommand<CommandTypes>? OutputCommand, Model UpdatedModel)> UpdateAsync(ICommand<CommandTypes> command,
             Model model)
@@ -29,11 +27,8 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
 
         private static Model RandomCockSize(Model model)
         {
-            const byte MinCockSize = 1;
-            const byte MaxCockSize = 50;
-            
             return model.CockSize is null
-                ? model with { CockSize = (byte)Random.Next(MinCockSize, MaxCockSize)}
+                ? model with { CockSize = CockSize.GetRandomCockSize() }
                 : model;
         }
     }
