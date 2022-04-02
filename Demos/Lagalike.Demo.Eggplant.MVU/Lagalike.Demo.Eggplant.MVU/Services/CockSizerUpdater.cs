@@ -5,7 +5,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
 
     using Lagalike.Demo.Eggplant.MVU.Commands;
     using Lagalike.Demo.Eggplant.MVU.Models;
-    using Lagalike.Demo.Eggplant.MVU.Services.Domen;
+    using Lagalike.Demo.Eggplant.MVU.Services.Domain;
 
     using PatrickStar.MVU;
 

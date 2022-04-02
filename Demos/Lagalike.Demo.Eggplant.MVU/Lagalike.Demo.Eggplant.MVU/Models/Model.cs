@@ -2,7 +2,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Models
 {
     using System;
 
-    using Lagalike.Demo.Eggplant.MVU.Services.Domen;
+    using Lagalike.Demo.Eggplant.MVU.Services.Domain;
     using Lagalike.Demo.TestPatrickStar.MVU.Models;
 
     using PatrickStar.MVU;

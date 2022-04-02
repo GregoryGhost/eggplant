@@ -1,4 +1,4 @@
-namespace Lagalike.Demo.Eggplant.MVU.Services.Domen
+namespace Lagalike.Demo.Eggplant.MVU.Services.Domain
 {
     using System;
     using System.Collections.Generic;
