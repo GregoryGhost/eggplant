@@ -13,9 +13,16 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views.Staff
 
     public class EmotionBotReactionsHandler
     {
+        private const string ZERO_COCK_SIZE_EMOUTION =
+            ".∧＿∧" +
+            "( ･ω･｡)つ━☆・*。" +
+            "⊂. ノ ...・゜+. " +
+            "しーＪ...°。+ *´¨)" +
+            "..........· ´¸.·*´¨) ¸.·*¨)" +
+            "..........(¸.·´ (¸.·'* ☆ WOW AND YOU FAG ☆";
         private readonly string[] _cockSizeEmoutions =
         {
-            "໒( 0◡0)っ✂╰⋃╯", "🚷", "😭", "🤣", "😂", "🥲", "🙃", "😔", "🤏", "😟", "😕", "🙁", "😣", "😖", "🙂", "🙃", "👍", "🙌",
+            ZERO_COCK_SIZE_EMOUTION, "🚷", "😭", "🤣", "😂", "🥲", "🙃", "😔", "🤏", "😟", "😕", "🙁", "😣", "😖", "🙂", "🙃", "👍", "🙌",
             "👏", "🎉",
             "👄", "😘", "🥰", "😍", "😳", "😅", "😬", "😥", "😰", "😨", "😱", "🍆", "໒( 0◡0)っ✂╰⋃╯", "🦍", "🐎", "🐘", "🦣", "🏆",
             "(●≧ﻬ≦)(˘ ε ˘ʃƪ)",
