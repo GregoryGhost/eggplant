@@ -5,12 +5,20 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
 
     using Lagalike.Demo.Eggplant.MVU.Commands;
     using Lagalike.Demo.Eggplant.MVU.Models;
+    using Lagalike.Demo.Eggplant.MVU.Services.Domen;
 
     using PatrickStar.MVU;
 
     /// <inheritdoc />
     public class CockSizerUpdater : IUpdater<CommandTypes, Model>
     {
+        private readonly CockSizeFactory _cockSizeFactory;
+
+        public CockSizerUpdater(CockSizeFactory cockSizeFactory)
+        {
+            _cockSizeFactory = cockSizeFactory;
+        }
+        
         /// <inheritdoc />
         public async Task<(ICommand<CommandTypes>? OutputCommand, Model UpdatedModel)> UpdateAsync(ICommand<CommandTypes> command,
             Model model)
@@ -25,10 +33,10 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             return (emptyCmd, updatedModel);
         }
 
-        private static Model RandomCockSize(Model model)
+        private Model RandomCockSize(Model model)
         {
             return model.CockSize is null
-                ? model with { CockSize = CockSize.GetRandomCockSize() }
+                ? model with { CockSize = _cockSizeFactory.GetRandomCockSize() }
                 : model;
         }
     }

@@ -1,9 +1,11 @@
 namespace Lagalike.Demo.Eggplant.MVU
 {
+    using System;
+
     using Lagalike.Demo.Eggplant.MVU.Services;
+    using Lagalike.Demo.Eggplant.MVU.Services.Domen;
     using Lagalike.Demo.Eggplant.MVU.Services.ModuleSettings;
     using Lagalike.Demo.Eggplant.MVU.Services.Views;
-    using Lagalike.Demo.Eggplant.MVU.Services.Views.Staff;
     using Lagalike.Telegram.Shared.Contracts;
 
     using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +24,9 @@ namespace Lagalike.Demo.Eggplant.MVU
                     .AddSingleton<ViewsFactory>()
                     .AddSingleton<MenuView>()
                     .AddSingleton<InlineQueryMenuBuilder>()
+                    .AddSingleton<CockSizeFactory>()
                     .AddSingleton<ViewMapper>()
+                    .AddSingleton(new Random())
                     .AddSingleton<DefaultViewMapper>()
                     .AddSingleton<CockSizerUpdater>()
                     .AddSingleton<CockSizerInfo>()

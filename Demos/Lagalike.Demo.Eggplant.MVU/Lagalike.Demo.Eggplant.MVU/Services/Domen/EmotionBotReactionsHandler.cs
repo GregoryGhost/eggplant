@@ -1,10 +1,8 @@
-namespace Lagalike.Demo.Eggplant.MVU.Services.Views.Staff
+namespace Lagalike.Demo.Eggplant.MVU.Services.Domen
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using Lagalike.Demo.Eggplant.MVU.Models;
 
     public record EmoutionInfo
     {
@@ -13,6 +11,8 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views.Staff
 
     public class EmotionBotReactionsHandler
     {
+        private readonly CockSizeFactory _cockSizeFactory;
+
         private const string ZERO_COCK_SIZE_EMOUTION =
             ".∧＿∧" +
             "( ･ω･｡)つ━☆・*。" +
@@ -33,8 +33,9 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views.Staff
 
         private readonly IReadOnlyDictionary<CockSize, EmoutionInfo> _dictCockSizeReactions;
 
-        public EmotionBotReactionsHandler()
+        public EmotionBotReactionsHandler(CockSizeFactory cockSizeFactory)
         {
+            _cockSizeFactory = cockSizeFactory;
             var cockSizes = GetCockSizes();
 
             _dictCockSizeReactions = cockSizes.Zip(
@@ -57,7 +58,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views.Staff
 
         private IReadOnlyList<CockSize> GetCockSizes()
         {
-            var cockSizes = CockSize.Range();
+            var cockSizes = _cockSizeFactory.GetCockSizeRanges();
             var availableEmoutionsCount = _cockSizeEmoutions.Length;
             var needEmoutionsCount = cockSizes.Count;
             var hasEnough = availableEmoutionsCount >= needEmoutionsCount;

@@ -4,7 +4,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
 
     using Lagalike.Demo.Eggplant.MVU.Commands;
     using Lagalike.Demo.Eggplant.MVU.Models;
-    using Lagalike.Demo.Eggplant.MVU.Services.Views.Staff;
+    using Lagalike.Demo.Eggplant.MVU.Services.Domen;
 
     using PatrickStar.MVU;
 
@@ -55,11 +55,11 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
             if (model.CockSize is null)
                 return Update(InitialMenu);
 
-            var botEmoution = _emotionBotReactionsHandler.GetBotEmoution(model.CockSize.Value);
+            var botEmoution = _emotionBotReactionsHandler.GetBotEmoution(model.CockSize);
             var shareButton = _initialShareCockSizeButton with
             {
                 Id = Guid.NewGuid().ToString(),
-                Value = $"Your cock size is {model.CockSize.Value.Size} cm {botEmoution.Reaction}"
+                Value = $"Your cock size is {model.CockSize.Size} cm {botEmoution.Reaction}"
             };
             var updatedMenu = InitialMenu with
             {
