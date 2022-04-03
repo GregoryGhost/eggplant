@@ -6,11 +6,6 @@ namespace Lagalike.Demo.Eggplant.MVU.Commands
     public enum CommandTypes
     {
         /// <summary>
-        /// Returns random current user cock size.
-        /// </summary>
-        GetCockSize,
-
-        /// <summary>
         /// Share random current user cock size with other users.
         /// </summary>
         ShareCockSize

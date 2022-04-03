@@ -14,7 +14,6 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
         private static readonly IReadOnlyDictionary<CommandTypes, ICommand<CommandTypes>> Commands =
             new Dictionary<CommandTypes, ICommand<CommandTypes>>
             {
-                { CommandTypes.GetCockSize, new GetCockSizeCommand() },
                 { CommandTypes.ShareCockSize, new ShareCockSizeCommand() }
             };
 
@@ -26,11 +25,6 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
         {
             return Commands;
         }
-
-        /// <summary>
-        /// Decrement command.
-        /// </summary>
-        public ICommand<CommandTypes> GetCockSizeCommand => Commands[CommandTypes.GetCockSize];
 
         /// <summary>
         /// Menu command.

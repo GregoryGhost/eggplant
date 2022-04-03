@@ -25,7 +25,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
         {
             var updatedModel = command.Type switch
             {
-                CommandTypes.GetCockSize or CommandTypes.ShareCockSize => RandomCockSize(model),
+                CommandTypes.ShareCockSize => RandomCockSize(model),
                 _ => throw new ArgumentOutOfRangeException($"Unknown {nameof(command)}: {command}")
             };
             ICommand<CommandTypes> emptyCmd = null!;
