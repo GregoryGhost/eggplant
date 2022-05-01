@@ -19,7 +19,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Domain
             "⊂. ノ ...・゜+. " +
             "しーＪ...°。+ *´¨)" +
             "..........· ´¸.·*´¨) ¸.·*¨)" +
-            "..........(¸.·´ (¸.·'* ☆ WOW AND YOU FAG ☆";
+            "..........(¸.·´ (¸.·'* ☆ WOW AND YOU ARE A FAG ☆";
         private readonly string[] _cockSizeEmoutions =
         {
             ZERO_COCK_SIZE_EMOUTION, "🚷", "😭", "🤣", "😂", "🥲", "🙃", "😔", "🤏", "😟", "😕", "🙁", "😣", "😖", "🙂", "🙃", "👍", "🙌",

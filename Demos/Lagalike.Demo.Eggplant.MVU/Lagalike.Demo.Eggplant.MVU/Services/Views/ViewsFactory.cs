@@ -23,7 +23,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
             _views = new Dictionary<ModelTypes, IViewMapper<CommandTypes>>
             {
                 {ModelTypes.PersonCockSizeModel, personCockSizeViewMapper},
-                {ModelTypes.GroupRatingModel, groupRatingViewMapper}
+                {ModelTypes.GroupRatingModel, groupRatingViewMapper},
             };
         }
 

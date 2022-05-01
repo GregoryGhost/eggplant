@@ -6,8 +6,10 @@ namespace Lagalike.Demo.Eggplant.MVU.Models
     public enum ModelTypes
     {
         /// <summary>
-        /// Just default model type.
+        /// Just root model type.
         /// </summary>
+        RootModel,
+        
         PersonCockSizeModel,
         
         GroupRatingModel,

@@ -3,13 +3,20 @@
     using System;
     using System.Collections.Generic;
 
+    using Lagalike.Demo.Eggplant.MVU.Services.ModelUpdaters;
     using Lagalike.Demo.Eggplant.MVU.Services.Views;
 
     using PatrickStar.MVU;
 
     public record GroupRatingModel: IModel
     {
-        public IReadOnlyList<GroupRatingInfo> GroupRatings { get; init; } = Array.Empty<GroupRatingInfo>();
+        public GroupRatingInfo? GroupRating { get; init; }
         public Enum Type => ModelTypes.GroupRatingModel;
+    }
+    
+    
+    public record GroupId
+    {
+        public string Value { get; init; } = null!;
     }
 }

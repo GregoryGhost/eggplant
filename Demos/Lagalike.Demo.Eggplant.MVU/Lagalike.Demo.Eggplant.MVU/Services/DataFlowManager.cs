@@ -39,7 +39,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             ViewMapper = viewMapper;
             InitialModel = new Model
             {
-                CockSize = null
+                CockSizeModel = null
             };
             _commands = commandsFactory.GetCommands();
         }

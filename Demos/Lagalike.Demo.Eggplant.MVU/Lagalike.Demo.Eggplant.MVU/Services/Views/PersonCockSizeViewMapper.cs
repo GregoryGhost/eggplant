@@ -24,7 +24,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
         /// <inheritdoc />
         public IView<CommandTypes> Map(IModel model)
         {
-            var defaultModel = (Model)model;
+            var defaultModel = (PersonCockSizeModel)model;
             var menu = _userCockSizeInfoView.UpdateMenu(defaultModel);
 
             return menu;

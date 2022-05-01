@@ -48,9 +48,9 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
         /// <summary>
         ///     Update the view.
         /// </summary>
-        /// <param name="model">A cock size model.</param>
+        /// <param name="model">A cock size root model.</param>
         /// <returns>Return a updated view.</returns>
-        public IView<CommandTypes> UpdateMenu(Model model)
+        public IView<CommandTypes> UpdateMenu(PersonCockSizeModel model)
         {
             if (model.CockSize is null)
                 return Update(InitialMenu);

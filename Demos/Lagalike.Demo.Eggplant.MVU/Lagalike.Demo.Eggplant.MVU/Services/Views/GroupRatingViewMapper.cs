@@ -1,11 +1,11 @@
 ﻿namespace Lagalike.Demo.Eggplant.MVU.Services.Views
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using Lagalike.Demo.Eggplant.MVU.Commands;
     using Lagalike.Demo.Eggplant.MVU.Models;
+    using Lagalike.Demo.Eggplant.MVU.Services.ModelUpdaters;
 
     using PatrickStar.MVU;
 
@@ -13,25 +13,22 @@
     {
         private readonly GroupRatingView _view;
 
-        private readonly GroupRatingHandler _groupRatingHandler;
-
-        public GroupRatingViewMapper(GroupRatingView view, GroupRatingHandler groupRatingHandler)
+        public GroupRatingViewMapper(GroupRatingView view)
         {
             _view = view;
-            _groupRatingHandler = groupRatingHandler;
         }
 
         /// <inheritdoc />
-        public IView<CommandTypes> Map(IModel model)
+        public IView<CommandTypes> Map(IModel sourceModel)
         {
-            var defaultModel = (Model)model;
-            if (defaultModel.GroupId == null)
+            var model = (GroupRatingModel)sourceModel;
+            if (model.GroupRating == null)
             {
                 return _view.Update(_view.InitialMenu);
             }
 
             var menu = (Menu<CommandTypes>) _view.Menu;
-            var formattedTopUsers = GetTopUsers(defaultModel);
+            var formattedTopUsers = FormatTopUsers(model.GroupRating.TopUsers);
             var updatedMenu = menu.MessageElement with
             {
                 Text = formattedTopUsers
@@ -41,21 +38,16 @@
             return updatedView;
         }
 
-        //TODO: to async
-        private string GetTopUsers(Model defaultModel)
-        {
-            if (defaultModel.GroupId == null)
-            {
-                throw new ArgumentException("Have no any value", nameof(defaultModel.GroupId));
-            }
-            var topUsers = _groupRatingHandler.GetRatingAsync(defaultModel.GroupId.Value).Result.TopUsers;
-            var formattedTopUsers = FormatTopUsers(topUsers);
-            
-            return formattedTopUsers;
-        }
-
         private static string FormatTopUsers(IReadOnlyCollection<GroupUserInfo> topUsers)
         {
+            var haveNoTopUsers = !topUsers.Any();
+            if (haveNoTopUsers)
+            {
+                const string HaveNoTopUsersMsg = "The group rating is empty.";
+                
+                return HaveNoTopUsersMsg;
+            }
+            
             var formattedUsers = topUsers.Select((x, i) => $"{i}. {x.FullName} {x.CockSize}");
             var formatted = string.Join("\n", formattedUsers);
 

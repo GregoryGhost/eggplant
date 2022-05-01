@@ -279,7 +279,7 @@
         }
 
         /// <inheritdoc />
-        public IView<TCommandType> Map(IModel model)
+        public virtual IView<TCommandType> Map(IModel model)
         {
             if (_views.TryGetValue((TModelType)model.Type, out var viewMapper))
                 return viewMapper.Map(model);

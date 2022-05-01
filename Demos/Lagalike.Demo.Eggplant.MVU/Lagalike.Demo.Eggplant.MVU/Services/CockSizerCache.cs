@@ -33,12 +33,12 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
 
                                               return (UserId: ParseUserId(userId), UserCockSize: userCockSize);
                                           })
-                                      .Where(x => x.UserCockSize != null)
+                                      .Where(x => x.UserCockSize?.CockSizeModel?.CockSize != null)
                                       .Select(
                                           x =>
                                           {
-                                              if (x.UserCockSize.CockSize == null)
-                                                  throw new ArgumentNullException(nameof(x.UserCockSize.CockSize),
+                                              if (x.UserCockSize.CockSizeModel?.CockSize == null)
+                                                  throw new ArgumentNullException(nameof(x.UserCockSize.CockSizeModel),
                                                       $"User cock size is null by {nameof(x.UserId)} {x.UserId}");
 
                                               if (x.UserId == null)
@@ -47,7 +47,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
                                               return new UserCockSize
                                               {
                                                   UserId = x.UserId.Value,
-                                                  CockSize = x.UserCockSize.CockSize
+                                                  CockSize = x.UserCockSize.CockSizeModel.CockSize
                                               };
                                           });
 

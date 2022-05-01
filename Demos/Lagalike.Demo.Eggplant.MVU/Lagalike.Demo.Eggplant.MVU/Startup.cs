@@ -5,6 +5,7 @@ namespace Lagalike.Demo.Eggplant.MVU
     using Lagalike.Demo.Eggplant.MVU.Commands;
     using Lagalike.Demo.Eggplant.MVU.Services;
     using Lagalike.Demo.Eggplant.MVU.Services.Domain;
+    using Lagalike.Demo.Eggplant.MVU.Services.ModelUpdaters;
     using Lagalike.Demo.Eggplant.MVU.Services.ModuleSettings;
     using Lagalike.Demo.Eggplant.MVU.Services.Views;
     using Lagalike.Telegram.Shared.Contracts;
