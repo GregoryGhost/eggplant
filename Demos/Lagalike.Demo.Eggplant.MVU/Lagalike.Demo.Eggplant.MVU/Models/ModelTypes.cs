@@ -1,4 +1,4 @@
-namespace Lagalike.Demo.TestPatrickStar.MVU.Models
+namespace Lagalike.Demo.Eggplant.MVU.Models
 {
     /// <summary>
     /// Available model types in the demo.
@@ -8,6 +8,8 @@ namespace Lagalike.Demo.TestPatrickStar.MVU.Models
         /// <summary>
         /// Just default model type.
         /// </summary>
-        DefaultModel
+        PersonCockSizeModel,
+        
+        GroupRatingModel,
     }
 }

@@ -1,4 +1,4 @@
-namespace Lagalike.Telegram.Shared
+namespace Lagalike.Telegram.Shared.Contracts
 {
     /// <summary>
     /// An inputed command from a user. 

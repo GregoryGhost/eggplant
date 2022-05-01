@@ -2,6 +2,7 @@ namespace Lagalike.Demo.Eggplant.MVU
 {
     using System;
 
+    using Lagalike.Demo.Eggplant.MVU.Commands;
     using Lagalike.Demo.Eggplant.MVU.Services;
     using Lagalike.Demo.Eggplant.MVU.Services.Domain;
     using Lagalike.Demo.Eggplant.MVU.Services.ModuleSettings;
@@ -25,18 +26,25 @@ namespace Lagalike.Demo.Eggplant.MVU
                     .AddSingleton<HandleUpdateService>()
                     .AddSingleton<DataFlowManager>()
                     .AddSingleton<ViewsFactory>()
-                    .AddSingleton<MenuView>()
+                    .AddSingleton<UserCockSizeInfoView>()
                     .AddSingleton<InlineQueryMenuBuilder>()
                     .AddSingleton<CockSizeFactory>()
                     .AddSingleton<ViewMapper>()
                     .AddSingleton(gammaDistribution)
-                    .AddSingleton<DefaultViewMapper>()
+                    .AddSingleton<PersonCockSizeViewMapper>()
                     .AddSingleton<CockSizerUpdater>()
                     .AddSingleton<CockSizerInfo>()
                     .AddSingleton<CockSizerCache>()
                     .AddSingleton<EmotionBotReactionsHandler>()
                     .AddSingleton<CockSizerPostProccessor>()
-                    .AddSingleton<CommandsFactory>();
+                    .AddSingleton<CommandsFactory>()
+                    .AddSingleton<GroupRatingHandler>()
+                    .AddSingleton<GroupRatingViewMapper>()
+                    .AddSingleton<GroupRatingView>()
+                    .AddSingleton<GroupRatingStore>()
+                    .AddSingleton<BotCommandsUsageConfigurator>()
+                    .AddHostedService<TelegramBotCommandsRegistrator>()
+                    .AddSingleton<MenuBuilder<CommandTypes>>();
         }
     }
 }

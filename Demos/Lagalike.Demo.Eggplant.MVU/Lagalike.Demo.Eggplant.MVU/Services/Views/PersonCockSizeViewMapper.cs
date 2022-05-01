@@ -8,24 +8,24 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
     /// <summary>
     /// A default view mapper which shows actual demo model.
     /// </summary>
-    public class DefaultViewMapper : IViewMapper<CommandTypes>
+    public class PersonCockSizeViewMapper : IViewMapper<CommandTypes>
     {
-        private readonly MenuView _menuView;
+        private readonly UserCockSizeInfoView _userCockSizeInfoView;
 
         /// <summary>
         /// Initial dependencies.
         /// </summary>
-        /// <param name="menuView">A demo menu view.</param>
-        public DefaultViewMapper(MenuView menuView)
+        /// <param name="userCockSizeInfoView">A demo menu view.</param>
+        public PersonCockSizeViewMapper(UserCockSizeInfoView userCockSizeInfoView)
         {
-            _menuView = menuView;
+            _userCockSizeInfoView = userCockSizeInfoView;
         }
 
         /// <inheritdoc />
         public IView<CommandTypes> Map(IModel model)
         {
             var defaultModel = (Model)model;
-            var menu = _menuView.UpdateMenu(defaultModel);
+            var menu = _userCockSizeInfoView.UpdateMenu(defaultModel);
 
             return menu;
         }

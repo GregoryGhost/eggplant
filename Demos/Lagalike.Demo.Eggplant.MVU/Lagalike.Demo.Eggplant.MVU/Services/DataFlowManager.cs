@@ -52,9 +52,9 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
         {
             var commandType = update.RequestType switch
             {
-                RequestTypes.CallbackData => JsonConvert.DeserializeObject<BaseCommand<CommandTypes>>(
-                    update.Update.CallbackQuery.Data),
-                RequestTypes.Message or RequestTypes.EditedMessage or RequestTypes.InlineQuery => 
+                RequestTypes.CallbackData or RequestTypes.Message or RequestTypes.EditedMessage => 
+                    _commandsFactory.GetGroupRatingCommand(update.ChatId),//TODO: нужно переделать обработку команд - аля /group_rating JsonConvert.DeserializeObject<BaseCommand<CommandTypes>>(update.Update.CallbackQuery.Data),
+                RequestTypes.InlineQuery => 
                     _commandsFactory.ShareCockSizeCommand,
                 _ => throw new ArgumentOutOfRangeException("Unknown request type")
             };

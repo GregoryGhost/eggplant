@@ -9,9 +9,9 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
     using PatrickStar.MVU;
 
     /// <summary>
-    ///     A demo menu view.
+    ///     A user cock size info view.
     /// </summary>
-    public record MenuView : BaseMenuView<CommandTypes>
+    public record UserCockSizeInfoView : BaseMenuView<CommandTypes>
     {
         private readonly EmotionBotReactionsHandler _emotionBotReactionsHandler;
 
@@ -22,7 +22,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
             Label = "Share your cock size"
         };
 
-        public MenuView(EmotionBotReactionsHandler emotionBotReactionsHandler, InlineQueryMenuBuilder inlineQueryMenuBuilder)
+        public UserCockSizeInfoView(EmotionBotReactionsHandler emotionBotReactionsHandler, InlineQueryMenuBuilder inlineQueryMenuBuilder)
         {
             _emotionBotReactionsHandler = emotionBotReactionsHandler;
             InitialMenu = inlineQueryMenuBuilder
@@ -46,7 +46,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
         }
 
         /// <summary>
-        ///     Update the view menu.
+        ///     Update the view.
         /// </summary>
         /// <param name="model">A cock size model.</param>
         /// <returns>Return a updated view.</returns>

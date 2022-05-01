@@ -8,6 +8,8 @@ namespace Lagalike.Demo.Eggplant.MVU.Commands
         /// <summary>
         /// Share random current user cock size with other users.
         /// </summary>
-        ShareCockSize
+        ShareCockSize,
+
+        GroupRating
     }
 }

@@ -26,11 +26,20 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             var updatedModel = command.Type switch
             {
                 CommandTypes.ShareCockSize => RandomCockSize(model),
+                CommandTypes.GroupRating => GetGroupRating(model, (GroupRatingCommand)command),
                 _ => throw new ArgumentOutOfRangeException($"Unknown {nameof(command)}: {command}")
             };
             ICommand<CommandTypes> emptyCmd = null!;
 
             return (emptyCmd, updatedModel);
+        }
+
+        private static Model GetGroupRating(Model model, GroupRatingCommand cmd)
+        {
+            return model with
+            {
+                GroupId = cmd.GroupId
+            };
         }
 
         private Model RandomCockSize(Model model)

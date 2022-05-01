@@ -14,10 +14,10 @@ namespace Lagalike.Telegram.Shared.Contracts
     {
         private readonly string _demoCacheName;
 
-        private readonly IMemoryCache _telegramCache;
+        protected readonly IMemoryCache _telegramCache;
 
         /// <summary>
-        ///     Initalize dependencies.
+        ///     Initialize dependencies.
         /// </summary>
         /// <param name="telegramCache">A memory cache for the Telegram.</param>
         /// <param name="demoCacheName">A cache name of demo mode.</param>

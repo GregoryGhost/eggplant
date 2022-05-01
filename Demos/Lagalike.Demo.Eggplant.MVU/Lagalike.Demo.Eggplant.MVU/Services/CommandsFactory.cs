@@ -3,6 +3,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
     using System.Collections.Generic;
 
     using Lagalike.Demo.Eggplant.MVU.Commands;
+    using Lagalike.Demo.Eggplant.MVU.Models;
 
     using PatrickStar.MVU;
 
@@ -14,7 +15,8 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
         private static readonly IReadOnlyDictionary<CommandTypes, ICommand<CommandTypes>> Commands =
             new Dictionary<CommandTypes, ICommand<CommandTypes>>
             {
-                { CommandTypes.ShareCockSize, new ShareCockSizeCommand() }
+                { CommandTypes.ShareCockSize, new ShareCockSizeCommand() },
+                { CommandTypes.GroupRating, new GroupRatingCommand() }
             };
 
         /// <summary>
@@ -30,5 +32,20 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
         /// Menu command.
         /// </summary>
         public ICommand<CommandTypes> ShareCockSizeCommand => Commands[CommandTypes.ShareCockSize];
+
+        public GroupRatingCommand GetGroupRatingCommand(string groupId)
+        {
+            var cmd = (GroupRatingCommand)Commands[CommandTypes.GroupRating];
+
+            var groupRatingCmd = cmd with
+            {
+                GroupId = new GroupId
+                {
+                    Value = groupId
+                }
+            };
+
+            return groupRatingCmd;
+        }
     }
 }

@@ -79,18 +79,6 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
 
             return results;
         }
-        
-        private static IReadOnlyCollection<InlineQueryResultBase> DoKekwSergey(IView<TCmdType> view)
-        {
-            var inlineMenu = (InlineQueryMenu)view.Menu;
-            var results = inlineMenu.Buttons.Select(button => new InlineQueryResultArticle(
-                                        button.Id,
-                                        button.Label,
-                                        new InputTextMessageContent("А теперь епта работает? Your cocksize is 10 cm Kappa")))
-                                    .ToArray();
-
-            return results;
-        }
 
         private async Task ProccessStatefullUpdate(IView<TCmdType> view, TelegramUpdate update)
         {

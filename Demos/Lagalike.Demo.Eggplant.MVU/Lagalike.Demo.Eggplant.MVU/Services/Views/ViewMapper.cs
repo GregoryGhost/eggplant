@@ -1,7 +1,7 @@
 namespace Lagalike.Demo.Eggplant.MVU.Services.Views
 {
     using Lagalike.Demo.Eggplant.MVU.Commands;
-    using Lagalike.Demo.TestPatrickStar.MVU.Models;
+    using Lagalike.Demo.Eggplant.MVU.Models;
 
     using PatrickStar.MVU;
 
