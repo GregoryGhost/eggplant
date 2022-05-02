@@ -5,6 +5,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.Caching;
+
     using Microsoft.Extensions.Caching.Memory;
 
     public static class MemoryCacheExtensions
