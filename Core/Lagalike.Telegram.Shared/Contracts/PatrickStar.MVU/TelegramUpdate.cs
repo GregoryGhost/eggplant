@@ -63,5 +63,8 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
     {
         /// <inheritdoc />
         public override RequestTypes RequestType => RequestTypes.Message;
+        
+        /// <inheritdoc />
+        public override bool IsSendingCachedModel { get; init; } = true;
     }
 }
