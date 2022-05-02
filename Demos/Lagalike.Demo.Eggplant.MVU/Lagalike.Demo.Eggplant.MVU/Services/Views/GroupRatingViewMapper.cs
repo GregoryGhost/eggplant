@@ -29,9 +29,13 @@
 
             var menu = (Menu<CommandTypes>) _view.Menu;
             var formattedTopUsers = FormatTopUsers(model.GroupRating.TopUsers);
-            var updatedMenu = menu.MessageElement with
+            var msg = menu.MessageElement with
             {
                 Text = formattedTopUsers
+            };
+            var updatedMenu = menu with
+            {
+                MessageElement = msg
             };
             var updatedView = _view.Update(updatedMenu);
 
@@ -48,7 +52,7 @@
                 return HaveNoTopUsersMsg;
             }
             
-            var formattedUsers = topUsers.Select((x, i) => $"{i}. {x.FullName} {x.CockSize}");
+            var formattedUsers = topUsers.Select((x, i) => $"{i + 1}. {x.FullName} <b>{x.CockSize.Size} cm</b>");
             var formatted = string.Join("\n", formattedUsers);
 
             return formatted;

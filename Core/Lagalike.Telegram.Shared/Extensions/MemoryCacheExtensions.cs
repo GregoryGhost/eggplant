@@ -10,7 +10,7 @@
     public static class MemoryCacheExtensions
     {
         private static readonly Func<MemoryCache, object> GetEntriesCollection = Delegate.CreateDelegate(
-            typeof(Func<IMemoryCache, object>),
+            typeof(Func<MemoryCache, object>),
             typeof(MemoryCache).GetProperty("EntriesCollection", BindingFlags.NonPublic | BindingFlags.Instance).GetGetMethod(true),
             throwOnBindFailure: true) as Func<MemoryCache, object>;
 

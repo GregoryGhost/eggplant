@@ -13,7 +13,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
     using Microsoft.Extensions.Caching.Memory;
 
     /// <summary>
-    /// A cache of demo Test Patrick Star.
+    ///     A cache of demo Test Patrick Star.
     /// </summary>
     public class CockSizerCache : BaseTelegramBotCache<Model>
     {
@@ -25,57 +25,54 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
 
         public IEnumerable<UserCockSize> GetCheckedUsers()
         {
-            var userIds = _telegramCache.GetKeys<string>();
-            var checkedUsers = userIds.Select(
-                                          userId =>
-                                          {
-                                              TryGetValue(userId, out var userCockSize);
+            var checkedUsers = GetUsersIds()
+                               .Select(
+                                   userId =>
+                                   {
+                                       TryGetValue(userId, out var userCockSize);
 
-                                              return (UserId: ParseUserId(userId), UserCockSize: userCockSize);
-                                          })
-                                      .Where(x => x.UserCockSize?.CockSizeModel?.CockSize != null)
-                                      .Select(
-                                          x =>
-                                          {
-                                              if (x.UserCockSize.CockSizeModel?.CockSize == null)
-                                                  throw new ArgumentNullException(nameof(x.UserCockSize.CockSizeModel),
-                                                      $"User cock size is null by {nameof(x.UserId)} {x.UserId}");
+                                       return (UserId: ParseUserId(userId), UserCockSize: userCockSize);
+                                   })
+                               .Where(x => x.UserCockSize?.CockSizeModel?.CockSize != null)
+                               .Select(
+                                   x =>
+                                   {
+                                       if (x.UserCockSize.CockSizeModel?.CockSize == null)
+                                           throw new ArgumentNullException(
+                                               nameof(x.UserCockSize.CockSizeModel),
+                                               $"User cock size is null by {nameof(x.UserId)} {x.UserId}");
 
-                                              if (x.UserId == null)
-                                                  throw new ArgumentNullException(nameof(x.UserId),"Cannot parse a user id");
+                                       if (x.UserId == null)
+                                           throw new ArgumentNullException(nameof(x.UserId), "Cannot parse a user id");
 
-                                              return new UserCockSize
-                                              {
-                                                  UserId = x.UserId.Value,
-                                                  CockSize = x.UserCockSize.CockSizeModel.CockSize
-                                              };
-                                          });
+                                       return new UserCockSize
+                                       {
+                                           UserId = x.UserId.Value,
+                                           CockSize = x.UserCockSize.CockSizeModel.CockSize
+                                       };
+                                   });
 
             return checkedUsers;
         }
 
-        private static long? ParseUserId(string userIdWithDemoName)
+        private IEnumerable<string> GetUsersIds()
         {
-            var splitted = userIdWithDemoName.Split("_");
-            var hasSplittedUserId = splitted.Length != 2;
-            if (!hasSplittedUserId)
-            {
-                return null;
-            }
-            var hasUserId = long.TryParse(splitted[1], out var userId);
-            if (!hasUserId)
-            {
-                return null;
-            }
-            
-            return userId;
+            return _telegramCache.GetKeys<string>()
+                                 .Select(x => x[(_demoCacheName.Length + 1)..]);
+        }
+
+        private static long? ParseUserId(string userId)
+        {
+            return long.TryParse(userId, out var parsedUserId)
+                ? parsedUserId
+                : null;
         }
     }
 
     public record UserCockSize
     {
-        public long UserId { get; init; }
-
         public CockSize CockSize { get; init; } = null!;
+
+        public long UserId { get; init; }
     }
 }

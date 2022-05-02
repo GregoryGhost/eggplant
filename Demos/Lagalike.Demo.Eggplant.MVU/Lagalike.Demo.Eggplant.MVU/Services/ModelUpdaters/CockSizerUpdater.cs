@@ -1,6 +1,7 @@
 namespace Lagalike.Demo.Eggplant.MVU.Services
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Lagalike.Demo.Eggplant.MVU.Commands;
@@ -41,7 +42,12 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
 
         private async Task<Model> GetGroupRatingAsync(Model model, GroupRatingCommand cmd)
         {
-            if (model.GroupRatingModel?.GroupRating is not null)
+            var hasGroupRating = model.GroupRatingModel?.GroupRating?.TopUsers?.Any() ?? false;
+            model = model with
+            {
+                CurrentCommand = CommandTypes.GroupRating
+            };
+            if (hasGroupRating)
                 return model;
 
             var groupRating = await _groupRatingHandler.GetRatingAsync(cmd.GroupId);
@@ -49,7 +55,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             {
                 GroupRatingModel = new GroupRatingModel
                 {
-                    GroupRating = groupRating
+                    GroupRating = groupRating,
                 }
             };
 
@@ -58,6 +64,10 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
 
         private Model RandomCockSize(Model model)
         {
+            model = model with
+            {
+                CurrentCommand = CommandTypes.ShareCockSize
+            };
             if (model.CockSizeModel?.CockSize is not null)
                 return model;
             

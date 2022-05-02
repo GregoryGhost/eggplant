@@ -39,10 +39,10 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
             return view;
         }
 
-        private static void ThrowIfModelIsNull([NotNull]IModel? rootModelGroupRatingModel)
+        private static void ThrowIfModelIsNull([NotNull]IModel? model)
         {
-            if (rootModelGroupRatingModel is null)
-                throw new ArgumentException("You should initialize model", nameof(rootModelGroupRatingModel));
+            if (model is null)
+                throw new ArgumentException("You should initialize model", nameof(model));
         }
     }
 }

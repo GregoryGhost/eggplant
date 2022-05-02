@@ -7,6 +7,7 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
 
     using global::PatrickStar.MVU;
 
+    using global::Telegram.Bot.Types.Enums;
     using global::Telegram.Bot.Types.InlineQueryResults;
     using global::Telegram.Bot.Types.ReplyMarkups;
 
@@ -90,9 +91,13 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
                     update.ChatId,
                     update.Update.CallbackQuery.Message.MessageId,
                     menu.MessageElement.Text,
+                    ParseMode.Html,
                     replyMarkup: keyboard);
             else if (update.RequestType is RequestTypes.Message or RequestTypes.EditedMessage)
-                await _client.SendTextMessageAsync(update.ChatId, menu.MessageElement.Text, replyMarkup: keyboard);
+                await _client.SendTextMessageAsync(update.ChatId,
+                    menu.MessageElement.Text,
+                    ParseMode.Html,
+                    replyMarkup: keyboard);
             else
                 throw new NotImplementedException($"Cannot proccess this action {update.RequestType}");
         }

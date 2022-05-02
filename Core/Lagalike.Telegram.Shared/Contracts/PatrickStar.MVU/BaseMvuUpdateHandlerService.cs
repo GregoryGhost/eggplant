@@ -41,7 +41,7 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
             {
                 var messageUpdate = new TelegramMsgUpdate
                 {
-                    ChatId = update.Message.From.Id.ToString(),
+                    ChatId = update.Message.Chat.Id.ToString(),
                     Update = update,
                 };
                 await _dataFlowManager.ProccessMessageAsync(messageUpdate);

@@ -12,7 +12,7 @@ namespace Lagalike.Telegram.Shared.Contracts
     /// <typeparam name="TItem">A type of a saved item.</typeparam>
     public abstract class BaseTelegramBotCache<TItem> : IDisposable, IModelCache<TItem>
     {
-        private readonly string _demoCacheName;
+        protected readonly string _demoCacheName;
 
         protected readonly IMemoryCache _telegramCache;
 

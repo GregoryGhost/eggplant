@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
 
     using global::Telegram.Bot.Types;
+    using global::Telegram.Bot.Types.Enums;
 
     using Lagalike.Demo.Eggplant.MVU.Models;
     using Lagalike.Telegram.Shared.Services;
@@ -55,7 +56,7 @@
                                                                      ChatMember: chatMember);
                                                              });
             var checkedUsersInGroup = (await Task.WhenAll(checkedUsersInGroupTasks))
-                                      .Where(x => x.ChatMember.IsMember == true)
+                                      .Where(x => x.ChatMember.Status is ChatMemberStatus.Administrator or ChatMemberStatus.Creator or ChatMemberStatus.Member)
                                       .Select(
                                           x => new GroupUserInfo
                                           {
@@ -69,7 +70,11 @@
 
         private static string FormatUserFullName(ChatMember chatMember)
         {
-            return $"{chatMember.User.FirstName} {chatMember.User.Username}".Trim();
+            var fullName = $"{chatMember.User.FirstName} {chatMember.User.LastName}";
+            var userName = $"(@{chatMember.User.Username})";
+            var formatted = $"{fullName} {userName}".Trim();
+            
+            return formatted;
         }
     }
 }
