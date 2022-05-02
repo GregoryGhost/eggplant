@@ -30,7 +30,7 @@
         {
             const byte TopUsersAmount = 3;
             var checkedUsersInGroup = (await GetUsersInGroupAsync(groupId.Value))
-                                      .OrderByDescending(x => x.CockSize)
+                                      .OrderByDescending(x => x.CockSize.Size)
                                       .Take(TopUsersAmount)
                                       .ToArray();
             var groupRatingInfo = new GroupRatingInfo
@@ -64,7 +64,7 @@
                                               CockSize = x.UserCockSize
                                           })
                                       .ToList();
-
+            
             return checkedUsersInGroup;
         }
 
