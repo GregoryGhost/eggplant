@@ -14,6 +14,8 @@ namespace Lagalike.Demo.Eggplant.MVU.Models
         
         GroupRatingModel,
         
-        AvailableCommandsModel
+        AvailableCommandsModel,
+        
+        MessageWithoutAnyCmdModel
     }
 }

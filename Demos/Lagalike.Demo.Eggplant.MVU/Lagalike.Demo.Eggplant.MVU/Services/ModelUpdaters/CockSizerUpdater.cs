@@ -1,33 +1,32 @@
 namespace Lagalike.Demo.Eggplant.MVU.Services
 {
     using System;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Lagalike.Demo.Eggplant.MVU.Commands;
     using Lagalike.Demo.Eggplant.MVU.Models;
     using Lagalike.Demo.Eggplant.MVU.Services.Domain;
     using Lagalike.Demo.Eggplant.MVU.Services.ModelUpdaters;
-    using Lagalike.Demo.Eggplant.MVU.Services.Views;
 
     using PatrickStar.MVU;
 
     /// <inheritdoc />
     public class CockSizerUpdater : IUpdater<CommandTypes, Model>
     {
+        private readonly BotCommandsUsageConfigurator _botCommandsUsageConfigurator;
+
         private readonly CockSizeFactory _cockSizeFactory;
 
         private readonly GroupRatingHandler _groupRatingHandler;
 
-        private readonly BotCommandsUsageConfigurator _botCommandsUsageConfigurator;
-        
-        public CockSizerUpdater(CockSizeFactory cockSizeFactory, GroupRatingHandler groupRatingHandler, BotCommandsUsageConfigurator botCommandsUsageConfigurator)
+        public CockSizerUpdater(CockSizeFactory cockSizeFactory, GroupRatingHandler groupRatingHandler,
+            BotCommandsUsageConfigurator botCommandsUsageConfigurator)
         {
             _cockSizeFactory = cockSizeFactory;
             _groupRatingHandler = groupRatingHandler;
             _botCommandsUsageConfigurator = botCommandsUsageConfigurator;
         }
-        
+
         /// <inheritdoc />
         public async Task<(ICommand<CommandTypes>? OutputCommand, Model UpdatedModel)> UpdateAsync(ICommand<CommandTypes> command,
             Model model)
@@ -35,8 +34,9 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             var updatedModel = command.Type switch
             {
                 CommandTypes.ShareCockSize => RandomCockSize(model),
-                CommandTypes.GroupRating => await GetGroupRatingAsync(model, (GroupRatingCommand)command),
-                CommandTypes.UnknownCommand => GetAvailableBotCommandModel(model, (UnknownCommand)command),
+                CommandTypes.GroupRating => await GetGroupRatingAsync(model, (GroupRatingCommand) command),
+                CommandTypes.UnknownCommand => GetAvailableBotCommandModel(model, (UnknownCommand) command),
+                CommandTypes.MessageWithoutAnyCmdCommand => GetMessageWithouAnyCmdModel(model),
                 _ => throw new ArgumentOutOfRangeException($"Unknown {nameof(command)}: {command}")
             };
             ICommand<CommandTypes> emptyCmd = null!;
@@ -53,8 +53,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
 
             if (model.AvailableCommandsModel is not null)
                 return model;
-            
-            
+
             var msgCommands = new AvailableCommandsModel
             {
                 AvailableCommands = _botCommandsUsageConfigurator.GetBotUsage()
@@ -66,7 +65,6 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             };
 
             return updatedModel;
-
         }
 
         private async Task<Model> GetGroupRatingAsync(Model model, GroupRatingCommand cmd)
@@ -88,6 +86,14 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             return initialized;
         }
 
+        private static Model GetMessageWithouAnyCmdModel(Model model)
+        {
+            return model with
+            {
+                CurrentCommand = CommandTypes.MessageWithoutAnyCmdCommand
+            };
+        }
+
         private Model RandomCockSize(Model model)
         {
             model = model with
@@ -96,7 +102,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             };
             if (model.CockSizeModel?.CockSize is not null)
                 return model;
-            
+
             var initialized = model with
             {
                 CockSizeModel = new PersonCockSizeModel

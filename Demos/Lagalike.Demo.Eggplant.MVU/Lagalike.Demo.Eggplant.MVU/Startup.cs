@@ -23,7 +23,8 @@ namespace Lagalike.Demo.Eggplant.MVU
             services.AddStaffServices()
                     .AddCockSizeServices()
                     .AddGroupRatingServices()
-                    .AddAvalableCommandsServices();
+                    .AddAvalableCommandsServices()
+                    .AddMessageWithoutAnyCmdServices();
         }
     }
 
@@ -61,6 +62,12 @@ namespace Lagalike.Demo.Eggplant.MVU
                    .AddSingleton<GroupRatingStore>();
         }
 
+        public static IServiceCollection AddMessageWithoutAnyCmdServices(this IServiceCollection services)
+        {
+            return services.AddSingleton<MessageWithoutAnyCmdViewMapper>()
+                           .AddSingleton<MessageWithoutAnyCmdView>();
+        }
+
         public static IServiceCollection AddStaffServices(this IServiceCollection services)
         {
             return services.AddSingleton<BackedCockSizerSystemModule>()
@@ -69,6 +76,7 @@ namespace Lagalike.Demo.Eggplant.MVU
                            .AddSingleton<ViewsFactory>()
                            .AddSingleton<ViewMapper>()
                            .AddSingleton<CockSizerPostProccessor>()
+                           .AddSingleton<BotPostProccessor>()
                            .AddSingleton<CommandsFactory>()
                            .AddSingleton<MenuBuilder<CommandTypes>>();
         }

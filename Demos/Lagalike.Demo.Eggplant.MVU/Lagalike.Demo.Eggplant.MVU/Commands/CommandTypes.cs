@@ -12,6 +12,8 @@ namespace Lagalike.Demo.Eggplant.MVU.Commands
 
         GroupRating,
         
-        UnknownCommand
+        UnknownCommand,
+        
+        MessageWithoutAnyCmdCommand
     }
 }

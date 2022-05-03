@@ -32,7 +32,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
         /// <param name="updater">The Telegram update handler.</param>
         /// <param name="viewMapper">The view mapper.</param>
         /// <param name="commandsFactory">The demo commands factory.</param>
-        public DataFlowManager(CockSizerCache model, CockSizerPostProccessor postProccessor, CockSizerUpdater updater,
+        public DataFlowManager(CockSizerCache model, BotPostProccessor postProccessor, CockSizerUpdater updater,
             ViewMapper viewMapper, CommandsFactory commandsFactory, BotCommandsUsageConfigurator botCommandUsageConfigurator)
         {
             _commandsFactory = commandsFactory;
@@ -43,7 +43,10 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             ViewMapper = viewMapper;
             InitialModel = new Model
             {
-                CockSizeModel = null
+                CockSizeModel = null,
+                GroupRatingModel = null,
+                AvailableCommandsModel = null,
+                CurrentCommand = CommandTypes.MessageWithoutAnyCmdCommand,
             };
             _commands = commandsFactory.GetCommands();
         }
@@ -102,6 +105,11 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             var inputRawCmd = update.Update.Message.Text;
             var foundCmd = _botCommandUsageConfigurator.GetBotCommandInfos()
                                                        .SingleOrDefault(x => inputRawCmd.Contains(x.CommandName));
+
+            var haveNoPassedCommand = foundCmd is null && !inputRawCmd.Contains("/");
+            if (haveNoPassedCommand)
+                return _commandsFactory.GetMessageWithoutAnyCmdCommand();
+            
             if (foundCmd is null)
                 return _commandsFactory.GetUnknownCommand();
 

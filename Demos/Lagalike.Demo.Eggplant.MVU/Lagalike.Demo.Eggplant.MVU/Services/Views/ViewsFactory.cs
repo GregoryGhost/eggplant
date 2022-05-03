@@ -18,13 +18,16 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
         ///     Initialize dependencies.
         /// </summary>
         /// <param name="personCockSizeViewMapper">A default view mapper of the demo.</param>
-        public ViewsFactory(PersonCockSizeViewMapper personCockSizeViewMapper, GroupRatingViewMapper groupRatingViewMapper, AvailableCommandsViewMapper availableCommandsViewMapper)
+        public ViewsFactory(PersonCockSizeViewMapper personCockSizeViewMapper, GroupRatingViewMapper groupRatingViewMapper,
+            AvailableCommandsViewMapper availableCommandsViewMapper,
+            MessageWithoutAnyCmdViewMapper messageWithoutAnyCmdViewMapper)
         {
             _views = new Dictionary<ModelTypes, IViewMapper<CommandTypes>>
             {
                 {ModelTypes.PersonCockSizeModel, personCockSizeViewMapper},
                 {ModelTypes.GroupRatingModel, groupRatingViewMapper},
-                {ModelTypes.AvailableCommandsModel, availableCommandsViewMapper}
+                {ModelTypes.AvailableCommandsModel, availableCommandsViewMapper},
+                {ModelTypes.MessageWithoutAnyCmdModel, messageWithoutAnyCmdViewMapper}
             };
         }
 

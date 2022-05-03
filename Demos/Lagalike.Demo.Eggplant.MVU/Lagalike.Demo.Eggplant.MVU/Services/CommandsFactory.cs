@@ -61,7 +61,15 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
                     {
                         Command = new UnknownCommand(),
                         CommandUsageInMode = CommandUsageInModes.ServiceMode,
-                        Description = "It's a service command type for proccess commands in MVU"
+                        Description = "It's a service command type to proccess commands in MVU."
+                    }
+                },
+                {
+                    CommandTypes.MessageWithoutAnyCmdCommand, new CommandTypeInfo
+                    {
+                        Command = new MessageWithoutAnyCmdCommand(),
+                        CommandUsageInMode = CommandUsageInModes.ServiceMode,
+                        Description = "It's a service comand type which signalize about get user message without any commands."
                     }
                 }
             };
@@ -145,6 +153,11 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
         public ICommand<CommandTypes> GetUnknownCommand()
         {
             return Commands[CommandTypes.UnknownCommand].Command;
+        }
+
+        public ICommand<CommandTypes> GetMessageWithoutAnyCmdCommand()
+        {
+            return Commands[CommandTypes.MessageWithoutAnyCmdCommand].Command;
         }
     }
 }
