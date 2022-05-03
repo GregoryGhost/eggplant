@@ -1,7 +1,5 @@
 namespace Lagalike.Demo.Eggplant.MVU
 {
-    using System;
-
     using Lagalike.Demo.Eggplant.MVU.Commands;
     using Lagalike.Demo.Eggplant.MVU.Services;
     using Lagalike.Demo.Eggplant.MVU.Services.Domain;
@@ -22,30 +20,57 @@ namespace Lagalike.Demo.Eggplant.MVU
         /// <inheritdoc />
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddStaffServices()
+                    .AddCockSizeServices()
+                    .AddGroupRatingServices()
+                    .AddAvalableCommandsServices();
+        }
+    }
+
+    internal static class ServiceRegistration
+    {
+        public static IServiceCollection AddAvalableCommandsServices(this IServiceCollection services)
+        {
+            return services.AddSingleton<AvailableCommandsViewMapper>()
+                           .AddSingleton<AvailableCommandsView>()
+                           .AddSingleton<BotCommandsUsageConfigurator>()
+                           .AddHostedService<TelegramBotCommandsRegistrator>();
+        }
+
+        public static IServiceCollection AddCockSizeServices(this IServiceCollection services)
+        {
             var gammaDistribution = new Gamma(6, 4);
-            services.AddSingleton<BackedCockSizerSystemModule>()
-                    .AddSingleton<HandleUpdateService>()
-                    .AddSingleton<DataFlowManager>()
-                    .AddSingleton<ViewsFactory>()
-                    .AddSingleton<UserCockSizeInfoView>()
-                    .AddSingleton<InlineQueryMenuBuilder>()
-                    .AddSingleton<CockSizeFactory>()
-                    .AddSingleton<ViewMapper>()
-                    .AddSingleton(gammaDistribution)
-                    .AddSingleton<PersonCockSizeViewMapper>()
-                    .AddSingleton<CockSizerUpdater>()
-                    .AddSingleton<CockSizerInfo>()
-                    .AddSingleton<CockSizerCache>()
-                    .AddSingleton<EmotionBotReactionsHandler>()
-                    .AddSingleton<CockSizerPostProccessor>()
-                    .AddSingleton<CommandsFactory>()
-                    .AddSingleton<GroupRatingHandler>()
-                    .AddSingleton<GroupRatingViewMapper>()
-                    .AddSingleton<GroupRatingView>()
-                    .AddSingleton<GroupRatingStore>()
-                    .AddSingleton<BotCommandsUsageConfigurator>()
-                    .AddHostedService<TelegramBotCommandsRegistrator>()
-                    .AddSingleton<MenuBuilder<CommandTypes>>();
+
+            return services.AddSingleton<UserCockSizeInfoView>()
+                           .AddSingleton<PersonCockSizeViewMapper>()
+                           .AddSingleton<CockSizeFactory>()
+                           .AddSingleton<InlineQueryMenuBuilder>()
+                           .AddSingleton(gammaDistribution)
+                           .AddSingleton<CockSizerUpdater>()
+                           .AddSingleton<CockSizerInfo>()
+                           .AddSingleton<CockSizerCache>()
+                           .AddSingleton<EmotionBotReactionsHandler>();
+        }
+
+        public static IServiceCollection AddGroupRatingServices(this IServiceCollection services)
+        {
+            return services
+                   .AddSingleton<GroupRatingViewMapper>()
+                   .AddSingleton<GroupRatingView>()
+                   .AddSingleton<GroupRatingHandler>()
+                   .AddSingleton<GroupRatingStore>();
+        }
+
+        public static IServiceCollection AddStaffServices(this IServiceCollection services)
+        {
+            return services.AddSingleton<BackedCockSizerSystemModule>()
+                           .AddSingleton<HandleUpdateService>()
+                           .AddSingleton<DataFlowManager>()
+                           .AddSingleton<ViewsFactory>()
+                           .AddSingleton<ViewMapper>()
+                           .AddSingleton<CockSizerPostProccessor>()
+                           .AddSingleton<CommandsFactory>()
+                           .AddSingleton<MenuBuilder<CommandTypes>>();
         }
     }
 }

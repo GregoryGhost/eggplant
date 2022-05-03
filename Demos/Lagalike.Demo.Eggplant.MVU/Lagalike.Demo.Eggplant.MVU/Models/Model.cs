@@ -18,7 +18,9 @@ namespace Lagalike.Demo.Eggplant.MVU.Models
         
         public GroupRatingModel? GroupRatingModel { get; init; }
         
-        public CommandTypes CurrentCommand { get; init; }
+        public AvailableCommandsModel? AvailableCommandsModel { get; set; }
+
+        public CommandTypes CurrentCommand { get; init; } = CommandTypes.UnknownCommand;
 
         /// <inheritdoc />
         public Enum Type => ModelTypes.RootModel;

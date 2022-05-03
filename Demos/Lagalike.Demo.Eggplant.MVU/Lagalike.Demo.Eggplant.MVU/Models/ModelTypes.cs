@@ -13,5 +13,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Models
         PersonCockSizeModel,
         
         GroupRatingModel,
+        
+        AvailableCommandsModel
     }
 }

@@ -1,16 +1,16 @@
-﻿namespace Lagalike.Demo.Eggplant.MVU.Services.Views
+namespace Lagalike.Demo.Eggplant.MVU.Services.Views
 {
     using Lagalike.Demo.Eggplant.MVU.Commands;
 
     using PatrickStar.MVU;
 
-    public record GroupRatingView : BaseMenuView<CommandTypes>
+    public record AvailableCommandsView : BaseMenuView<CommandTypes>
     {
-        public GroupRatingView(MenuBuilder<CommandTypes> menuBuilder)
+        public AvailableCommandsView(MenuBuilder<CommandTypes> menuBuilder)
         {
             InitialMenu = menuBuilder
-                           .Row()
-                           .Build("It's no a group or members to size their cocks.");
+                          .Row()
+                          .Build("Have no available bot commands.");
             Menu = InitialMenu;
         }
 

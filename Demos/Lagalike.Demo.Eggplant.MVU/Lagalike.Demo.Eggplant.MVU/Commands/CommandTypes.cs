@@ -10,6 +10,8 @@ namespace Lagalike.Demo.Eggplant.MVU.Commands
         /// </summary>
         ShareCockSize,
 
-        GroupRating
+        GroupRating,
+        
+        UnknownCommand
     }
 }

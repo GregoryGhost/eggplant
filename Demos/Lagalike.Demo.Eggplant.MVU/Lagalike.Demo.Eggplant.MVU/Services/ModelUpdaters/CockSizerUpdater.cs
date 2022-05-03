@@ -19,10 +19,13 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
 
         private readonly GroupRatingHandler _groupRatingHandler;
 
-        public CockSizerUpdater(CockSizeFactory cockSizeFactory, GroupRatingHandler groupRatingHandler)
+        private readonly BotCommandsUsageConfigurator _botCommandsUsageConfigurator;
+        
+        public CockSizerUpdater(CockSizeFactory cockSizeFactory, GroupRatingHandler groupRatingHandler, BotCommandsUsageConfigurator botCommandsUsageConfigurator)
         {
             _cockSizeFactory = cockSizeFactory;
             _groupRatingHandler = groupRatingHandler;
+            _botCommandsUsageConfigurator = botCommandsUsageConfigurator;
         }
         
         /// <inheritdoc />
@@ -33,6 +36,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             {
                 CommandTypes.ShareCockSize => RandomCockSize(model),
                 CommandTypes.GroupRating => await GetGroupRatingAsync(model, (GroupRatingCommand)command),
+                CommandTypes.UnknownCommand => GetAvailableBotCommandModel(model, (UnknownCommand)command),
                 _ => throw new ArgumentOutOfRangeException($"Unknown {nameof(command)}: {command}")
             };
             ICommand<CommandTypes> emptyCmd = null!;
@@ -40,11 +44,36 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             return (emptyCmd, updatedModel);
         }
 
+        private Model GetAvailableBotCommandModel(Model model, UnknownCommand command)
+        {
+            model = model with
+            {
+                CurrentCommand = command.Type,
+            };
+
+            if (model.AvailableCommandsModel is not null)
+                return model;
+            
+            
+            var msgCommands = new AvailableCommandsModel
+            {
+                AvailableCommands = _botCommandsUsageConfigurator.GetBotUsage()
+            };
+
+            var updatedModel = model with
+            {
+                AvailableCommandsModel = msgCommands
+            };
+
+            return updatedModel;
+
+        }
+
         private async Task<Model> GetGroupRatingAsync(Model model, GroupRatingCommand cmd)
         {
             model = model with
             {
-                CurrentCommand = CommandTypes.GroupRating
+                CurrentCommand = cmd.Type
             };
 
             var groupRating = await _groupRatingHandler.GetRatingAsync(cmd.GroupId);
