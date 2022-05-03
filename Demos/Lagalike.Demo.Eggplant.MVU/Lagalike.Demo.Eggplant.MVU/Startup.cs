@@ -2,6 +2,7 @@ namespace Lagalike.Demo.Eggplant.MVU
 {
     using CockSizer.Services;
 
+    using global::Eggplant.MVU.GroupRating.Services;
     using global::Eggplant.MVU.GroupRating.Views;
     using global::Eggplant.MVU.MessageWithoutAnyCmd.Views;
     using global::Eggplant.MVU.ShareCockSize.Views;
@@ -14,8 +15,6 @@ namespace Lagalike.Demo.Eggplant.MVU
     using Lagalike.Demo.Eggplant.MVU.Services.ModuleSettings;
     using Lagalike.Demo.Eggplant.MVU.Services.Views;
     using Lagalike.Telegram.Shared.Contracts;
-
-    using MathNet.Numerics.Distributions;
 
     using Microsoft.Extensions.DependencyInjection;
 
@@ -47,16 +46,16 @@ namespace Lagalike.Demo.Eggplant.MVU
 
         public static IServiceCollection AddCockSizeServices(this IServiceCollection services)
         {
-            var gammaDistribution = new Gamma(6, 4);
-
             return services.AddSingleton<UserCockSizeInfoView>()
                            .AddSingleton<PersonCockSizeViewMapper>()
                            .AddSingleton<CockSizeFactory>()
                            .AddSingleton<InlineQueryMenuBuilder>()
-                           .AddSingleton(gammaDistribution)
+                           .AddSingleton<IDistribution, Distribution>()
                            .AddSingleton<CockSizerUpdater>()
                            .AddSingleton<CockSizerInfo>()
                            .AddSingleton<CockSizerCache>()
+                           .AddSingleton<ICockSizerCache>(x => x.GetRequiredService<CockSizerCache>())
+                           .AddSingleton<IModelCache>(x => x.GetRequiredService<CockSizerCache>())
                            .AddSingleton<EmotionBotReactionsHandler>();
         }
 
@@ -65,6 +64,7 @@ namespace Lagalike.Demo.Eggplant.MVU
             return services
                    .AddSingleton<GroupRatingViewMapper>()
                    .AddSingleton<GroupRatingView>()
+                   .AddSingleton<IGroupRatingStore, GroupRatingStore>()
                    .AddSingleton<GroupRatingHandler>();
         }
 

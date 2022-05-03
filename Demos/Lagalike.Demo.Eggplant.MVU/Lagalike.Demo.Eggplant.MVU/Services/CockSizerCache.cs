@@ -4,10 +4,6 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
     using System.Collections.Generic;
     using System.Linq;
 
-    using CockSizer.Services;
-
-    using global::Telegram.Bot.Types;
-
     using GroupRating.Models;
 
     using Lagalike.Demo.Eggplant.MVU.Models;
@@ -22,7 +18,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
     /// <summary>
     ///     A cache of demo Test Patrick Star.
     /// </summary>
-    public class CockSizerCache : BaseTelegramBotCache<Model>
+    public class CockSizerCache : BaseTelegramBotCache<Model>, IModelCache
     {
         /// <inheritdoc />
         public CockSizerCache(IMemoryCache telegramCache, CockSizerInfo modeInfo)

@@ -33,7 +33,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
         /// <param name="updater">The Telegram update handler.</param>
         /// <param name="viewMapper">The view mapper.</param>
         /// <param name="commandsFactory">The demo commands factory.</param>
-        public DataFlowManager(CockSizerCache model, BotPostProccessor postProccessor, CockSizerUpdater updater,
+        public DataFlowManager(IModelCache model, BotPostProccessor postProccessor, CockSizerUpdater updater,
             ViewMapper viewMapper, CommandsFactory commandsFactory, BotCommandsUsageConfigurator botCommandUsageConfigurator)
         {
             _commandsFactory = commandsFactory;

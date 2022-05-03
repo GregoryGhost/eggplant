@@ -2,7 +2,7 @@ namespace Eggplant.MVU.ShareCockSize.Models
 {
     using System;
 
-    using CockSizer.Services;
+    using CockSizer.Models;
 
     using Eggplant.Types.Shared;
 
