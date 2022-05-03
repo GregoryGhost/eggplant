@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <WarningsAsErrors>Nullable</WarningsAsErrors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Packages\CockSizer\CockSizer.csproj" />
+      <ProjectReference Include="..\..\Packages\PatrickStar.MVU\PatrickStar.MVU.csproj" />
+      <ProjectReference Include="..\Eggplant.Types.Shared\Eggplant.Types.Shared.csproj" />
+    </ItemGroup>
+
+</Project>

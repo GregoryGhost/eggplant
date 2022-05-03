@@ -2,8 +2,11 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
 {
     using System.Collections.Generic;
 
-    using Lagalike.Demo.Eggplant.MVU.Commands;
-    using Lagalike.Demo.Eggplant.MVU.Models;
+    using global::Eggplant.MVU.GroupRating.Views;
+    using global::Eggplant.MVU.MessageWithoutAnyCmd.Views;
+    using global::Eggplant.MVU.ShareCockSize.Views;
+    using global::Eggplant.MVU.UnknownCmd.Views;
+    using global::Eggplant.Types.Shared;
 
     using PatrickStar.MVU;
 

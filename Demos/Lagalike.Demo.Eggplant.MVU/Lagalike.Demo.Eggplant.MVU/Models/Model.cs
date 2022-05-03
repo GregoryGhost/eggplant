@@ -2,7 +2,10 @@ namespace Lagalike.Demo.Eggplant.MVU.Models
 {
     using System;
 
-    using Lagalike.Demo.Eggplant.MVU.Commands;
+    using global::Eggplant.MVU.GroupRating.Models;
+    using global::Eggplant.MVU.ShareCockSize.Models;
+    using global::Eggplant.MVU.UnknownCmd.Models;
+    using global::Eggplant.Types.Shared;
 
     using PatrickStar.MVU;
 

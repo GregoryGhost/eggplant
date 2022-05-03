@@ -4,8 +4,13 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
     using System.Linq;
     using System.Text;
 
-    using Lagalike.Demo.Eggplant.MVU.Commands;
-    using Lagalike.Demo.Eggplant.MVU.Models;
+    using global::Eggplant.MVU.GroupRating.Commands;
+    using global::Eggplant.MVU.MessageWithoutAnyCmd.Commands;
+    using global::Eggplant.MVU.ShareCockSize.Commands;
+    using global::Eggplant.MVU.UnknownCmd.Commands;
+    using global::Eggplant.Types.Shared;
+
+    using GroupRating.Models;
 
     using PatrickStar.MVU;
 

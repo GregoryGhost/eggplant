@@ -3,7 +3,9 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
     using System;
     using System.Diagnostics.CodeAnalysis;
 
-    using Lagalike.Demo.Eggplant.MVU.Commands;
+    using global::Eggplant.MVU.MessageWithoutAnyCmd.Models;
+    using global::Eggplant.Types.Shared;
+
     using Lagalike.Demo.Eggplant.MVU.Models;
 
     using PatrickStar.MVU;

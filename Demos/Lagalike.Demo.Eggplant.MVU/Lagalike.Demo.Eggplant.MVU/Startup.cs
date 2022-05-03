@@ -1,9 +1,16 @@
 namespace Lagalike.Demo.Eggplant.MVU
 {
-    using Lagalike.Demo.Eggplant.MVU.Commands;
+    using CockSizer.Services;
+
+    using global::Eggplant.MVU.GroupRating.Views;
+    using global::Eggplant.MVU.MessageWithoutAnyCmd.Views;
+    using global::Eggplant.MVU.ShareCockSize.Views;
+    using global::Eggplant.MVU.UnknownCmd.Views;
+    using global::Eggplant.Types.Shared;
+
+    using GroupRating.Services;
+
     using Lagalike.Demo.Eggplant.MVU.Services;
-    using Lagalike.Demo.Eggplant.MVU.Services.Domain;
-    using Lagalike.Demo.Eggplant.MVU.Services.ModelUpdaters;
     using Lagalike.Demo.Eggplant.MVU.Services.ModuleSettings;
     using Lagalike.Demo.Eggplant.MVU.Services.Views;
     using Lagalike.Telegram.Shared.Contracts;
@@ -58,8 +65,7 @@ namespace Lagalike.Demo.Eggplant.MVU
             return services
                    .AddSingleton<GroupRatingViewMapper>()
                    .AddSingleton<GroupRatingView>()
-                   .AddSingleton<GroupRatingHandler>()
-                   .AddSingleton<GroupRatingStore>();
+                   .AddSingleton<GroupRatingHandler>();
         }
 
         public static IServiceCollection AddMessageWithoutAnyCmdServices(this IServiceCollection services)

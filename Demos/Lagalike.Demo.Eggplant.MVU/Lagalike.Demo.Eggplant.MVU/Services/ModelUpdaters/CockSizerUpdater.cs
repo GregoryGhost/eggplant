@@ -3,10 +3,18 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
     using System;
     using System.Threading.Tasks;
 
-    using Lagalike.Demo.Eggplant.MVU.Commands;
+    using CockSizer.Services;
+
+    using global::Eggplant.MVU.GroupRating.Commands;
+    using global::Eggplant.MVU.GroupRating.Models;
+    using global::Eggplant.MVU.ShareCockSize.Models;
+    using global::Eggplant.MVU.UnknownCmd.Commands;
+    using global::Eggplant.MVU.UnknownCmd.Models;
+    using global::Eggplant.Types.Shared;
+
+    using GroupRating.Services;
+
     using Lagalike.Demo.Eggplant.MVU.Models;
-    using Lagalike.Demo.Eggplant.MVU.Services.Domain;
-    using Lagalike.Demo.Eggplant.MVU.Services.ModelUpdaters;
 
     using PatrickStar.MVU;
 

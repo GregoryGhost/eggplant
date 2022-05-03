@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using global::Telegram.Bot.Types;
+    using global::Eggplant.Types.Shared;
 
-    using Lagalike.Demo.Eggplant.MVU.Commands;
+    using global::Telegram.Bot.Types;
 
     public record BotCommandInfo
     {

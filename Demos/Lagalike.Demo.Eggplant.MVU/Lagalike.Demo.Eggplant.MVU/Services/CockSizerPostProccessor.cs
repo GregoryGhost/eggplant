@@ -2,8 +2,9 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
 {
     using System.Threading.Tasks;
 
-    using Lagalike.Demo.Eggplant.MVU.Commands;
-    using Lagalike.Demo.Eggplant.MVU.Services.Views;
+    using global::Eggplant.MVU.MessageWithoutAnyCmd.Views;
+    using global::Eggplant.Types.Shared;
+
     using Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU;
     using Lagalike.Telegram.Shared.Services;
 

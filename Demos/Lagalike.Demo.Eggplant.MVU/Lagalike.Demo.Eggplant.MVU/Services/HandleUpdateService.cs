@@ -1,6 +1,7 @@
 namespace Lagalike.Demo.Eggplant.MVU.Services
 {
-    using Lagalike.Demo.Eggplant.MVU.Commands;
+    using global::Eggplant.Types.Shared;
+    
     using Lagalike.Demo.Eggplant.MVU.Models;
     using Lagalike.Demo.Eggplant.MVU.Services.Views;
     using Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU;

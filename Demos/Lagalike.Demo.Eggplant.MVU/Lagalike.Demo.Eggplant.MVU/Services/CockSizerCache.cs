@@ -4,13 +4,20 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
     using System.Collections.Generic;
     using System.Linq;
 
+    using CockSizer.Services;
+
+    using global::Telegram.Bot.Types;
+
+    using GroupRating.Models;
+
     using Lagalike.Demo.Eggplant.MVU.Models;
-    using Lagalike.Demo.Eggplant.MVU.Services.Domain;
     using Lagalike.Demo.Eggplant.MVU.Services.ModuleSettings;
     using Lagalike.Telegram.Shared.Contracts;
     using Lagalike.Telegram.Shared.Extensions;
 
     using Microsoft.Extensions.Caching.Memory;
+
+    using CockSize = GroupRating.Models.CockSize;
 
     /// <summary>
     ///     A cache of demo Test Patrick Star.
@@ -45,10 +52,12 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
                                        if (x.UserId == null)
                                            throw new ArgumentNullException(nameof(x.UserId), "Cannot parse a user id");
 
+                                       var cockSize = new CockSize(x.UserCockSize.CockSizeModel.CockSize.Size);
+                                       
                                        return new UserCockSize
                                        {
                                            UserId = x.UserId.Value,
-                                           CockSize = x.UserCockSize.CockSizeModel.CockSize
+                                           CockSize = cockSize
                                        };
                                    });
 
@@ -67,12 +76,5 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
                 ? parsedUserId
                 : null;
         }
-    }
-
-    public record UserCockSize
-    {
-        public CockSize CockSize { get; init; } = null!;
-
-        public long UserId { get; init; }
     }
 }
