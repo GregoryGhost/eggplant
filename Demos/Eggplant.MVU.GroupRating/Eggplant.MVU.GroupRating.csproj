@@ -8,8 +8,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Core\Lagalike.Telegram.Shared\Lagalike.Telegram.Shared.csproj" />
-      <ProjectReference Include="..\..\Packages\GroupRating\GroupRating.csproj" />
-      <ProjectReference Include="..\..\Packages\PatrickStar.MVU\PatrickStar.MVU.csproj" />
+      <ProjectReference Include="..\..\CustomPackages\GroupRating\GroupRating.csproj" />
+      <ProjectReference Include="..\..\CustomPackages\PatrickStar.MVU\PatrickStar.MVU.csproj" />
       <ProjectReference Include="..\Eggplant.Types.Shared\Eggplant.Types.Shared.csproj" />
     </ItemGroup>
 

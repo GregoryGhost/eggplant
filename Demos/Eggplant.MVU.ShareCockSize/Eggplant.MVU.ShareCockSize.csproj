@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Packages\CockSizer\CockSizer.csproj" />
-      <ProjectReference Include="..\..\Packages\PatrickStar.MVU\PatrickStar.MVU.csproj" />
+      <ProjectReference Include="..\..\CustomPackages\CockSizer\CockSizer.csproj" />
+      <ProjectReference Include="..\..\CustomPackages\PatrickStar.MVU\PatrickStar.MVU.csproj" />
       <ProjectReference Include="..\Eggplant.Types.Shared\Eggplant.Types.Shared.csproj" />
     </ItemGroup>
 
