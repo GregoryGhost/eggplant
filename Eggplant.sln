@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{5AC3D20D-AF7C-4C83-AB1F-96E9C9A2540F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Packages", "Packages", "{105BFDE1-2FF5-4E0D-A2D7-A3C412FF7255}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CustomPackages", "CustomPackages", "{105BFDE1-2FF5-4E0D-A2D7-A3C412FF7255}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PatrickStar.MVU", "PatrickStar.MVU", "{00ED433A-061C-4419-A4F6-33CA170337BB}"
 EndProject
@@ -12,9 +12,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eggplant.Telegram", "Core\E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lagalike.Telegram.Shared", "Core\Lagalike.Telegram.Shared\Lagalike.Telegram.Shared.csproj", "{75A064B5-8E86-4581-8B55-509CA2C32E3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatrickStar.MVU", "Packages\PatrickStar.MVU\PatrickStar.MVU.csproj", "{B745B70D-C567-4584-908C-20A9017177B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatrickStar.MVU", "CustomPackages\PatrickStar.MVU\PatrickStar.MVU.csproj", "{B745B70D-C567-4584-908C-20A9017177B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatrickStar.MVU.Tests", "Packages\PatrickStar.MVU.Tests\PatrickStar.MVU.Tests.csproj", "{0010C267-3790-4690-92B6-9A45D69CF2D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatrickStar.MVU.Tests", "CustomPackages\PatrickStar.MVU.Tests\PatrickStar.MVU.Tests.csproj", "{0010C267-3790-4690-92B6-9A45D69CF2D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eggplant.MVU.GroupRating", "Demos\Eggplant.MVU.GroupRating\Eggplant.MVU.GroupRating.csproj", "{A31AC9AF-C19D-4247-A288-1C745386D5B3}"
 EndProject
@@ -26,15 +26,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eggplant.MVU.MessageWithout
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CockSizer", "CockSizer", "{50810F5D-350E-4190-9F3D-0193B3067CA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CockSizer", "Packages\CockSizer\CockSizer.csproj", "{1E82197E-36D9-4B4C-8A4D-2136EFAFB592}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CockSizer", "CustomPackages\CockSizer\CockSizer.csproj", "{1E82197E-36D9-4B4C-8A4D-2136EFAFB592}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CockSizer.Tests", "Packages\CockSizer.Tests\CockSizer.Tests.csproj", "{F8CE9423-60B0-47CD-A2E6-5B1704802512}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CockSizer.Tests", "CustomPackages\CockSizer.Tests\CockSizer.Tests.csproj", "{F8CE9423-60B0-47CD-A2E6-5B1704802512}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GroupRating", "GroupRating", "{9C6ACA16-BF52-4209-99C3-128A1F0CDC2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupRating", "Packages\GroupRating\GroupRating.csproj", "{242F0F40-9371-4BD8-9E87-53A29449EC5C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupRating", "CustomPackages\GroupRating\GroupRating.csproj", "{242F0F40-9371-4BD8-9E87-53A29449EC5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupRating.Tests", "Packages\GroupRating.Tests\GroupRating.Tests.csproj", "{576C3744-7197-4518-8808-44C265D2568E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupRating.Tests", "CustomPackages\GroupRating.Tests\GroupRating.Tests.csproj", "{576C3744-7197-4518-8808-44C265D2568E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eggplant.Types.Shared", "Demos\Eggplant.Types.Shared\Eggplant.Types.Shared.csproj", "{75B9D665-6A79-46A7-BA1A-98B836264B5E}"
 EndProject
