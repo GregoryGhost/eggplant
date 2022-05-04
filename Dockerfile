@@ -8,9 +8,9 @@ WORKDIR /src
 COPY ["Core/Eggplant.Telegram/Eggplant.Telegram.csproj", "Core/Eggplant.Telegram/"]
 COPY ["Core/Lagalike.Telegram.Shared/Lagalike.Telegram.Shared.csproj", "Core/Lagalike.Telegram.Shared/"]
 
-COPY ["Packages/PatrickStar.MVU/PatrickStar.MVU.csproj", "Packages/PatrickStar.MVU/"]
-COPY ["Packages/GroupRating/GroupRating.csproj", "Packages/GroupRating/"]
-COPY ["Packages/CockSizer/CockSizer.csproj", "Packages/CockSizer/"]
+COPY ["CustomPackages/PatrickStar.MVU/PatrickStar.MVU.csproj", "CustomPackages/PatrickStar.MVU/"]
+COPY ["CustomPackages/GroupRating/GroupRating.csproj", "CustomPackages/GroupRating/"]
+COPY ["CustomPackages/CockSizer/CockSizer.csproj", "CustomPackages/CockSizer/"]
 
 COPY ["Demos/Lagalike.Demo.Eggplant.MVU/Lagalike.Demo.Eggplant.MVU.csproj", "Demos/Lagalike.Demo.Eggplant.MVU/"]
 COPY ["Demos/Eggplant.MVU.GroupRating/Eggplant.MVU.GroupRating.csproj", "Demos/Eggplant.MVU.GroupRating/"]
