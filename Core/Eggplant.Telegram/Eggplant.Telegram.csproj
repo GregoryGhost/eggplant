@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Demos\Lagalike.Demo.Eggplant.MVU\Lagalike.Demo.Eggplant.MVU\Lagalike.Demo.Eggplant.MVU.csproj" />
+        <ProjectReference Include="..\..\Demos\Lagalike.Demo.Eggplant.MVU\Lagalike.Demo.Eggplant.MVU.csproj" />
         <ProjectReference Include="..\Lagalike.Telegram.Shared\Lagalike.Telegram.Shared.csproj" />
     </ItemGroup>
 

@@ -9,8 +9,15 @@ COPY ["Core/Eggplant.Telegram/Eggplant.Telegram.csproj", "Core/Eggplant.Telegram
 COPY ["Core/Lagalike.Telegram.Shared/Lagalike.Telegram.Shared.csproj", "Core/Lagalike.Telegram.Shared/"]
 
 COPY ["Packages/PatrickStar.MVU/PatrickStar.MVU.csproj", "Packages/PatrickStar.MVU/"]
+COPY ["Packages/GroupRating/GroupRating.csproj", "Packages/GroupRating/"]
+COPY ["Packages/CockSizer/CockSizer.csproj", "Packages/CockSizer/"]
 
-COPY ["Demos/Lagalike.Demo.Eggplant.MVU/Lagalike.Demo.Eggplant.MVU/Lagalike.Demo.Eggplant.MVU.csproj", "Demos/Lagalike.Demo.Eggplant.MVU/"]
+COPY ["Demos/Lagalike.Demo.Eggplant.MVU/Lagalike.Demo.Eggplant.MVU.csproj", "Demos/Lagalike.Demo.Eggplant.MVU/"]
+COPY ["Demos/Eggplant.MVU.GroupRating/Eggplant.MVU.GroupRating.csproj", "Demos/Eggplant.MVU.GroupRating/"]
+COPY ["Demos/Eggplant.MVU.MessageWithoutAnyCmd/Eggplant.MVU.MessageWithoutAnyCmd.csproj", "Demos/Eggplant.MVU.MessageWithoutAnyCmd/"]
+COPY ["Demos/Eggplant.MVU.ShareCockSize/Eggplant.MVU.ShareCockSize.csproj", "Demos/Eggplant.MVU.ShareCockSize/"]
+COPY ["Demos/Eggplant.MVU.UnknownCmd/Eggplant.MVU.UnknownCmd.csproj", "Demos/Eggplant.MVU.UnknownCmd/"]
+COPY ["Demos/Eggplant.Types.Shared/Eggplant.Types.Shared.csproj", "Demos/Eggplant.Types.Shared/"]
 
 RUN dotnet restore "Core/Eggplant.Telegram/Eggplant.Telegram.csproj"
 COPY . .

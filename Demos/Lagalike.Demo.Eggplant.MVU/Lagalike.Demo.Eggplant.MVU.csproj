@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <WarningsAsErrors>Nullable</WarningsAsErrors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MathNet.Numerics" Version="4.15.0" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Commands" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Packages\PatrickStar.MVU\PatrickStar.MVU.csproj" />
+      <ProjectReference Include="..\Eggplant.MVU.GroupRating\Eggplant.MVU.GroupRating.csproj" />
+      <ProjectReference Include="..\Eggplant.MVU.MessageWithoutAnyCmd\Eggplant.MVU.MessageWithoutAnyCmd.csproj" />
+      <ProjectReference Include="..\Eggplant.MVU.ShareCockSize\Eggplant.MVU.ShareCockSize.csproj" />
+      <ProjectReference Include="..\Eggplant.MVU.UnknownCmd\Eggplant.MVU.UnknownCmd.csproj" />
+      <ProjectReference Include="..\Eggplant.Types.Shared\Eggplant.Types.Shared.csproj" />
+    </ItemGroup>
+
+</Project>
