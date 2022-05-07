@@ -122,7 +122,9 @@ namespace PatrickStar.MVU.Tests
     public class TestUpdater : IUpdater<CmdType, Model1>
     {
         /// <inheritdoc />
+#pragma warning disable CS1998
         public async Task<(ICommand<CmdType>? OutputCommand, Model1 UpdatedModel)> UpdateAsync(ICommand<CmdType> command,
+#pragma warning restore CS1998
             Model1 model)
         {
             var outputCmd = command.Type switch

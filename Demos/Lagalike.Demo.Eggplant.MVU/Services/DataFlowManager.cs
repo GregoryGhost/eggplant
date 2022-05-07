@@ -60,14 +60,14 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
                 RequestTypes.Message or RequestTypes.EditedMessage =>
                     TryReadCommand(update),
                 RequestTypes.CallbackData =>
-                    JsonConvert.DeserializeObject<BaseCommand<CommandTypes>>(update.Update.CallbackQuery.Data),
+                    JsonConvert.DeserializeObject<BaseCommand<CommandTypes>>(update.Update.CallbackQuery?.Data),
                 RequestTypes.InlineQuery =>
                     _commandsFactory.ShareCockSizeCommand,
                 _ => throw new ArgumentOutOfRangeException($"{nameof(update.RequestType)} has unknown value {update.RequestType}")
             };
             if (commandType?.Type == null)
                 throw new NullReferenceException(
-                    $"Command type is null, the source update data: {update.Update.CallbackQuery.Data}");
+                    $"Command type is null, the source update data: {update.Update.CallbackQuery?.Data}");
 
             if (_commands.ContainsKey(commandType.Type))
             {
@@ -103,7 +103,10 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
 
         private ICommand<CommandTypes>? TryReadCommand(TelegramUpdate update)
         {
-            var inputRawCmd = update.Update.Message.Text;
+            var inputRawCmd = update.Update.Message?.Text;
+            if (inputRawCmd is null)
+                return null;
+            
             var foundCmd = _botCommandUsageConfigurator.GetBotCommandInfos()
                                                        .SingleOrDefault(x => inputRawCmd.Contains(x.CommandName));
 

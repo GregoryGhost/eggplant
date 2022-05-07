@@ -7,6 +7,7 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
 
     using global::PatrickStar.MVU;
 
+    using global::Telegram.Bot;
     using global::Telegram.Bot.Types.Enums;
     using global::Telegram.Bot.Types.InlineQueryResults;
     using global::Telegram.Bot.Types.ReplyMarkups;
@@ -33,12 +34,16 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
             _client = client;
         }
 
+        /// <exception cref="ArgumentNullException">Throws when an inline query id is empty.</exception>
         /// <inheritdoc />
         public async Task ProccessAsync(IView<TCmdType> view, TelegramUpdate update)
         {
             if (update.RequestType is RequestTypes.InlineQuery)
             {
                 var inlineQueryResult = GetInlineQueryResult(view);
+
+                if (update.Update.InlineQuery?.Id is null)
+                    throw new ArgumentNullException(nameof(update.Update.InlineQuery.Id));
                 
                 await _client.AnswerInlineQueryAsync(
                     update.Update.InlineQuery.Id,
@@ -69,7 +74,7 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
             return keyboard;
         }
 
-        private static IReadOnlyCollection<InlineQueryResultBase> GetInlineQueryResult(IView<TCmdType> view)
+        private static IReadOnlyCollection<InlineQueryResult> GetInlineQueryResult(IView<TCmdType> view)
         {
             var inlineMenu = (InlineQueryMenu)view.Menu;
             var results = inlineMenu.Buttons.Select(button => new InlineQueryResultArticle(
@@ -87,12 +92,18 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
             var keyboard = GetInlineKeyboard(menu);
 
             if (update.RequestType is RequestTypes.CallbackData)
+            {
+                var msgId = update.Update.CallbackQuery?.Message?.MessageId;
+                if (msgId is null)
+                    throw new ArgumentNullException(nameof(update.Update.CallbackQuery.Message.MessageId));
+                
                 await _client.EditMessageTextAsync(
                     update.ChatId,
-                    update.Update.CallbackQuery.Message.MessageId,
+                    msgId.Value,
                     menu.MessageElement.Text,
                     ParseMode.Html,
                     replyMarkup: keyboard);
+            }
             else if (update.RequestType is RequestTypes.Message or RequestTypes.EditedMessage)
                 await _client.SendTextMessageAsync(update.ChatId,
                     menu.MessageElement.Text,

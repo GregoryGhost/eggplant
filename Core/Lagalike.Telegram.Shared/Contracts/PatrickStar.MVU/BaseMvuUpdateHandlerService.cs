@@ -30,6 +30,9 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
         {
             if (update.Type is UpdateType.CallbackQuery)
             {
+                if (update.CallbackQuery is null)
+                    throw new ArgumentNullException(nameof(update.CallbackQuery));
+                
                 var callbackUpdate = new TelegramCallbackDataUpdate
                 {
                     ChatId = update.CallbackQuery.From.Id.ToString(),
@@ -39,6 +42,9 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
             }
             else if (update.Type is UpdateType.Message)
             {
+                if (update.Message is null)
+                    throw new ArgumentNullException(nameof(update.Message));
+                
                 var messageUpdate = new TelegramMsgUpdate
                 {
                     ChatId = update.Message.Chat.Id.ToString(),
@@ -48,6 +54,12 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
             }
             else if (update.Type is UpdateType.EditedMessage)
             {
+                if (update.EditedMessage is null)
+                    throw new ArgumentNullException(nameof(update.EditedMessage));
+                
+                if (update.EditedMessage.From is null)
+                    throw new ArgumentNullException(nameof(update.EditedMessage.From));
+                
                 var editedMsgUpdate = new TelegramEditedMsgUpdate
                 {
                     ChatId = update.EditedMessage.From.Id.ToString(),
@@ -57,6 +69,9 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
             }
             else if (update.Type is UpdateType.InlineQuery)
             {
+                if (update.InlineQuery is null)
+                    throw new ArgumentNullException(nameof(update.InlineQuery));
+                
                 var inlineQueryUpdate = new TelegramInlineQueryUpdate
                 {
                      ChatId = update.InlineQuery.From.Id.ToString(),

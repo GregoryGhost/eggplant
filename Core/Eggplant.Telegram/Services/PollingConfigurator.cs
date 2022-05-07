@@ -1,9 +1,12 @@
 namespace Eggplant.Telegram.Services
 {
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
 
     using global::Telegram.Bot;
+    using global::Telegram.Bot.Extensions.Polling;
+    using global::Telegram.Bot.Types.Enums;
 
     using Lagalike.Telegram.Shared.Services;
 
@@ -16,6 +19,8 @@ namespace Eggplant.Telegram.Services
 
         private readonly ILogger<PollingConfigurator> _logger;
 
+        private readonly ReceiverOptions _receiverOptions;
+
         private readonly CancellationTokenSource _telegramClientCancellationToken;
 
         private readonly PollingUpdateHandler _updateHandler;
@@ -27,8 +32,15 @@ namespace Eggplant.Telegram.Services
             _botClient = botClient;
             _updateHandler = updateHandler;
             _telegramClientCancellationToken = new CancellationTokenSource();
+            
+            var receiveAllUpdateTypes = Array.Empty<UpdateType>();
+            _receiverOptions = new ReceiverOptions
+            {
+                AllowedUpdates = receiveAllUpdateTypes
+            };
         }
 
+        /// <inheritdoc />
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             await RemoveWebhookAsync(cancellationToken);
@@ -36,6 +48,7 @@ namespace Eggplant.Telegram.Services
             await StartReceiveTelegramMessangesAsync(cancellationToken);
         }
 
+        /// <inheritdoc />
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _telegramClientCancellationToken.Cancel();
@@ -52,7 +65,11 @@ namespace Eggplant.Telegram.Services
         {
             var me = await _botClient.GetMeAsync(cancellationToken);
 
-            _botClient.StartReceiving(_updateHandler, _telegramClientCancellationToken.Token);
+            _botClient.StartReceiving(
+                _updateHandler,
+                _receiverOptions,
+                cancellationToken
+            );
 
             _logger.LogInformation($"Start listening for @{me.Username}");
         }

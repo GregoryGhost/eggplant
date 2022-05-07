@@ -10,11 +10,26 @@
 
     public static class MemoryCacheExtensions
     {
-        private static readonly Func<MemoryCache, object> GetEntriesCollection = Delegate.CreateDelegate(
-            typeof(Func<MemoryCache, object>),
-            typeof(MemoryCache).GetProperty("EntriesCollection", BindingFlags.NonPublic | BindingFlags.Instance).GetGetMethod(true),
-            throwOnBindFailure: true) as Func<MemoryCache, object>;
+        private static readonly Func<MemoryCache, object> GetEntriesCollection;
 
+        static MemoryCacheExtensions()
+        {
+            var entriesCollectionMethod = typeof(MemoryCache).GetProperty("EntriesCollection", BindingFlags.NonPublic | BindingFlags.Instance)
+                                       ?.GetGetMethod(true);
+
+            if (entriesCollectionMethod is null)
+                throw new ArgumentNullException(nameof(entriesCollectionMethod));
+
+            var sourceDelegate = Delegate.CreateDelegate(
+                typeof(Func<MemoryCache, object>),
+                entriesCollectionMethod,
+                true);
+            if (sourceDelegate is not Func<MemoryCache, object> entriesCollectionDelegate)
+                throw new ArgumentNullException(nameof(entriesCollectionDelegate));
+
+            GetEntriesCollection = entriesCollectionDelegate;
+        }
+        
         public static IEnumerable<T> GetKeys<T>(this IMemoryCache memoryCache) =>
             GetKeys(memoryCache).OfType<T>();
         

@@ -7,6 +7,7 @@
 
     using Lagalike.Telegram.Shared.Services;
 
+    using Telegram.Bot;
     using Telegram.Bot.Types.Enums;
 
     using TelegramChatId = Telegram.Bot.Types.ChatId;
@@ -29,8 +30,8 @@
             var user = new UserInfo
             {
                 FirstName = telegramChatMember.User.FirstName,
-                LastName = telegramChatMember.User.LastName,
-                Username = telegramChatMember.User.Username
+                LastName = telegramChatMember.User.LastName ?? string.Empty,
+                Username = telegramChatMember.User.Username ?? string.Empty
             };
             var chatMember = new ChatMember
             {

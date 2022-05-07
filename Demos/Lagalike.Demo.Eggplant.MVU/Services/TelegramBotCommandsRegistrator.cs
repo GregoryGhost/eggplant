@@ -3,6 +3,8 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    using global::Telegram.Bot;
+
     using Lagalike.Telegram.Shared.Services;
 
     using Microsoft.Extensions.Hosting;

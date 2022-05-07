@@ -7,7 +7,6 @@ namespace Eggplant.Telegram.Services
     using global::Telegram.Bot;
     using global::Telegram.Bot.Extensions.Polling;
     using global::Telegram.Bot.Types;
-    using global::Telegram.Bot.Types.Enums;
 
     /// <summary>
     ///     Wrapper default update handler for polling mode.
@@ -19,19 +18,18 @@ namespace Eggplant.Telegram.Services
         public PollingUpdateHandler(TelegramHandleUpdateService updateHandler)
         {
             _updateHandler = updateHandler;
-            AllowedUpdates = null;
         }
 
-        public UpdateType[]? AllowedUpdates { get; }
-
-        public Task HandleError(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
+        /// <inheritdoc />
+        public async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
         {
-            return _updateHandler.HandleErrorAsync(exception);
+            await _updateHandler.HandleErrorAsync(exception);
         }
 
-        public Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        /// <inheritdoc />
+        public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
-            return _updateHandler.HandleUpdateAsync(update);
+            await _updateHandler.HandleUpdateAsync(update);
         }
     }
 }
