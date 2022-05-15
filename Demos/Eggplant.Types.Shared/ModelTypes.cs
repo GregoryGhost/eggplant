@@ -16,6 +16,8 @@ namespace Eggplant.Types.Shared
         
         AvailableCommandsModel,
         
-        MessageWithoutAnyCmdModel
+        MessageWithoutAnyCmdModel,
+        
+        CompareDudesModel
     }
 }

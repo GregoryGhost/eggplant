@@ -14,6 +14,8 @@ namespace Eggplant.Types.Shared
         
         UnknownCommand,
         
-        MessageWithoutAnyCmdCommand
+        MessageWithoutAnyCmdCommand,
+        
+        CompareDudes
     }
 }

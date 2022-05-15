@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Views" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\CustomPackages\PatrickStar.MVU\PatrickStar.MVU.csproj" />
+      <ProjectReference Include="..\Eggplant.Types.Shared\Eggplant.Types.Shared.csproj" />
+    </ItemGroup>
+
+</Project>
