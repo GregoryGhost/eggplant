@@ -87,9 +87,18 @@
             if (!ChatUsers.TryGetValue(chatId.Value, out var chatMemmbers))
                 throw new ArgumentOutOfRangeException(nameof(chatId));
 
-            var foundUser = chatMemmbers.Single(x => x.User.Username == userName);
+            var foundUser = chatMemmbers.SingleOrDefault(x => x.User.Username == userName);
+            if (foundUser is not null)
+                return Task.FromResult(foundUser);
+            
+            var emptyUser = new ChatMember
+            {
+                IsMember = false,
+                User = new UserInfo()
+            };
+                
+            return Task.FromResult(emptyUser);
 
-            return Task.FromResult(foundUser);
         }
 
         internal static IEnumerable<string> GetChatUsernames(ChatId chatId)

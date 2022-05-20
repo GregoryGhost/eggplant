@@ -24,7 +24,8 @@ namespace DudesComparer.Tests
         }
 
         [TestCaseSource(typeof(CompareDudesCases))]
-        public async Task CompareDudesTestAsync(string testCaseName, ComparingDudes inputData, Result<ComparedDudes, ComparedDudesErrors> expectedResult)
+        public async Task CompareDudesTestAsync(string testCaseName, ComparingDudes inputData,
+            Result<ComparedDudes, ComparedDudesErrors> expectedResult)
         {
             var dudesHandler = DudesHandlerFactory.GetInitializedDudesHandler();
             var actualComparedDudes = await dudesHandler.CompareDudesAsync(inputData);
@@ -57,7 +58,8 @@ namespace DudesComparer.Tests
         private static readonly IReadOnlyCollection<CompareDudeTestCase> TestCases = new[]
         {
             GetCompareTwoDudesCompareTestCase(),
-            GetCompareManyDudesCompareTestCase()
+            GetCompareManyDudesCompareTestCase(),
+            GetCompareOnEmptyChatMembersTestCase()
         };
 
         public IEnumerator GetEnumerator()
@@ -77,25 +79,42 @@ namespace DudesComparer.Tests
                     DudesUserNames = FakeDudesStore.GetChatUsernames(FakeDudesStore.TestChatId)
                                                    .ToArray()
                 },
-                Expected = new ComparedDudes 
+                Expected = new ComparedDudes
                 {
                     DudeInfos = new DudeInfo[]
-                    {
-                        new()
                         {
-                            DudeType = DudeTypes.Winner,
-                            CockSize = new CockSize(10),
-                            UserInfo = FakeDudesStore.GetUserInfoById(1)
-                        },
-                    }.Concat(FakeCockSizerCache.GetUserCockSizes().Skip(1).Select(
-                        x => new  DudeInfo
-                        {
-                            DudeType = DudeTypes.Loser,
-                            CockSize = x.CockSize,
-                            UserInfo = FakeDudesStore.GetUserInfoById(x.UserId)
-                        }))
-                     .ToList()
+                            new()
+                            {
+                                DudeType = DudeTypes.Winner,
+                                CockSize = new CockSize(10),
+                                UserInfo = FakeDudesStore.GetUserInfoById(1)
+                            },
+                        }.Concat(
+                             FakeCockSizerCache.GetUserCockSizes()
+                                               .Skip(1)
+                                               .Select(
+                                                   x => new DudeInfo
+                                                   {
+                                                       DudeType = DudeTypes.Loser,
+                                                       CockSize = x.CockSize,
+                                                       UserInfo = FakeDudesStore.GetUserInfoById(x.UserId)
+                                                   }))
+                         .ToList()
                 }
+            };
+        }
+
+        private static CompareDudeTestCase GetCompareOnEmptyChatMembersTestCase()
+        {
+            return new CompareDudeTestCase
+            {
+                TestCaseName = nameof(GetCompareOnEmptyChatMembersTestCase),
+                InputData = new ComparingDudes
+                {
+                    ChatId = FakeDudesStore.TestChatId,
+                    DudesUserNames = new [] { "322", "228", "888" }
+                },
+                Expected = ComparedDudesErrors.EmptyChatDudes
             };
         }
 

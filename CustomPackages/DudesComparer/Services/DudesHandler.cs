@@ -66,7 +66,8 @@
         public async Task<ComparedDudesResult> CompareDudesAsync(ComparingDudes comparingDudes)
         {
             var chatDudes = await ChatMembers(comparingDudes);
-            if (chatDudes is null)
+            var haveNoDudes = !chatDudes.Any();
+            if (haveNoDudes)
                 return ComparedDudesErrors.EmptyChatDudes;
 
             var comparedDudes = GetComparedDudes(chatDudes);
@@ -74,19 +75,13 @@
             return comparedDudes;
         }
 
-        private async Task<IReadOnlyCollection<ChatMember>?> ChatMembers(ComparingDudes comparingDudes)
+        private async Task<IReadOnlyCollection<ChatMember>> ChatMembers(ComparingDudes comparingDudes)
         {
             var foundChatDudes = comparingDudes.DudesUserNames
                                                .Select(x => _store.GetChatMemberAsync(comparingDudes.ChatId, x));
             var chatDudes = (await Task.WhenAll(foundChatDudes))
                 .Where(x => x.IsMember)
                 .ToArray();
-
-            var hasMissedDudes = chatDudes.Length != comparingDudes.DudesUserNames.Count;
-            if (hasMissedDudes)
-            {
-                return null;
-            }
 
             return chatDudes;
         }
