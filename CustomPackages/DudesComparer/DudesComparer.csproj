@@ -6,4 +6,10 @@
         <WarningsAsErrors>Nullable</WarningsAsErrors>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Ardalis.SmartEnum" Version="2.1.0" />
+      <PackageReference Include="CSharpFunctionalExtensions" Version="2.29.1" />
+      <PackageReference Include="EnumWithValues" Version="1.0.8" />
+    </ItemGroup>
+
 </Project>

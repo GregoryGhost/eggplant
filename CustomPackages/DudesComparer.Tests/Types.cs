@@ -25,77 +25,82 @@
         /// <summary>
         ///     The key is a userId, the value is a user cock size info.
         /// </summary>
-        private readonly IDictionary<long, UserCockSize> _userCockSizes = new Dictionary<long, UserCockSize>
+        private static readonly IDictionary<long, UserCockSize> UserCockSizes;
+
+        static FakeCockSizerCache()
         {
-            {
-                1, new UserCockSize
-                {
-                    CockSize = new CockSize(10),
-                    UserId = 1
-                }
-            },
-            {
-                2, new UserCockSize
-                {
-                    CockSize = new CockSize(5),
-                    UserId = 2
-                }
-            }
-        };
+            const byte MaxCockSize = 10;
+            UserCockSizes = Enumerable.Range(1, 10)
+                                      .Select(
+                                          (userId, i) => new UserCockSize
+                                          {
+                                              CockSize = new CockSize((byte) (MaxCockSize - (byte) i)),
+                                              UserId = userId
+                                          })
+                                      .ToDictionary(x => x.UserId, x => x);
+        }
 
         public UserCockSize? GetCheckedUser(long userId)
         {
-            _userCockSizes.TryGetValue(userId, out var userCockSize);
+            UserCockSizes.TryGetValue(userId, out var userCockSize);
 
             return userCockSize;
+        }
+
+        public static IEnumerable<UserCockSize> GetUserCockSizes()
+        {
+            return UserCockSizes.Values;
         }
     }
 
     internal sealed class FakeDudesStore : IDudesComparerStore
     {
+        internal static readonly ChatId TestChatId = new("testChatId");
+
         /// <summary>
         ///     The key is a chat id, the value is a user info.
         /// </summary>
-        private readonly IDictionary<string, IReadOnlyCollection<ChatMember>> _chatUsers = new Dictionary<string, IReadOnlyCollection<ChatMember>>
-        {
+        private static readonly IDictionary<string, IReadOnlyCollection<ChatMember>> ChatUsers =
+            new Dictionary<string, IReadOnlyCollection<ChatMember>>
             {
-                new ChatId("testChatId").Value,
-                new ChatMember[]
                 {
-                    new()
-                    {
-                        IsMember = true,
-                        User = new UserInfo
-                        {
-                            UserId = 1,
-                            FirstName = "dude1FN",
-                            LastName = "dude1LN",
-                            Username = "dude1"
-                        }
-                    },
-                    new()
-                    {
-                        IsMember = true,
-                        User = new UserInfo
-                        {
-                            UserId = 2,
-                            FirstName = "dude2FN",
-                            LastName = "dude2LN",
-                            Username = "dude2"
-                        }
-                    }
-                }
-            },
-        };   
+                    TestChatId.Value,
+                    Enumerable.Range(1, 10)
+                              .Select(
+                                  userId => new ChatMember
+                                  {
+                                      IsMember = true,
+                                      User = new UserInfo
+                                      {
+                                          UserId = userId,
+                                          FirstName = $"dude{userId}FN",
+                                          LastName = $"dude{userId}LN",
+                                          Username = $"dude{userId}"
+                                      }
+                                  })
+                              .ToArray()
+                },
+            };
+
         public Task<ChatMember> GetChatMemberAsync(ChatId chatId, string userName)
         {
-            if (!_chatUsers.TryGetValue(chatId.Value, out var chatMemmbers))
+            if (!ChatUsers.TryGetValue(chatId.Value, out var chatMemmbers))
                 throw new ArgumentOutOfRangeException(nameof(chatId));
-            
-            var foundUser = chatMemmbers.Single(x => x.User.Username == userName);
-                
-            return Task.FromResult(foundUser);
 
+            var foundUser = chatMemmbers.Single(x => x.User.Username == userName);
+
+            return Task.FromResult(foundUser);
+        }
+
+        internal static IEnumerable<string> GetChatUsernames(ChatId chatId)
+        {
+            return ChatUsers[chatId.Value]
+                .Select(x => x.User.Username);
+        }
+
+        internal static UserInfo GetUserInfoById(long userId)
+        {
+            return ChatUsers[TestChatId.Value].Single(x => x.User.UserId == userId).User;
         }
     }
 }

@@ -6,11 +6,49 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Ardalis.SmartEnum;
+
+    using CSharpFunctionalExtensions;
+
     using DudesComparer.Models;
+
+    using ComparedDudesResult = CSharpFunctionalExtensions.Result<ComparedDudes, ComparedDudesErrors>;
+
+    public abstract class ComparedDudesErrors: SmartEnum<ComparedDudesErrors>
+    {
+        public static readonly ComparedDudesErrors UnknownChatDude = new UnknownChatDudeError(string.Empty);
+        public static readonly ComparedDudesErrors EmptyChatDudes = new EmptyChatDudesError();
+
+        public static ComparedDudesErrors GetUnknownChatDude(string dudeUserName)
+        {
+            return new UnknownChatDudeError(dudeUserName);
+        }
+
+        public string DudeUserName { get; init; } = null!;
+
+        protected ComparedDudesErrors(string name, int value)
+            : base(name, value)
+        {
+        }
+        
+        private sealed class EmptyChatDudesError : ComparedDudesErrors
+        {
+            public EmptyChatDudesError(): base(nameof(EmptyChatDudesError), 0) {}
+        }
+
+        private sealed class UnknownChatDudeError : ComparedDudesErrors
+        {
+            public UnknownChatDudeError(string dudeUserName)
+                : base(nameof(UnknownChatDudeError), 1)
+            {
+                DudeUserName = dudeUserName;
+            }
+        }
+    }
 
     public interface IDudesHandler
     {
-        Task<ComparedDudes?> CompareDudesAsync(ComparingDudes comparingDudes);
+        Task<Result<ComparedDudes, ComparedDudesErrors>> CompareDudesAsync(ComparingDudes comparingDudes);
     }
     
     public sealed class DudesHandler: IDudesHandler
@@ -25,11 +63,11 @@
             _cockSizerCache = cockSizerCache;
         }
 
-        public async Task<ComparedDudes?> CompareDudesAsync(ComparingDudes comparingDudes)
+        public async Task<ComparedDudesResult> CompareDudesAsync(ComparingDudes comparingDudes)
         {
             var chatDudes = await ChatMembers(comparingDudes);
             if (chatDudes is null)
-                return null;
+                return ComparedDudesErrors.EmptyChatDudes;
 
             var comparedDudes = GetComparedDudes(chatDudes);
 
