@@ -14,48 +14,52 @@
 
     using ComparedDudesResult = CSharpFunctionalExtensions.Result<ComparedDudes, ComparedDudesErrors>;
 
-    public abstract class ComparedDudesErrors: SmartEnum<ComparedDudesErrors>
+    public abstract class ComparedDudesErrors : SmartEnum<ComparedDudesErrors>
     {
-        public static readonly ComparedDudesErrors UnknownChatDude = new UnknownChatDudeError(string.Empty);
         public static readonly ComparedDudesErrors EmptyChatDudes = new EmptyChatDudesError();
 
-        public static ComparedDudesErrors GetUnknownChatDude(string dudeUserName)
-        {
-            return new UnknownChatDudeError(dudeUserName);
-        }
-
-        public string DudeUserName { get; init; } = null!;
+        public static readonly ComparedDudesErrors UnknownChatDudes = new UnknownChatDudeError(Array.Empty<string>());
 
         protected ComparedDudesErrors(string name, int value)
             : base(name, value)
         {
         }
-        
+
+        public IReadOnlyCollection<string> DudeUserNames { get; init; } = Array.Empty<string>();
+
+        public static ComparedDudesErrors GetUnknownChatDudes(IReadOnlyCollection<string> dudeUserNames)
+        {
+            return new UnknownChatDudeError(dudeUserNames);
+        }
+
         private sealed class EmptyChatDudesError : ComparedDudesErrors
         {
-            public EmptyChatDudesError(): base(nameof(EmptyChatDudesError), 0) {}
+            public EmptyChatDudesError()
+                : base(nameof(EmptyChatDudesError), 0)
+            {
+            }
         }
 
         private sealed class UnknownChatDudeError : ComparedDudesErrors
         {
-            public UnknownChatDudeError(string dudeUserName)
+            public UnknownChatDudeError(IReadOnlyCollection<string> dudeUserNames)
                 : base(nameof(UnknownChatDudeError), 1)
             {
-                DudeUserName = dudeUserName;
+                DudeUserNames = dudeUserNames;
             }
         }
     }
 
     public interface IDudesHandler
     {
-        Task<Result<ComparedDudes, ComparedDudesErrors>> CompareDudesAsync(ComparingDudes comparingDudes);
+        Task<ComparedDudesResult> CompareDudesAsync(ComparingDudes comparingDudes);
     }
-    
-    public sealed class DudesHandler: IDudesHandler
-    {
-        private readonly IDudesComparerStore _store;
 
+    public sealed class DudesHandler : IDudesHandler
+    {
         private readonly ICockSizerCache _cockSizerCache;
+
+        private readonly IDudesComparerStore _store;
 
         public DudesHandler(IDudesComparerStore store, ICockSizerCache cockSizerCache)
         {
@@ -65,46 +69,58 @@
 
         public async Task<ComparedDudesResult> CompareDudesAsync(ComparingDudes comparingDudes)
         {
-            var chatDudes = await ChatMembers(comparingDudes);
-            var haveNoDudes = !chatDudes.Any();
-            if (haveNoDudes)
-                return ComparedDudesErrors.EmptyChatDudes;
+            var chatDudes = await GetChatDudesAsync(comparingDudes);
+            if (chatDudes.IsFailure)
+                return chatDudes.Error;
 
-            var comparedDudes = GetComparedDudes(chatDudes);
+            var comparedDudes = GetComparedDudes(chatDudes.Value);
 
             return comparedDudes;
         }
-
-        private async Task<IReadOnlyCollection<ChatMember>> ChatMembers(ComparingDudes comparingDudes)
+        
+        private async Task<Result<IReadOnlyCollection<ChatMember>, ComparedDudesErrors>> GetChatDudesAsync(ComparingDudes comparingDudes)
         {
-            var foundChatDudes = comparingDudes.DudesUserNames
-                                               .Select(x => _store.GetChatMemberAsync(comparingDudes.ChatId, x));
-            var chatDudes = (await Task.WhenAll(foundChatDudes))
-                .Where(x => x.IsMember)
-                .ToArray();
+            var preparedChatMembers = comparingDudes.DudesUserNames
+                                                    .Select(x => _store.GetChatMemberAsync(comparingDudes.ChatId, x));
+            var foundChatMembers = await Task.WhenAll(preparedChatMembers);
+            var notChatMembers = foundChatMembers.Where(x => !x.IsMember).ToArray();
+            var areThereNotChatMembers = notChatMembers.Any();
 
-            return chatDudes;
+            var haveNoChatMembers = notChatMembers.Length == foundChatMembers.Length;
+            if (haveNoChatMembers)
+            {
+                return ComparedDudesErrors.EmptyChatDudes;
+            }
+
+            if (!areThereNotChatMembers)
+                return foundChatMembers;
+            
+            var unknownChatDudes = notChatMembers.Select(x => x.User.Username).ToArray();
+
+            return ComparedDudesErrors.GetUnknownChatDudes(unknownChatDudes);
         }
 
         private ComparedDudes GetComparedDudes(IEnumerable<ChatMember> chatDudes)
         {
             var dudesCocks = chatDudes.Select(x => (CockSizeInfo: _cockSizerCache.GetCheckedUser(x.User.UserId), ChatMember: x))
                                       .Where(x => x.CockSizeInfo != null);
-            var comparedDudes = dudesCocks.OrderByDescending(x =>
-                                          {
-                                              Debug.Assert(x.CockSizeInfo != null, "x.CockSizeInfo != null");
-                                              return x.CockSizeInfo.CockSize.Size;
-                                          })
-                                          .Select((x, i) =>
-                                          {
-                                              Debug.Assert(x.CockSizeInfo != null, "x.CockSizeInfo != null");
-                                              return new DudeInfo
+            var comparedDudes = dudesCocks.OrderByDescending(
+                                              x =>
                                               {
-                                                  DudeType = GetDudeType(i),
-                                                  CockSize = x.CockSizeInfo.CockSize,
-                                                  UserInfo = x.ChatMember.User
-                                              };
-                                          })
+                                                  Debug.Assert(x.CockSizeInfo != null, "x.CockSizeInfo != null");
+                                                  return x.CockSizeInfo.CockSize.Size;
+                                              })
+                                          .Select(
+                                              (x, i) =>
+                                              {
+                                                  Debug.Assert(x.CockSizeInfo != null, "x.CockSizeInfo != null");
+                                                  return new DudeInfo
+                                                  {
+                                                      DudeType = GetDudeType(i),
+                                                      CockSize = x.CockSizeInfo.CockSize,
+                                                      UserInfo = x.ChatMember.User
+                                                  };
+                                              })
                                           .ToArray();
             var result = new ComparedDudes
             {
@@ -138,9 +154,9 @@
 
     public sealed record DudeInfo
     {
-        public DudeTypes DudeType { get; init; }
-
         public CockSize CockSize { get; init; } = null!;
+
+        public DudeTypes DudeType { get; init; }
 
         public UserInfo UserInfo { get; init; } = null!;
     }
@@ -148,6 +164,7 @@
     public enum DudeTypes
     {
         Loser,
+
         Winner
     }
 }

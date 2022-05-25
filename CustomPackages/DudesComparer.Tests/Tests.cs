@@ -57,10 +57,27 @@ namespace DudesComparer.Tests
     {
         private static readonly IReadOnlyCollection<CompareDudeTestCase> TestCases = new[]
         {
-            GetCompareTwoDudesCompareTestCase(),
-            GetCompareManyDudesCompareTestCase(),
-            GetCompareOnEmptyChatMembersTestCase()
+            GetOkCompareTwoDudesCompareTestCase(),
+            GetOkCompareManyDudesCompareTestCase(),
+            GetErrorCompareOnEmptyChatMembersTestCase(),
+            GetErrorCompareOnUnknownDudesTestCase()
         };
+
+        private static CompareDudeTestCase GetErrorCompareOnUnknownDudesTestCase()
+        {
+            const string UnknownDudeUserName = "dude11";
+            
+            return new CompareDudeTestCase
+            {
+                TestCaseName = nameof(GetErrorCompareOnUnknownDudesTestCase),
+                InputData = new ComparingDudes
+                {
+                    ChatId = FakeDudesStore.TestChatId,
+                    DudesUserNames = new [] { "dude1", UnknownDudeUserName }
+                },
+                Expected = ComparedDudesErrors.GetUnknownChatDudes(new []{UnknownDudeUserName})
+            };
+        }
 
         public IEnumerator GetEnumerator()
         {
@@ -68,11 +85,11 @@ namespace DudesComparer.Tests
                             .GetEnumerator();
         }
 
-        private static CompareDudeTestCase GetCompareManyDudesCompareTestCase()
+        private static CompareDudeTestCase GetOkCompareManyDudesCompareTestCase()
         {
             return new CompareDudeTestCase
             {
-                TestCaseName = nameof(GetCompareManyDudesCompareTestCase),
+                TestCaseName = nameof(GetOkCompareManyDudesCompareTestCase),
                 InputData = new ComparingDudes
                 {
                     ChatId = FakeDudesStore.TestChatId,
@@ -104,11 +121,11 @@ namespace DudesComparer.Tests
             };
         }
 
-        private static CompareDudeTestCase GetCompareOnEmptyChatMembersTestCase()
+        private static CompareDudeTestCase GetErrorCompareOnEmptyChatMembersTestCase()
         {
             return new CompareDudeTestCase
             {
-                TestCaseName = nameof(GetCompareOnEmptyChatMembersTestCase),
+                TestCaseName = nameof(GetErrorCompareOnEmptyChatMembersTestCase),
                 InputData = new ComparingDudes
                 {
                     ChatId = FakeDudesStore.TestChatId,
@@ -118,11 +135,11 @@ namespace DudesComparer.Tests
             };
         }
 
-        private static CompareDudeTestCase GetCompareTwoDudesCompareTestCase()
+        private static CompareDudeTestCase GetOkCompareTwoDudesCompareTestCase()
         {
             return new CompareDudeTestCase
             {
-                TestCaseName = nameof(GetCompareTwoDudesCompareTestCase),
+                TestCaseName = nameof(GetOkCompareTwoDudesCompareTestCase),
                 InputData = new ComparingDudes
                 {
                     ChatId = FakeDudesStore.TestChatId,

@@ -94,7 +94,13 @@
             var emptyUser = new ChatMember
             {
                 IsMember = false,
-                User = new UserInfo()
+                User = new UserInfo
+                {
+                    UserId = 0,
+                    FirstName = null!,
+                    LastName = null!,
+                    Username = userName
+                }
             };
                 
             return Task.FromResult(emptyUser);
