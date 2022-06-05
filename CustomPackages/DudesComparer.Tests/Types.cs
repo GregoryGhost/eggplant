@@ -34,7 +34,10 @@
                                       .Select(
                                           (userId, i) => new UserCockSize
                                           {
-                                              CockSize = new CockSize((byte) (MaxCockSize - (byte) i)),
+                                              CockSize = new CockSize
+                                              {
+                                                  Size = (byte) (MaxCockSize - (byte) i)
+                                              },
                                               UserId = userId
                                           })
                                       .ToDictionary(x => x.UserId, x => x);
@@ -60,8 +63,11 @@
         /// <summary>
         ///     The key is a chat id, the value is a user info.
         /// </summary>
-        private static readonly IDictionary<string, IReadOnlyCollection<ChatMember>> ChatUsers =
-            new Dictionary<string, IReadOnlyCollection<ChatMember>>
+        private static readonly IDictionary<string, IReadOnlyCollection<ChatMember>> ChatUsers;
+
+        static FakeDudesStore()
+        {
+            ChatUsers = new Dictionary<string, IReadOnlyCollection<ChatMember>>
             {
                 {
                     TestChatId.Value,
@@ -81,6 +87,7 @@
                               .ToArray()
                 },
             };
+        }
 
         public Task<ChatMember> GetChatMemberAsync(ChatId chatId, string userName)
         {
@@ -104,7 +111,6 @@
             };
                 
             return Task.FromResult(emptyUser);
-
         }
 
         internal static IEnumerable<string> GetChatUsernames(ChatId chatId)

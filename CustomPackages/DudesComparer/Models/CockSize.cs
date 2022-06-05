@@ -1,4 +1,7 @@
 ﻿namespace DudesComparer.Models
 {
-    public record CockSize(byte Size);
+    public record CockSize
+    {
+        public byte Size { get; init; }
+    };
 }
