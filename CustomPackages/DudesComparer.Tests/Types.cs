@@ -58,7 +58,12 @@
 
     internal sealed class FakeDudesStore : IDudesComparerStore
     {
-        internal static readonly ChatId TestChatId = new("testChatId");
+        internal static class TestChats
+        {
+            internal static readonly ChatId TestChatId = new(nameof(TestChatId));
+
+            internal static readonly ChatId TestFakeChatId = new(nameof(TestFakeChatId));
+        }
 
         /// <summary>
         ///     The key is a chat id, the value is a user info.
@@ -70,7 +75,7 @@
             ChatUsers = new Dictionary<string, IReadOnlyCollection<ChatMember>>
             {
                 {
-                    TestChatId.Value,
+                    TestChats.TestChatId.Value,
                     Enumerable.Range(1, 10)
                               .Select(
                                   userId => new ChatMember
@@ -119,9 +124,18 @@
                 .Select(x => x.User.Username);
         }
 
-        internal static UserInfo GetUserInfoById(long userId)
+        internal static UserInfo GetUserInfoTestFakeChatBy(long userId)
         {
-            return ChatUsers[TestChatId.Value].Single(x => x.User.UserId == userId).User;
+            return ChatUsers[TestChats.TestFakeChatId.Value]
+                   .Single(x => x.User.UserId == userId)
+                   .User;
+        }
+
+        internal static UserInfo GetUserInfoTestChatBy(long userId)
+        {
+            return ChatUsers[TestChats.TestChatId.Value]
+                   .Single(x => x.User.UserId == userId)
+                   .User;
         }
     }
 }
