@@ -47,6 +47,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
                 CockSizeModel = null,
                 GroupRatingModel = null,
                 AvailableCommandsModel = null,
+                CompareDudesModel = null,
                 CurrentCommand = CommandTypes.MessageWithoutAnyCmdCommand,
             };
             _commands = commandsFactory.GetCommands();
@@ -94,11 +95,17 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
         /// <inheritdoc />
         public ViewMapper ViewMapper { get; init; }
 
-        private ICommand<CommandTypes> PassParametersToCommand(ICommand<CommandTypes> commandType, IUpdate update)
+        private ICommand<CommandTypes> PassParametersToCommand(ICommand<CommandTypes> commandType, TelegramUpdate update)
         {
-            return commandType.Type is CommandTypes.GroupRating
-                ? _commandsFactory.GetGroupRatingCommand(update.ChatId)
-                : commandType;
+            var command = commandType.Type switch
+            {
+                CommandTypes.GroupRating => _commandsFactory.GetGroupRatingCommand(update.ChatId),
+                CommandTypes.ShareCockSize => _commandsFactory.GetCockSizeCommand(update.ChatId),
+                CommandTypes.CompareDudes => _commandsFactory.GetCompareDudesCommand(update.ChatId, update.Update.Message?.Text),
+                _ => commandType
+            };
+
+            return command;
         }
 
         private ICommand<CommandTypes>? TryReadCommand(TelegramUpdate update)
@@ -118,7 +125,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
                 return _commandsFactory.GetUnknownCommand();
 
             _commands.TryGetValue(foundCmd.Type, out var foundCmdByType);
-
+            
             return foundCmdByType;
         }
     }

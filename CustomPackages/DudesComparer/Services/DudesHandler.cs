@@ -52,7 +52,7 @@
 
     public interface IDudesHandler
     {
-        Task<ComparedDudesResult> CompareDudesAsync(ComparingDudes comparingDudes);
+        Task<ComparedDudesResult> CompareDudesAsync(ComparingDudes? comparingDudes);
     }
 
     public sealed class DudesHandler : IDudesHandler
@@ -67,7 +67,7 @@
             _cockSizerCache = cockSizerCache;
         }
 
-        public async Task<ComparedDudesResult> CompareDudesAsync(ComparingDudes comparingDudes)
+        public async Task<ComparedDudesResult> CompareDudesAsync(ComparingDudes? comparingDudes)
         {
             var chatDudes = await GetChatDudesAsync(comparingDudes);
             if (chatDudes.IsFailure)
@@ -77,11 +77,15 @@
 
             return comparedDudes;
         }
-        
-        private async Task<Result<IReadOnlyCollection<ChatMember>, ComparedDudesErrors>> GetChatDudesAsync(ComparingDudes comparingDudes)
+
+        private async Task<Result<IReadOnlyCollection<ChatMember>, ComparedDudesErrors>> GetChatDudesAsync(ComparingDudes? comparingDudes)
         {
+            if (comparingDudes is null)
+            {
+                return ComparedDudesErrors.UnknownChatDudes;
+            }
             var preparedChatMembers = comparingDudes.DudesUserNames
-                                                    .Select(x => _store.GetChatMemberAsync(comparingDudes.ChatId, x));
+                                                    .Select(async userName => await _store.GetChatMemberAsync(comparingDudes.ChatId, userName));
             var foundChatMembers = await Task.WhenAll(preparedChatMembers);
             var notChatMembers = foundChatMembers.Where(x => !x.IsMember).ToArray();
             var areThereNotChatMembers = notChatMembers.Any();
@@ -118,7 +122,7 @@
                                                   {
                                                       DudeType = GetDudeType(i),
                                                       CockSize = x.CockSizeInfo.CockSize,
-                                                      UserInfo = x.ChatMember.User
+                                                      CheckedDude = x.ChatMember.User
                                                   };
                                               })
                                           .ToArray();
@@ -158,7 +162,7 @@
 
         public DudeTypes DudeType { get; init; }
 
-        public UserInfo UserInfo { get; init; } = null!;
+        public CheckedDude CheckedDude { get; init; } = null!;
     }
 
     public enum DudeTypes

@@ -1,6 +1,6 @@
 ﻿namespace DudesComparer.Models
 {
-    public record UserInfo
+    public record CheckedDude
     {
         public long UserId { get; init; }
         

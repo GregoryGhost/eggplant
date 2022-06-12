@@ -2,6 +2,10 @@ namespace Lagalike.Demo.Eggplant.MVU
 {
     using CockSizer.Services;
 
+    using DudesComparer.Services;
+
+    using global::Eggplant.MVU.CompareDudes.Services;
+    using global::Eggplant.MVU.CompareDudes.Views;
     using global::Eggplant.MVU.GroupRating.Services;
     using global::Eggplant.MVU.GroupRating.Views;
     using global::Eggplant.MVU.MessageWithoutAnyCmd.Views;
@@ -20,6 +24,9 @@ namespace Lagalike.Demo.Eggplant.MVU
 
     using PatrickStar.MVU;
 
+    using IGroupRatingCockSizerCache = GroupRating.Services.ICockSizerCache;
+    using ICompareDudesCache = DudesComparer.Services.ICockSizerCache;
+
     /// <inheritdoc />
     public class Startup : IStartup
     {
@@ -30,7 +37,8 @@ namespace Lagalike.Demo.Eggplant.MVU
                     .AddCockSizeServices()
                     .AddGroupRatingServices()
                     .AddAvalableCommandsServices()
-                    .AddMessageWithoutAnyCmdServices();
+                    .AddMessageWithoutAnyCmdServices()
+                    .AddCompareDudesServices();
         }
     }
 
@@ -44,6 +52,15 @@ namespace Lagalike.Demo.Eggplant.MVU
                            .AddHostedService<TelegramBotCommandsRegistrator>();
         }
 
+        public static IServiceCollection AddCompareDudesServices(this IServiceCollection services)
+        {
+            return services.AddSingleton<IDudesHandler, DudesHandler>()
+                           .AddSingleton<IDudesComparerStore, DudesComparerStore>()
+                           .AddSingleton<CompareDudesView>()
+                           .AddSingleton<ICompareDudesCache>(x => x.GetRequiredService<CockSizerCache>())
+                           .AddSingleton<CompareDudesViewMapper>();
+        }
+
         public static IServiceCollection AddCockSizeServices(this IServiceCollection services)
         {
             return services.AddSingleton<UserCockSizeInfoView>()
@@ -54,7 +71,7 @@ namespace Lagalike.Demo.Eggplant.MVU
                            .AddSingleton<CockSizerUpdater>()
                            .AddSingleton<CockSizerInfo>()
                            .AddSingleton<CockSizerCache>()
-                           .AddSingleton<ICockSizerCache>(x => x.GetRequiredService<CockSizerCache>())
+                           .AddSingleton<IGroupRatingCockSizerCache>(x => x.GetRequiredService<CockSizerCache>())
                            .AddSingleton<IModelCache>(x => x.GetRequiredService<CockSizerCache>())
                            .AddSingleton<EmotionBotReactionsHandler>();
         }

@@ -10,7 +10,7 @@
 
     public static class DataFaker
     {
-        private static readonly Faker<UserInfo> UserInfoFaker;
+        private static readonly Faker<CheckedDude> UserInfoFaker;
 
         private static readonly Faker<ChatMember> ChatMemberFaker;
 
@@ -18,7 +18,7 @@
 
         private static readonly Faker<CockSize> CockSizeFaker;
 
-        private static readonly IList<UserInfo> Users;
+        private static readonly IList<CheckedDude> Users;
 
         private static readonly IList<CockSize> CockSizes;
 
@@ -34,7 +34,7 @@
             const int NumToSeed = 322;
             Randomizer.Seed = new Random(NumToSeed);
 
-            UserInfoFaker = new Faker<UserInfo>()
+            UserInfoFaker = new Faker<CheckedDude>()
                             .RuleFor(x => x.UserId, x => x.IndexVariable++)
                             .RuleFor(x => x.Username, x => x.Person.UserName)
                             .RuleFor(x => x.FirstName, x => x.Person.FirstName)
@@ -59,7 +59,7 @@
             UserCockSizes = UserCockSizesFaker.Generate(NumToSeed);
         }
 
-        public static UserInfo GetUserInfo()
+        public static CheckedDude GetUserInfo()
         {
             return UserInfoFaker.Generate();
         }

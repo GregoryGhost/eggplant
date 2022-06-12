@@ -4,7 +4,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
     using System.Collections.Generic;
     using System.Linq;
 
-    using GroupRating.Models;
+    using DudesComparer.Models;
 
     using Lagalike.Demo.Eggplant.MVU.Models;
     using Lagalike.Demo.Eggplant.MVU.Services.ModuleSettings;
@@ -26,7 +26,36 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
         {
         }
 
-        public IEnumerable<UserCockSize> GetCheckedUsers()
+        public CheckedDude? GetCheckedDude(string userName)
+        {
+            var foundDude = TelegramCache.GetValues<Model>()
+                                    .Select(model => model.CompareDudesModel?.CheckedDude)
+                                    .FirstOrDefault(checkedDude => checkedDude?.Username == userName);
+            return foundDude;
+        }
+
+        public UserCockSize? GetCheckedUser(long userId)
+        {
+            if (!TryGetValue(userId.ToString(), out var model)
+                || model.CockSizeModel?.CockSize is null
+                || model.CompareDudesModel?.CheckedDude is null)
+            {
+                return null;
+            }
+
+            var userCocksSize = new UserCockSize
+            {
+                CockSize = new DudesComparer.Models.CockSize
+                {
+                    Size = model.CockSizeModel.CockSize.Size
+                },
+                UserId = userId
+            };
+
+            return userCocksSize;
+        }
+
+        public IEnumerable<GroupRating.Models.UserCockSize> GetCheckedUsers()
         {
             var checkedUsers = GetUsersIds()
                                .Select(
@@ -49,8 +78,8 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
                                            throw new ArgumentNullException(nameof(x.UserId), "Cannot parse a user id");
 
                                        var cockSize = new CockSize(x.UserCockSize.CockSizeModel.CockSize.Size);
-                                       
-                                       return new UserCockSize
+
+                                       return new GroupRating.Models.UserCockSize
                                        {
                                            UserId = x.UserId.Value,
                                            CockSize = cockSize
@@ -62,8 +91,8 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
 
         private IEnumerable<string> GetUsersIds()
         {
-            return _telegramCache.GetKeys<string>()
-                                 .Select(x => x[(_demoCacheName.Length + 1)..]);
+            return TelegramCache.GetKeys<string>()
+                                .Select(x => x[(DemoCacheName.Length + 1)..]);
         }
 
         private static long? ParseUserId(string userId)

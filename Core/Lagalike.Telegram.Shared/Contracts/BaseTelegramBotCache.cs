@@ -12,9 +12,9 @@ namespace Lagalike.Telegram.Shared.Contracts
     /// <typeparam name="TItem">A type of a saved item.</typeparam>
     public abstract class BaseTelegramBotCache<TItem> : IDisposable, IModelCache<TItem>
     {
-        protected readonly string _demoCacheName;
+        protected readonly string DemoCacheName;
 
-        protected readonly IMemoryCache _telegramCache;
+        protected readonly IMemoryCache TelegramCache;
 
         /// <summary>
         ///     Initialize dependencies.
@@ -23,14 +23,14 @@ namespace Lagalike.Telegram.Shared.Contracts
         /// <param name="demoCacheName">A cache name of demo mode.</param>
         protected BaseTelegramBotCache(IMemoryCache telegramCache, string demoCacheName)
         {
-            _telegramCache = telegramCache;
-            _demoCacheName = demoCacheName;
+            TelegramCache = telegramCache;
+            DemoCacheName = demoCacheName;
         }
 
         /// <inheritdoc />
         public void Dispose()
         {
-            _telegramCache.Dispose();
+            TelegramCache.Dispose();
         }
 
         /// <summary>
@@ -39,24 +39,24 @@ namespace Lagalike.Telegram.Shared.Contracts
         /// <param name="chatId">A chat id.</param>
         public void Remove(string chatId)
         {
-            _telegramCache.Remove(FormatCacheKey(chatId));
+            TelegramCache.Remove(FormatCacheKey(chatId));
         }
 
         /// <inheritdoc />
         public void Set(string chatId, TItem value)
         {
-            _telegramCache.Set(FormatCacheKey(chatId), value);
+            TelegramCache.Set(FormatCacheKey(chatId), value);
         }
 
         /// <inheritdoc />
         public bool TryGetValue(string chatId, out TItem value)
         {
-            return _telegramCache.TryGetValue(FormatCacheKey(chatId), out value);
+            return TelegramCache.TryGetValue(FormatCacheKey(chatId), out value);
         }
 
         private string FormatCacheKey(string chatId)
         {
-            return $"{_demoCacheName}_{chatId}";
+            return $"{DemoCacheName}_{chatId}";
         }
     }
 }

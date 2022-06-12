@@ -23,7 +23,7 @@
     internal sealed class FakeCockSizerCache : ICockSizerCache
     {
         /// <summary>
-        ///     The key is a userId, the value is a user cock size info.
+        ///     The key is a username, the value is a user cock size info.
         /// </summary>
         private static readonly IDictionary<long, UserCockSize> UserCockSizes;
 
@@ -48,6 +48,15 @@
             UserCockSizes.TryGetValue(userId, out var userCockSize);
 
             return userCockSize;
+        }
+
+        public CheckedDude? GetCheckedDude(string userName)
+        {
+            var userId = long.Parse(userName);
+
+            var userInfo = FakeDudesStore.GetUserInfoTestChatBy(userId);
+
+            return userInfo;
         }
 
         public static IEnumerable<UserCockSize> GetUserCockSizes()
@@ -81,7 +90,7 @@
                                   userId => new ChatMember
                                   {
                                       IsMember = true,
-                                      User = new UserInfo
+                                      User = new CheckedDude
                                       {
                                           UserId = userId,
                                           FirstName = $"dude{userId}FN",
@@ -96,17 +105,17 @@
 
         public Task<ChatMember> GetChatMemberAsync(ChatId chatId, string userName)
         {
-            if (!ChatUsers.TryGetValue(chatId.Value, out var chatMemmbers))
+            if (!ChatUsers.TryGetValue(chatId.Value, out var chatMembers))
                 throw new ArgumentOutOfRangeException(nameof(chatId));
 
-            var foundUser = chatMemmbers.SingleOrDefault(x => x.User.Username == userName);
+            var foundUser = chatMembers.SingleOrDefault(x => x.User.Username == userName);
             if (foundUser is not null)
                 return Task.FromResult(foundUser);
             
             var emptyUser = new ChatMember
             {
                 IsMember = false,
-                User = new UserInfo
+                User = new CheckedDude
                 {
                     UserId = 0,
                     FirstName = null!,
@@ -124,14 +133,14 @@
                 .Select(x => x.User.Username);
         }
 
-        internal static UserInfo GetUserInfoTestFakeChatBy(long userId)
+        internal static CheckedDude GetUserInfoTestFakeChatBy(long userId)
         {
             return ChatUsers[TestChats.TestFakeChatId.Value]
                    .Single(x => x.User.UserId == userId)
                    .User;
         }
 
-        internal static UserInfo GetUserInfoTestChatBy(long userId)
+        internal static CheckedDude GetUserInfoTestChatBy(long userId)
         {
             return ChatUsers[TestChats.TestChatId.Value]
                    .Single(x => x.User.UserId == userId)

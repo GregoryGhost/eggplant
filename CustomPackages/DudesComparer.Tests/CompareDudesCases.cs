@@ -61,7 +61,7 @@
                                 {
                                     Size = 10
                                 },
-                                UserInfo = FakeDudesStore.GetUserInfoTestChatBy(1)
+                                CheckedDude = FakeDudesStore.GetUserInfoTestChatBy(1)
                             },
                         }.Concat(
                              FakeCockSizerCache.GetUserCockSizes()
@@ -71,7 +71,7 @@
                                                    {
                                                        DudeType = DudeTypes.Loser,
                                                        CockSize = x.CockSize,
-                                                       UserInfo = FakeDudesStore.GetUserInfoTestChatBy(x.UserId)
+                                                       CheckedDude = FakeDudesStore.GetUserInfoTestChatBy(x.UserId)
                                                    }))
                          .ToList()
                 }
@@ -115,7 +115,7 @@
                             {
                                 Size = 10
                             },
-                            UserInfo = new UserInfo
+                            CheckedDude = new CheckedDude
                             {
                                 UserId = 1,
                                 FirstName = "dude1FN",
@@ -130,7 +130,7 @@
                             {
                                 Size = 9
                             },
-                            UserInfo = new UserInfo
+                            CheckedDude = new CheckedDude
                             {
                                 UserId = 2,
                                 FirstName = "dude2FN",

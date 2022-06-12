@@ -2,6 +2,9 @@ namespace Lagalike.Demo.Eggplant.MVU.Models
 {
     using System;
 
+    using DudesComparer.Models;
+
+    using global::Eggplant.MVU.CompareDudes.Models;
     using global::Eggplant.MVU.GroupRating.Models;
     using global::Eggplant.MVU.ShareCockSize.Models;
     using global::Eggplant.MVU.UnknownCmd.Models;
@@ -21,9 +24,12 @@ namespace Lagalike.Demo.Eggplant.MVU.Models
         
         public GroupRatingModel? GroupRatingModel { get; init; }
         
-        public AvailableCommandsModel? AvailableCommandsModel { get; set; }
+        public AvailableCommandsModel? AvailableCommandsModel { get; init; }
+        
+        public CompareDudesModel? CompareDudesModel { get; init; }
 
         public CommandTypes CurrentCommand { get; init; } = CommandTypes.UnknownCommand;
+        
 
         /// <inheritdoc />
         public Enum Type => ModelTypes.RootModel;

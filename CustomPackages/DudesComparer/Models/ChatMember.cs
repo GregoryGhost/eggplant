@@ -4,6 +4,6 @@
     {
         public bool IsMember { get; init; }
 
-        public UserInfo User { get; init; } = null!;
+        public CheckedDude User { get; init; } = null!;
     }
 }

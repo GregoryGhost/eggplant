@@ -1,12 +1,19 @@
 namespace Lagalike.Demo.Eggplant.MVU.Services
 {
     using System;
+    using System.Diagnostics;
     using System.Threading.Tasks;
 
     using CockSizer.Services;
 
+    using DudesComparer.Models;
+    using DudesComparer.Services;
+
+    using global::Eggplant.MVU.CompareDudes.Commands;
+    using global::Eggplant.MVU.CompareDudes.Models;
     using global::Eggplant.MVU.GroupRating.Commands;
     using global::Eggplant.MVU.GroupRating.Models;
+    using global::Eggplant.MVU.ShareCockSize.Commands;
     using global::Eggplant.MVU.ShareCockSize.Models;
     using global::Eggplant.MVU.UnknownCmd.Commands;
     using global::Eggplant.MVU.UnknownCmd.Models;
@@ -18,6 +25,8 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
 
     using PatrickStar.MVU;
 
+    using ChatId = GroupRating.Models.ChatId;
+
     /// <inheritdoc />
     public class CockSizerUpdater : IUpdater<CommandTypes, Model>
     {
@@ -27,12 +36,19 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
 
         private readonly GroupRatingHandler _groupRatingHandler;
 
+        private readonly IDudesHandler _compareDudesHandler;
+
+        private readonly IGroupRatingStore _groupRatingStore;
+
         public CockSizerUpdater(CockSizeFactory cockSizeFactory, GroupRatingHandler groupRatingHandler,
-            BotCommandsUsageConfigurator botCommandsUsageConfigurator)
+            BotCommandsUsageConfigurator botCommandsUsageConfigurator, IDudesHandler compareDudesHandler,
+            IGroupRatingStore groupRatingStore)
         {
             _cockSizeFactory = cockSizeFactory;
             _groupRatingHandler = groupRatingHandler;
             _botCommandsUsageConfigurator = botCommandsUsageConfigurator;
+            _compareDudesHandler = compareDudesHandler;
+            _groupRatingStore = groupRatingStore;
         }
 
         /// <inheritdoc />
@@ -41,15 +57,59 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
         {
             var updatedModel = command.Type switch
             {
-                CommandTypes.ShareCockSize => RandomCockSize(model),
+                CommandTypes.ShareCockSize => await RandomCockSizeAsync(model, (ShareCockSizeCommand) command),
                 CommandTypes.GroupRating => await GetGroupRatingAsync(model, (GroupRatingCommand) command),
                 CommandTypes.UnknownCommand => GetAvailableBotCommandModel(model, (UnknownCommand) command),
+                CommandTypes.CompareDudes => await CompareDudesAsync(model, (CompareDudesCommand) command),
                 CommandTypes.MessageWithoutAnyCmdCommand => GetMessageWithouAnyCmdModel(model),
                 _ => throw new ArgumentOutOfRangeException($"Unknown {nameof(command)}: {command}")
             };
             ICommand<CommandTypes> emptyCmd = null!;
 
             return (emptyCmd, updatedModel);
+        }
+
+        private async Task<Model> CompareDudesAsync(Model model, CompareDudesCommand command)
+        {
+            model = model with
+            {
+                CurrentCommand = command.Type
+            };
+
+            var comparedDudes = await _compareDudesHandler.CompareDudesAsync(command.ComparingDudes);
+            Debug.Assert(comparedDudes.IsSuccess, "Comparing dudes is fail.");
+
+            var initialized = model;
+            if (comparedDudes.IsSuccess)
+            {
+                var compareDudesModel = model.CompareDudesModel is null
+                    ? new CompareDudesModel
+                    {
+                        ComparedDudes = comparedDudes.Value,
+                        CheckedDude = null
+                    }
+                    : model.CompareDudesModel with
+                    {
+                        ComparedDudes = comparedDudes.Value
+                    };
+                initialized = initialized with
+                {
+                    CompareDudesModel = compareDudesModel
+                };
+            }
+            else
+            {
+                initialized = initialized with
+                {
+                    CompareDudesModel = new CompareDudesModel
+                    {
+                        ComparedDudes = null,
+                        CheckedDude = null
+                    }
+                };
+            }
+
+            return initialized;
         }
 
         private Model GetAvailableBotCommandModel(Model model, UnknownCommand command)
@@ -102,24 +162,53 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             };
         }
 
-        private Model RandomCockSize(Model model)
+        private async Task<Model> RandomCockSizeAsync(Model model, ShareCockSizeCommand command)
         {
             model = model with
             {
-                CurrentCommand = CommandTypes.ShareCockSize
+                CurrentCommand = command.Type
             };
             if (model.CockSizeModel?.CockSize is not null)
                 return model;
 
+            var checkedDude = await GetCheckedDude(command);
+            var compareDudesModel = model.CompareDudesModel is null
+                ? new CompareDudesModel
+                {
+                    ComparedDudes = null,
+                    CheckedDude = checkedDude
+                }
+                : model.CompareDudesModel with
+                {
+                    CheckedDude = checkedDude
+                };
             var initialized = model with
             {
                 CockSizeModel = new PersonCockSizeModel
                 {
                     CockSize = _cockSizeFactory.GetRandomCockSize()
-                }
+                },
+                CompareDudesModel = compareDudesModel
             };
 
             return initialized;
+        }
+
+        private async Task<CheckedDude> GetCheckedDude(ShareCockSizeCommand command)
+        {
+            var userId = long.Parse(command.ChatId);
+            var chatMember = await _groupRatingStore.GetChatMemberAsync(
+                new ChatId(command.ChatId),
+                userId);
+            var checkedDude = new CheckedDude
+            {
+                UserId = userId,
+                FirstName = chatMember.User.FirstName,
+                LastName = chatMember.User.LastName,
+                Username = chatMember.User.Username
+            };
+            
+            return checkedDude;
         }
     }
 }

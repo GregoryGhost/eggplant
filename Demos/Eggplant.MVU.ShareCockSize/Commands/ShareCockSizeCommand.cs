@@ -9,6 +9,7 @@ namespace Eggplant.MVU.ShareCockSize.Commands
     /// </summary>
     public record ShareCockSizeCommand : BaseCommand<CommandTypes>
     {
+        public string ChatId { get; init; } = null!; 
         /// <inheritdoc />
         public override CommandTypes Type => CommandTypes.ShareCockSize;
     }

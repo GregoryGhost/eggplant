@@ -33,7 +33,7 @@ namespace DudesComparer.Tests
         }
 
         [TestCaseSource(typeof(CompareDudesCases))]
-        public async Task CompareDudesTestAsync(string testCaseName, ComparingDudes inputData,
+        public async Task CompareDudesTestAsync(string testCaseName, ComparingDudes? inputData,
             Result<ComparedDudes, ComparedDudesErrors> expectedResult)
         {
             var actualComparedDudes = await _dudesHandler.CompareDudesAsync(inputData);

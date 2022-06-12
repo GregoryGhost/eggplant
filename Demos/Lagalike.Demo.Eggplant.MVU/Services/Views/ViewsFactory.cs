@@ -2,6 +2,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
 {
     using System.Collections.Generic;
 
+    using global::Eggplant.MVU.CompareDudes.Views;
     using global::Eggplant.MVU.GroupRating.Views;
     using global::Eggplant.MVU.MessageWithoutAnyCmd.Views;
     using global::Eggplant.MVU.ShareCockSize.Views;
@@ -21,15 +22,22 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
         ///     Initialize dependencies.
         /// </summary>
         /// <param name="personCockSizeViewMapper">A default view mapper of the demo.</param>
-        public ViewsFactory(PersonCockSizeViewMapper personCockSizeViewMapper, GroupRatingViewMapper groupRatingViewMapper,
+        /// <param name="groupRatingViewMapper">A view mapper of group rating demo.</param>
+        /// <param name="availableCommandsViewMapper">A view mapper of available demo commands.</param>
+        /// <param name="messageWithoutAnyCmdViewMapper">A view mapper of empty message command.</param>
+        /// <param name="compareDudesViewMapper">A view mapper of compare dudes demo.</param>
+        public ViewsFactory(PersonCockSizeViewMapper personCockSizeViewMapper, 
+            GroupRatingViewMapper groupRatingViewMapper,
             AvailableCommandsViewMapper availableCommandsViewMapper,
-            MessageWithoutAnyCmdViewMapper messageWithoutAnyCmdViewMapper)
+            MessageWithoutAnyCmdViewMapper messageWithoutAnyCmdViewMapper,
+            CompareDudesViewMapper compareDudesViewMapper)
         {
             _views = new Dictionary<ModelTypes, IViewMapper<CommandTypes>>
             {
                 {ModelTypes.PersonCockSizeModel, personCockSizeViewMapper},
                 {ModelTypes.GroupRatingModel, groupRatingViewMapper},
                 {ModelTypes.AvailableCommandsModel, availableCommandsViewMapper},
+                {ModelTypes.CompareDudesModel, compareDudesViewMapper},
                 {ModelTypes.MessageWithoutAnyCmdModel, messageWithoutAnyCmdViewMapper}
             };
         }

@@ -4,6 +4,9 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
     using System.Linq;
     using System.Text;
 
+    using DudesComparer.Services;
+
+    using global::Eggplant.MVU.CompareDudes.Commands;
     using global::Eggplant.MVU.GroupRating.Commands;
     using global::Eggplant.MVU.MessageWithoutAnyCmd.Commands;
     using global::Eggplant.MVU.ShareCockSize.Commands;
@@ -62,6 +65,14 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
                     }
                 },
                 {
+                    CommandTypes.CompareDudes, new CommandTypeInfo
+                    {
+                        Command = new CompareDudesCommand(),
+                        CommandUsageInMode = CommandUsageInModes.MessageMode,
+                        Description = "Bulling between some dudes. That compares their cocks."
+                    }
+                },
+                {
                     CommandTypes.UnknownCommand, new CommandTypeInfo
                     {
                         Command = new UnknownCommand(),
@@ -83,10 +94,9 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
 
         public CommandsFactory()
         {
-            _messageCommands = new[]
-            {
-                CommandTypes.GroupRating
-            };
+            _messageCommands = Commands.Values.Where(x => x.CommandUsageInMode == CommandUsageInModes.MessageMode)
+                                       .Select(x => x.Command.Type)
+                                       .ToArray();
         }
 
         /// <summary>
@@ -163,6 +173,46 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
         public ICommand<CommandTypes> GetMessageWithoutAnyCmdCommand()
         {
             return Commands[CommandTypes.MessageWithoutAnyCmdCommand].Command;
+        }
+
+        public ICommand<CommandTypes> GetCockSizeCommand(string chatId)
+        {
+            var cmd = (ShareCockSizeCommand) Commands[CommandTypes.ShareCockSize].Command;
+
+            var cockSizeCommand = cmd with
+            {
+                ChatId = chatId
+            };
+
+            return cockSizeCommand;
+        }
+
+        public ICommand<CommandTypes> GetCompareDudesCommand(string chatId, string? msg)
+        {
+            var cmd = (CompareDudesCommand) Commands[CommandTypes.CompareDudes].Command;
+            if (string.IsNullOrEmpty(msg))
+            {
+                return cmd with
+                {
+                    ComparingDudes = null
+                };
+            }
+
+            var parsedComparedDudes = msg.Split(" ")
+                                         .Where(x => x.StartsWith("@"))
+                                         .Select(x => x.Replace("@", "").Trim())
+                                         .ToArray();
+            var parsedChatId = new DudesComparer.Models.ChatId(chatId);
+            var cmdWithParams = cmd with
+            {
+                ComparingDudes = new ComparingDudes
+                {
+                    ChatId = parsedChatId,
+                    DudesUserNames = parsedComparedDudes
+                }
+            };
+
+            return cmdWithParams;
         }
     }
 }

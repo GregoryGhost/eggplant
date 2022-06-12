@@ -27,6 +27,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
                 CommandTypes.ShareCockSize => GetModelInterface(rootModel.CockSizeModel),
                 CommandTypes.GroupRating => GetModelInterface(rootModel.GroupRatingModel),
                 CommandTypes.UnknownCommand => GetModelInterface(rootModel.AvailableCommandsModel),
+                CommandTypes.CompareDudes => GetModelInterface(rootModel.CompareDudesModel),
                 CommandTypes.MessageWithoutAnyCmdCommand => GetMessageWithouAnyCmdModel(),
                 _ => throw new ArgumentOutOfRangeException(nameof(rootModel.CurrentCommand), $"Cannot match unknown current command type {rootModel.CurrentCommand}")
             };

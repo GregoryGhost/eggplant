@@ -33,7 +33,7 @@ namespace Eggplant.MVU.ShareCockSize.Views
         }
 
         /// <inheritdoc />
-        public override InlineQueryMenu InitialMenu { get; }
+        public sealed override InlineQueryMenu InitialMenu { get; }
 
         /// <inheritdoc />
         public override IView<CommandTypes> Update(IElement sourceMenu)

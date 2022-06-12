@@ -32,8 +32,21 @@
         
         public static IEnumerable<T> GetKeys<T>(this IMemoryCache memoryCache) =>
             GetKeys(memoryCache).OfType<T>();
+
+        public static IEnumerable<TValue> GetValues<TValue>(this IMemoryCache memoryCache) =>
+            GetValues(memoryCache).OfType<object>()
+                                  .Select(x => (TValue?)x.GetValue("Value"))
+                                  .Where(x => x is not null)!;
         
+        private static IEnumerable GetValues(this IMemoryCache memoryCache) =>
+            ((IDictionary)GetEntriesCollection((MemoryCache)memoryCache)).Values;
+
         private static IEnumerable GetKeys(this IMemoryCache memoryCache) =>
             ((IDictionary)GetEntriesCollection((MemoryCache)memoryCache)).Keys;
+        
+        private static object? GetValue(this object obj, string propertyName)
+        {            
+            return obj.GetType().GetProperty(propertyName)?.GetValue(obj, null);
+        }
     }
 }

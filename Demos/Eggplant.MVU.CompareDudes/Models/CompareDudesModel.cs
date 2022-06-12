@@ -2,13 +2,18 @@
 {
     using System;
 
+    using DudesComparer.Models;
+    using DudesComparer.Services;
+
     using Eggplant.Types.Shared;
 
     using PatrickStar.MVU;
 
     public record CompareDudesModel: IModel
     {
-        public ComparingDudes? ComparingDudes { get; set; }
+        public ComparedDudes? ComparedDudes { get; init; }
+        
+        public CheckedDude? CheckedDude { get; init; }
         
         /// <inheritdoc />
         public Enum Type => ModelTypes.CompareDudesModel;

@@ -13,11 +13,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Commands" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\..\CustomPackages\PatrickStar.MVU.Tests\PatrickStar.MVU.Tests.csproj" />
+      <ProjectReference Include="..\Eggplant.MVU.CompareDudes\Eggplant.MVU.CompareDudes.csproj" />
       <ProjectReference Include="..\Eggplant.MVU.GroupRating\Eggplant.MVU.GroupRating.csproj" />
       <ProjectReference Include="..\Eggplant.MVU.MessageWithoutAnyCmd\Eggplant.MVU.MessageWithoutAnyCmd.csproj" />
       <ProjectReference Include="..\Eggplant.MVU.ShareCockSize\Eggplant.MVU.ShareCockSize.csproj" />
