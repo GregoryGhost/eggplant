@@ -1,7 +1,10 @@
 ﻿namespace Eggplant.MVU.CompareDudes.Views
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+
+    using CSharpFunctionalExtensions;
 
     using DudesComparer.Services;
 
@@ -29,7 +32,8 @@
             }
 
             var menu = (Menu<CommandTypes>) _view.Menu;
-            var formattedUsers = FormatComparedDudes(model.ComparedDudes.DudeInfos);
+            var comparedDudes = (Result<ComparedDudes, ComparedDudesErrors>) model.ComparedDudes;
+            var formattedUsers = GetComparedDudes(comparedDudes);
             var msg = menu.MessageElement with
             {
                 Text = formattedUsers
@@ -41,6 +45,34 @@
             var updatedView = _view.Update(updatedMenu);
 
             return updatedView;
+        }
+
+        private static string GetComparedDudes(Result<ComparedDudes, ComparedDudesErrors> comparedDudes)
+        {
+            var formatted = comparedDudes.Match(
+                value => FormatComparedDudes(value.DudeInfos),
+                FormatErrorMsg);
+
+            return formatted;
+        }
+
+        private static string FormatErrorMsg(ComparedDudesErrors error)
+        {
+            var formatted = string.Empty;
+            error.When(ComparedDudesErrors.EmptyChatDudes)
+                 .Then(() => formatted = "The provided dudes are unknown.")
+                 .When(ComparedDudesErrors.UnknownChatDudes)
+                 .Then(() => formatted = FormatUnknownChatDudes(error.DudeUserNames))
+                 .Default(() => throw new ArgumentOutOfRangeException(nameof(error)));
+
+            return formatted;
+        }
+
+        private static string FormatUnknownChatDudes(IEnumerable<string> unknownDudeUserNames)
+        {
+            var formatted = string.Join("\n", unknownDudeUserNames.Select(nickname => $"@{nickname}"));
+
+            return $"Unknown dudes - might be not measured or wrong nicknames dudes:\n{formatted}";
         }
 
         private static string FormatComparedDudes(IReadOnlyCollection<DudeInfo> comparedDudes)
@@ -68,7 +100,7 @@
             var winner = winnerInfo.CheckedDude;
             var winnerCockSize = winnerInfo.CockSize.Size;
             var winnerUser = $"<b>{winner.LastName} {winner.FirstName}</b> (@{winner.Username})";
-            var formattedWinner = $"👄👑🔱💕\n{winnerUser} [<b>{winnerCockSize} cm]</b>\n💕🔱👑👄";
+            var formattedWinner = $"💕👄👄👄💕💕💕\n{winnerUser} [<b>{winnerCockSize} cm]</b>\n💕💕💕👄👄👄💕";
             if (!losers.Any())
             {
                 return formattedWinner;

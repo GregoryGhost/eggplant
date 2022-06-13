@@ -77,37 +77,21 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             };
 
             var comparedDudes = await _compareDudesHandler.CompareDudesAsync(command.ComparingDudes);
-            Debug.Assert(comparedDudes.IsSuccess, "Comparing dudes is fail.");
 
-            var initialized = model;
-            if (comparedDudes.IsSuccess)
-            {
-                var compareDudesModel = model.CompareDudesModel is null
-                    ? new CompareDudesModel
-                    {
-                        ComparedDudes = comparedDudes.Value,
-                        CheckedDude = null
-                    }
-                    : model.CompareDudesModel with
-                    {
-                        ComparedDudes = comparedDudes.Value
-                    };
-                initialized = initialized with
+            var compareDudesModel = model.CompareDudesModel is null
+                ? new CompareDudesModel
                 {
-                    CompareDudesModel = compareDudesModel
-                };
-            }
-            else
-            {
-                initialized = initialized with
+                    ComparedDudes = comparedDudes,
+                    CheckedDude = null
+                }
+                : model.CompareDudesModel with
                 {
-                    CompareDudesModel = new CompareDudesModel
-                    {
-                        ComparedDudes = null,
-                        CheckedDude = null
-                    }
+                    ComparedDudes = comparedDudes
                 };
-            }
+            var initialized = model with
+            {
+                CompareDudesModel = compareDudesModel
+            };
 
             return initialized;
         }

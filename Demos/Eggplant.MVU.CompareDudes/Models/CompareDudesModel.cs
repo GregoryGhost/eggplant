@@ -1,6 +1,9 @@
 ﻿namespace Eggplant.MVU.CompareDudes.Models
 {
     using System;
+    using System.Collections.Generic;
+
+    using CSharpFunctionalExtensions;
 
     using DudesComparer.Models;
     using DudesComparer.Services;
@@ -11,7 +14,7 @@
 
     public record CompareDudesModel: IModel
     {
-        public ComparedDudes? ComparedDudes { get; init; }
+        public Result<ComparedDudes, ComparedDudesErrors>? ComparedDudes { get; init; }
         
         public CheckedDude? CheckedDude { get; init; }
         
