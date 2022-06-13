@@ -13,7 +13,7 @@ jobs:
       PROJECT_WORKING_DIRECTORY: "./"
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: git pull
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
@@ -27,6 +27,7 @@ jobs:
         run: jb cleanupcode --profile="${{ env.RESHARPER_PROFILE_NAME }}" ${{ env.MAIN_SOLUTION_NAME }}
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
       - name: Commit changes
-        uses: EndBug/add-and-commit@v5
+        uses: EndBug/add-and-commit@v9
         with:
           message: "[Bot] Automated ReSharper CLT update"
+          add: "*.cs, *.csproj, *.json"
