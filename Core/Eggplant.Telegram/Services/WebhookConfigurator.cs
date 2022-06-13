@@ -1,14 +1,6 @@
 namespace Eggplant.Telegram.Services
 {
-    using System.Threading;
-    using System.Threading.Tasks;
-
-    using global::Telegram.Bot;
-
     using Lagalike.Telegram.Shared.Services;
-
-    using Microsoft.Extensions.Hosting;
-    using Microsoft.Extensions.Logging;
 
     public class WebhookConfigurator : IHostedService
     {

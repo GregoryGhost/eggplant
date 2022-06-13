@@ -5,7 +5,7 @@ namespace Eggplant.MVU.UnknownCmd.Views
 
     using PatrickStar.MVU;
 
-    public class AvailableCommandsViewMapper: IViewMapper<CommandTypes>
+    public class AvailableCommandsViewMapper : IViewMapper<CommandTypes>
     {
         private readonly AvailableCommandsView _view;
 
@@ -16,14 +16,12 @@ namespace Eggplant.MVU.UnknownCmd.Views
 
         public IView<CommandTypes> Map(IModel model)
         {
-            var sourceModel = (AvailableCommandsModel) model;
+            var sourceModel = (AvailableCommandsModel)model;
             var hasEmptyModel = string.IsNullOrEmpty(sourceModel.AvailableCommands);
             if (hasEmptyModel)
-            {
                 return _view.Update(_view.InitialMenu);
-            }
-            
-            var menu = (Menu<CommandTypes>) _view.Menu;
+
+            var menu = (Menu<CommandTypes>)_view.Menu;
             var msg = menu.MessageElement with
             {
                 Text = sourceModel.AvailableCommands

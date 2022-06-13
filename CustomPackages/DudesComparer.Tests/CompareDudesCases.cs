@@ -1,9 +1,5 @@
 ﻿namespace DudesComparer.Tests
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-
     using DudesComparer.Models;
     using DudesComparer.Services;
 
@@ -17,26 +13,40 @@
             GetErrorCompareOnUnknownDudesTestCase()
         };
 
+        public IEnumerator GetEnumerator()
+        {
+            return TestCases.Select(x => new object[] { x.TestCaseName, x.InputData, x.Expected })
+                            .GetEnumerator();
+        }
+
+        private static CompareDudeTestCase GetErrorCompareOnEmptyChatMembersTestCase()
+        {
+            return new CompareDudeTestCase
+            {
+                TestCaseName = nameof(GetErrorCompareOnEmptyChatMembersTestCase),
+                InputData = new ComparingDudes
+                {
+                    ChatId = FakeDudesStore.TestChats.TestChatId,
+                    DudesUserNames = new[] { "322", "228", "888" }
+                },
+                Expected = ComparedDudesErrors.EmptyChatDudes
+            };
+        }
+
         private static CompareDudeTestCase GetErrorCompareOnUnknownDudesTestCase()
         {
             const string UnknownDudeUserName = "dude11";
-            
+
             return new CompareDudeTestCase
             {
                 TestCaseName = nameof(GetErrorCompareOnUnknownDudesTestCase),
                 InputData = new ComparingDudes
                 {
                     ChatId = FakeDudesStore.TestChats.TestChatId,
-                    DudesUserNames = new [] { "dude1", UnknownDudeUserName }
+                    DudesUserNames = new[] { "dude1", UnknownDudeUserName }
                 },
-                Expected = ComparedDudesErrors.GetUnknownChatDudes(new []{UnknownDudeUserName})
+                Expected = ComparedDudesErrors.GetUnknownChatDudes(new[] { UnknownDudeUserName })
             };
-        }
-
-        public IEnumerator GetEnumerator()
-        {
-            return TestCases.Select(x => new object[] {x.TestCaseName, x.InputData, x.Expected})
-                            .GetEnumerator();
         }
 
         private static CompareDudeTestCase GetOkCompareManyDudesCompareTestCase()
@@ -75,20 +85,6 @@
                                                    }))
                          .ToList()
                 }
-            };
-        }
-
-        private static CompareDudeTestCase GetErrorCompareOnEmptyChatMembersTestCase()
-        {
-            return new CompareDudeTestCase
-            {
-                TestCaseName = nameof(GetErrorCompareOnEmptyChatMembersTestCase),
-                InputData = new ComparingDudes
-                {
-                    ChatId = FakeDudesStore.TestChats.TestChatId,
-                    DudesUserNames = new [] { "322", "228", "888" }
-                },
-                Expected = ComparedDudesErrors.EmptyChatDudes
             };
         }
 

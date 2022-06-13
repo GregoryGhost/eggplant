@@ -1,21 +1,17 @@
 namespace Lagalike.Telegram.Shared.Contracts
 {
-    using System.Threading.Tasks;
-
-    using global::Telegram.Bot.Types;
-
     /// <summary>
     ///     A contract for mode system of the Lagalike sandbox.
     /// </summary>
     public interface IModeSystem
     {
         /// <summary>
-        /// An information about a demo (a mode system).
+        ///     An information about a demo (a mode system).
         /// </summary>
         ModeInfo Info { get; }
 
         /// <summary>
-        /// Handle a Telegram update.
+        ///     Handle a Telegram update.
         /// </summary>
         /// <param name="update">A Telegram update.</param>
         /// <returns>Returns awaition of handling.</returns>
@@ -23,7 +19,7 @@ namespace Lagalike.Telegram.Shared.Contracts
     }
 
     /// <summary>
-    /// Requirements to implement module (mode/demo).
+    ///     Requirements to implement module (mode/demo).
     /// </summary>
     public interface IBackedModeSystem
     {
@@ -34,14 +30,14 @@ namespace Lagalike.Telegram.Shared.Contracts
     }
 
     /// <summary>
-    /// Base implementation of mode 
+    ///     Base implementation of mode
     /// </summary>
     public abstract class BaseModeSystem : IModeSystem
     {
         private readonly ITelegramUpdateHandler _updateHandler;
 
         /// <summary>
-        /// Initialize dependencies.
+        ///     Initialize dependencies.
         /// </summary>
         /// <param name="modeInfo">An information about a demo.</param>
         /// <param name="updateHandler">A demo Telegram update handler.</param>

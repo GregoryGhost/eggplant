@@ -1,9 +1,7 @@
 namespace Lagalike.Demo.Eggplant.MVU.Services.ModuleSettings
 {
-    using Lagalike.Telegram.Shared.Contracts;
-
     /// <summary>
-    /// A information about this mode.
+    ///     A information about this mode.
     /// </summary>
     public class CockSizerInfo
     {
@@ -15,7 +13,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.ModuleSettings
         private const string SHORT_DESCRIPTION = "a demo of sharing a user cock size.";
 
         /// <summary>
-        /// The mode information.
+        ///     The mode information.
         /// </summary>
         public readonly ModeInfo ModeInfo = new(
             MODE_NAME,

@@ -1,21 +1,15 @@
 ﻿namespace Eggplant.MVU.CompareDudes.Services
 {
-    using System.Threading.Tasks;
-
     using DudesComparer.Models;
     using DudesComparer.Services;
 
-    using Lagalike.Telegram.Shared.Services;
-
-    using Telegram.Bot;
-    using Telegram.Bot.Types.Enums;
     using TelegramChatId = Telegram.Bot.Types.ChatId;
 
-    public class DudesComparerStore: IDudesComparerStore
+    public class DudesComparerStore : IDudesComparerStore
     {
-        private readonly ICockSizerCache _cockSizerCache;
-
         private readonly ConfiguredTelegramBotClient _client;
+
+        private readonly ICockSizerCache _cockSizerCache;
 
         public DudesComparerStore(ICockSizerCache cockSizerCache, ConfiguredTelegramBotClient client)
         {
@@ -32,7 +26,7 @@
 
                 return emptyUser;
             }
-            
+
             var chatMember = await GetChatMemberAsync(chatId, dudeInfo);
 
             return chatMember;
@@ -43,7 +37,8 @@
             var telegramChatId = new TelegramChatId(chatId.Value);
             var telegramChatMember = await _client.GetChatMemberAsync(telegramChatId, dudeInfo.UserId);
             var isMember =
-                telegramChatMember.Status is ChatMemberStatus.Administrator or ChatMemberStatus.Creator or ChatMemberStatus.Member;
+                telegramChatMember.Status is ChatMemberStatus.Administrator or ChatMemberStatus.Creator
+                    or ChatMemberStatus.Member;
             var user = new CheckedDude
             {
                 FirstName = telegramChatMember.User.FirstName,
@@ -56,7 +51,7 @@
                 IsMember = isMember,
                 User = user
             };
-            
+
             return chatMember;
         }
 

@@ -2,8 +2,6 @@ namespace Eggplant.Telegram.Services
 {
     using Lagalike.Telegram.Shared;
 
-    using Microsoft.Extensions.Options;
-
     public class TelegramWebhookConfiguration
     {
         public TelegramWebhookConfiguration(IOptions<TelegramBotConfiguration> configuration)

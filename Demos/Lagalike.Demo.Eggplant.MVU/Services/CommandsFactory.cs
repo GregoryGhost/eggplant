@@ -1,21 +1,11 @@
 namespace Lagalike.Demo.Eggplant.MVU.Services
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
-    using DudesComparer.Services;
-
     using global::Eggplant.MVU.CompareDudes.Commands;
     using global::Eggplant.MVU.GroupRating.Commands;
     using global::Eggplant.MVU.MessageWithoutAnyCmd.Commands;
     using global::Eggplant.MVU.ShareCockSize.Commands;
     using global::Eggplant.MVU.UnknownCmd.Commands;
     using global::Eggplant.Types.Shared;
-
-    using GroupRating.Models;
-
-    using PatrickStar.MVU;
 
     internal record CommandTypeInfo
     {
@@ -104,6 +94,18 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
         /// </summary>
         public ICommand<CommandTypes> ShareCockSizeCommand => Commands[CommandTypes.ShareCockSize].Command;
 
+        public ICommand<CommandTypes> GetCockSizeCommand(string chatId)
+        {
+            var cmd = (ShareCockSizeCommand)Commands[CommandTypes.ShareCockSize].Command;
+
+            var cockSizeCommand = cmd with
+            {
+                ChatId = chatId
+            };
+
+            return cockSizeCommand;
+        }
+
         public string GetCommandName(CommandTypes command)
         {
             var text = command.ToString();
@@ -140,6 +142,32 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             return Commands.ToDictionary(x => x.Key, x => x.Value.Command);
         }
 
+        public ICommand<CommandTypes> GetCompareDudesCommand(string chatId, string? msg)
+        {
+            var cmd = (CompareDudesCommand)Commands[CommandTypes.CompareDudes].Command;
+            if (string.IsNullOrEmpty(msg))
+                return cmd with
+                {
+                    ComparingDudes = null
+                };
+
+            var parsedComparedDudes = msg.Split(" ")
+                                         .Where(x => x.StartsWith("@"))
+                                         .Select(x => x.Replace("@", "").Trim())
+                                         .ToArray();
+            var parsedChatId = new DudesComparer.Models.ChatId(chatId);
+            var cmdWithParams = cmd with
+            {
+                ComparingDudes = new ComparingDudes
+                {
+                    ChatId = parsedChatId,
+                    DudesUserNames = parsedComparedDudes
+                }
+            };
+
+            return cmdWithParams;
+        }
+
         public string GetDescription(CommandTypes command)
         {
             return Commands[command].Description;
@@ -147,7 +175,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
 
         public ICommand<CommandTypes> GetGroupRatingCommand(string groupId)
         {
-            var cmd = (GroupRatingCommand) Commands[CommandTypes.GroupRating].Command;
+            var cmd = (GroupRatingCommand)Commands[CommandTypes.GroupRating].Command;
 
             var groupRatingCmd = cmd with
             {
@@ -165,54 +193,14 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             return _messageCommands;
         }
 
-        public ICommand<CommandTypes> GetUnknownCommand()
-        {
-            return Commands[CommandTypes.UnknownCommand].Command;
-        }
-
         public ICommand<CommandTypes> GetMessageWithoutAnyCmdCommand()
         {
             return Commands[CommandTypes.MessageWithoutAnyCmdCommand].Command;
         }
 
-        public ICommand<CommandTypes> GetCockSizeCommand(string chatId)
+        public ICommand<CommandTypes> GetUnknownCommand()
         {
-            var cmd = (ShareCockSizeCommand) Commands[CommandTypes.ShareCockSize].Command;
-
-            var cockSizeCommand = cmd with
-            {
-                ChatId = chatId
-            };
-
-            return cockSizeCommand;
-        }
-
-        public ICommand<CommandTypes> GetCompareDudesCommand(string chatId, string? msg)
-        {
-            var cmd = (CompareDudesCommand) Commands[CommandTypes.CompareDudes].Command;
-            if (string.IsNullOrEmpty(msg))
-            {
-                return cmd with
-                {
-                    ComparingDudes = null
-                };
-            }
-
-            var parsedComparedDudes = msg.Split(" ")
-                                         .Where(x => x.StartsWith("@"))
-                                         .Select(x => x.Replace("@", "").Trim())
-                                         .ToArray();
-            var parsedChatId = new DudesComparer.Models.ChatId(chatId);
-            var cmdWithParams = cmd with
-            {
-                ComparingDudes = new ComparingDudes
-                {
-                    ChatId = parsedChatId,
-                    DudesUserNames = parsedComparedDudes
-                }
-            };
-
-            return cmdWithParams;
+            return Commands[CommandTypes.UnknownCommand].Command;
         }
     }
 }

@@ -1,11 +1,9 @@
 namespace PatrickStar.MVU
 {
-    using System.Collections.Generic;
-    
     public class InlineQueryMenuBuilder
     {
         private readonly List<InlineQueryButton> _buttons = new();
-        
+
         public InlineQueryMenu Build()
         {
             var menu = new InlineQueryMenu
@@ -15,7 +13,7 @@ namespace PatrickStar.MVU
 
             return menu;
         }
-        
+
         public InlineQueryMenuBuilder Button(InlineQueryButton btn)
         {
             _buttons.Add(btn);

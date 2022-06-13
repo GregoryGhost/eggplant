@@ -1,13 +1,5 @@
 namespace Eggplant.Telegram.Services
 {
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-
-    using global::Telegram.Bot;
-    using global::Telegram.Bot.Extensions.Polling;
-    using global::Telegram.Bot.Types;
-
     /// <summary>
     ///     Wrapper default update handler for polling mode.
     /// </summary>

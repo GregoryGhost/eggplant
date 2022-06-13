@@ -1,21 +1,13 @@
 ﻿namespace Lagalike.Demo.Eggplant.MVU.Services
 {
-    using System.Threading;
-    using System.Threading.Tasks;
-
-    using global::Telegram.Bot;
-
-    using Lagalike.Telegram.Shared.Services;
-
-    using Microsoft.Extensions.Hosting;
-
     public class TelegramBotCommandsRegistrator : IHostedService
     {
         private readonly ConfiguredTelegramBotClient _botClient;
 
         private readonly BotCommandsUsageConfigurator _commandsConfigurator;
 
-        public TelegramBotCommandsRegistrator(ConfiguredTelegramBotClient botClient, BotCommandsUsageConfigurator commandsConfigurator)
+        public TelegramBotCommandsRegistrator(ConfiguredTelegramBotClient botClient,
+            BotCommandsUsageConfigurator commandsConfigurator)
         {
             _botClient = botClient;
             _commandsConfigurator = commandsConfigurator;

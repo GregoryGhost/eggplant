@@ -1,10 +1,5 @@
 ﻿namespace DudesComparer.Tests
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     using DudesComparer.Models;
     using DudesComparer.Services;
 
@@ -36,18 +31,11 @@
                                           {
                                               CockSize = new CockSize
                                               {
-                                                  Size = (byte) (MaxCockSize - (byte) i)
+                                                  Size = (byte)(MaxCockSize - (byte)i)
                                               },
                                               UserId = userId
                                           })
                                       .ToDictionary(x => x.UserId, x => x);
-        }
-
-        public UserCockSize? GetCheckedUser(long userId)
-        {
-            UserCockSizes.TryGetValue(userId, out var userCockSize);
-
-            return userCockSize;
         }
 
         public CheckedDude? GetCheckedDude(string userName)
@@ -59,6 +47,13 @@
             return userInfo;
         }
 
+        public UserCockSize? GetCheckedUser(long userId)
+        {
+            UserCockSizes.TryGetValue(userId, out var userCockSize);
+
+            return userCockSize;
+        }
+
         public static IEnumerable<UserCockSize> GetUserCockSizes()
         {
             return UserCockSizes.Values;
@@ -67,13 +62,6 @@
 
     internal sealed class FakeDudesStore : IDudesComparerStore
     {
-        internal static class TestChats
-        {
-            internal static readonly ChatId TestChatId = new(nameof(TestChatId));
-
-            internal static readonly ChatId TestFakeChatId = new(nameof(TestFakeChatId));
-        }
-
         /// <summary>
         ///     The key is a chat id, the value is a user info.
         /// </summary>
@@ -111,7 +99,7 @@
             var foundUser = chatMembers.SingleOrDefault(x => x.User.Username == userName);
             if (foundUser is not null)
                 return Task.FromResult(foundUser);
-            
+
             var emptyUser = new ChatMember
             {
                 IsMember = false,
@@ -123,7 +111,7 @@
                     Username = userName
                 }
             };
-                
+
             return Task.FromResult(emptyUser);
         }
 
@@ -133,6 +121,13 @@
                 .Select(x => x.User.Username);
         }
 
+        internal static CheckedDude GetUserInfoTestChatBy(long userId)
+        {
+            return ChatUsers[TestChats.TestChatId.Value]
+                   .Single(x => x.User.UserId == userId)
+                   .User;
+        }
+
         internal static CheckedDude GetUserInfoTestFakeChatBy(long userId)
         {
             return ChatUsers[TestChats.TestFakeChatId.Value]
@@ -140,11 +135,11 @@
                    .User;
         }
 
-        internal static CheckedDude GetUserInfoTestChatBy(long userId)
+        internal static class TestChats
         {
-            return ChatUsers[TestChats.TestChatId.Value]
-                   .Single(x => x.User.UserId == userId)
-                   .User;
+            internal static readonly ChatId TestChatId = new(nameof(TestChatId));
+
+            internal static readonly ChatId TestFakeChatId = new(nameof(TestFakeChatId));
         }
     }
 }

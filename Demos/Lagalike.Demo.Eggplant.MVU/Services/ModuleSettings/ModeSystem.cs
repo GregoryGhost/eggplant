@@ -1,7 +1,5 @@
 namespace Lagalike.Demo.Eggplant.MVU.Services.ModuleSettings
 {
-    using Lagalike.Telegram.Shared.Contracts;
-
     /// <inheritdoc />
     public class ModeSystem : BaseModeSystem
     {

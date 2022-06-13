@@ -1,15 +1,11 @@
 namespace Lagalike.Demo.Eggplant.MVU.Services.Views
 {
-    using System.Collections.Generic;
-
     using global::Eggplant.MVU.CompareDudes.Views;
     using global::Eggplant.MVU.GroupRating.Views;
     using global::Eggplant.MVU.MessageWithoutAnyCmd.Views;
     using global::Eggplant.MVU.ShareCockSize.Views;
     using global::Eggplant.MVU.UnknownCmd.Views;
     using global::Eggplant.Types.Shared;
-
-    using PatrickStar.MVU;
 
     /// <summary>
     ///     A factory of the all demo views.
@@ -26,7 +22,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
         /// <param name="availableCommandsViewMapper">A view mapper of available demo commands.</param>
         /// <param name="messageWithoutAnyCmdViewMapper">A view mapper of empty message command.</param>
         /// <param name="compareDudesViewMapper">A view mapper of compare dudes demo.</param>
-        public ViewsFactory(PersonCockSizeViewMapper personCockSizeViewMapper, 
+        public ViewsFactory(PersonCockSizeViewMapper personCockSizeViewMapper,
             GroupRatingViewMapper groupRatingViewMapper,
             AvailableCommandsViewMapper availableCommandsViewMapper,
             MessageWithoutAnyCmdViewMapper messageWithoutAnyCmdViewMapper,
@@ -34,11 +30,11 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.Views
         {
             _views = new Dictionary<ModelTypes, IViewMapper<CommandTypes>>
             {
-                {ModelTypes.PersonCockSizeModel, personCockSizeViewMapper},
-                {ModelTypes.GroupRatingModel, groupRatingViewMapper},
-                {ModelTypes.AvailableCommandsModel, availableCommandsViewMapper},
-                {ModelTypes.CompareDudesModel, compareDudesViewMapper},
-                {ModelTypes.MessageWithoutAnyCmdModel, messageWithoutAnyCmdViewMapper}
+                { ModelTypes.PersonCockSizeModel, personCockSizeViewMapper },
+                { ModelTypes.GroupRatingModel, groupRatingViewMapper },
+                { ModelTypes.AvailableCommandsModel, availableCommandsViewMapper },
+                { ModelTypes.CompareDudesModel, compareDudesViewMapper },
+                { ModelTypes.MessageWithoutAnyCmdModel, messageWithoutAnyCmdViewMapper }
             };
         }
 

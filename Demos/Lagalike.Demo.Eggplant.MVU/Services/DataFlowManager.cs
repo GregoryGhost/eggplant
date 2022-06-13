@@ -1,18 +1,9 @@
 namespace Lagalike.Demo.Eggplant.MVU.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     using global::Eggplant.Types.Shared;
 
     using Lagalike.Demo.Eggplant.MVU.Models;
     using Lagalike.Demo.Eggplant.MVU.Services.Views;
-    using Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU;
-
-    using Newtonsoft.Json;
-
-    using PatrickStar.MVU;
 
     /// <summary>
     ///     The demo data flow manager which controls Telegram.
@@ -54,6 +45,21 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
         }
 
         /// <inheritdoc />
+        public Model InitialModel { get; init; }
+
+        /// <inheritdoc />
+        public IModelCache<Model> Model { get; init; }
+
+        /// <inheritdoc />
+        public IPostProccessor<CommandTypes, TelegramUpdate> PostProccessor { get; init; }
+
+        /// <inheritdoc />
+        public IUpdater<CommandTypes, Model> Updater { get; init; }
+
+        /// <inheritdoc />
+        public ViewMapper ViewMapper { get; init; }
+
+        /// <inheritdoc />
         public ICommand<CommandTypes> GetInputCommand(TelegramUpdate update)
         {
             var commandType = update.RequestType switch
@@ -80,21 +86,6 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             throw new KeyNotFoundException($"Not found the command type {commandType.Type}");
         }
 
-        /// <inheritdoc />
-        public Model InitialModel { get; init; }
-
-        /// <inheritdoc />
-        public IModelCache<Model> Model { get; init; }
-
-        /// <inheritdoc />
-        public IPostProccessor<CommandTypes, TelegramUpdate> PostProccessor { get; init; }
-
-        /// <inheritdoc />
-        public IUpdater<CommandTypes, Model> Updater { get; init; }
-
-        /// <inheritdoc />
-        public ViewMapper ViewMapper { get; init; }
-
         private ICommand<CommandTypes> PassParametersToCommand(ICommand<CommandTypes> commandType, TelegramUpdate update)
         {
             var command = commandType.Type switch
@@ -113,19 +104,19 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             var inputRawCmd = update.Update.Message?.Text;
             if (inputRawCmd is null)
                 return null;
-            
+
             var foundCmd = _botCommandUsageConfigurator.GetBotCommandInfos()
                                                        .SingleOrDefault(x => inputRawCmd.Contains(x.CommandName));
 
             var haveNoPassedCommand = foundCmd is null && !inputRawCmd.Contains("/");
             if (haveNoPassedCommand)
                 return _commandsFactory.GetMessageWithoutAnyCmdCommand();
-            
+
             if (foundCmd is null)
                 return _commandsFactory.GetUnknownCommand();
 
             _commands.TryGetValue(foundCmd.Type, out var foundCmdByType);
-            
+
             return foundCmdByType;
         }
     }

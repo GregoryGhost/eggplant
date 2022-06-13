@@ -1,7 +1,5 @@
 namespace Eggplant.Telegram
 {
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Hosting;
 #if RELEASE
     using System;
 #endif

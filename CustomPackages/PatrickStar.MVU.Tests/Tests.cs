@@ -1,15 +1,9 @@
 namespace PatrickStar.MVU.Tests
 {
-    using System.Linq;
-    using System.Threading.Tasks;
-
-    using Newtonsoft.Json;
-
-    using NUnit.Framework;
-
     public class Tests
     {
-        private const string TEST_CHAT_ID = "testChatId";        
+        private const string TEST_CHAT_ID = "testChatId";
+
         private const string TEST_CHAT_ID2 = "testChatId2";
 
         [Test]
@@ -35,12 +29,12 @@ namespace PatrickStar.MVU.Tests
             var update2 = GetTestUpdateOutputCmd();
             var updates = new[] { update1, update2 }.Select(dataFlowManager.ProccessMessageAsync);
             await Task.WhenAll(updates);
-            
+
             var expectedModel1 = new Model1
             {
                 Test = true,
                 GotTestCmd2Repeated = false
-            };            
+            };
             var expectedModel2 = new Model1
             {
                 Test = true,
@@ -48,7 +42,7 @@ namespace PatrickStar.MVU.Tests
             };
             dataFlowManager.Model.TryGetValue(TEST_CHAT_ID, out var actualModel1);
             Assert.AreEqual(actualModel1, expectedModel1);
-            
+
             dataFlowManager.Model.TryGetValue(TEST_CHAT_ID2, out var actualModel2);
             Assert.AreEqual(actualModel2, expectedModel2);
         }

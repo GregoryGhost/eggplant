@@ -1,14 +1,5 @@
 namespace Lagalike.Demo.Eggplant.MVU.Services
 {
-    using System;
-    using System.Diagnostics;
-    using System.Threading.Tasks;
-
-    using CockSizer.Services;
-
-    using DudesComparer.Models;
-    using DudesComparer.Services;
-
     using global::Eggplant.MVU.CompareDudes.Commands;
     using global::Eggplant.MVU.CompareDudes.Models;
     using global::Eggplant.MVU.GroupRating.Commands;
@@ -19,11 +10,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
     using global::Eggplant.MVU.UnknownCmd.Models;
     using global::Eggplant.Types.Shared;
 
-    using GroupRating.Services;
-
     using Lagalike.Demo.Eggplant.MVU.Models;
-
-    using PatrickStar.MVU;
 
     using ChatId = GroupRating.Models.ChatId;
 
@@ -34,9 +21,9 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
 
         private readonly CockSizeFactory _cockSizeFactory;
 
-        private readonly GroupRatingHandler _groupRatingHandler;
-
         private readonly IDudesHandler _compareDudesHandler;
+
+        private readonly GroupRatingHandler _groupRatingHandler;
 
         private readonly IGroupRatingStore _groupRatingStore;
 
@@ -57,10 +44,10 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
         {
             var updatedModel = command.Type switch
             {
-                CommandTypes.ShareCockSize => await RandomCockSizeAsync(model, (ShareCockSizeCommand) command),
-                CommandTypes.GroupRating => await GetGroupRatingAsync(model, (GroupRatingCommand) command),
-                CommandTypes.UnknownCommand => GetAvailableBotCommandModel(model, (UnknownCommand) command),
-                CommandTypes.CompareDudes => await CompareDudesAsync(model, (CompareDudesCommand) command),
+                CommandTypes.ShareCockSize => await RandomCockSizeAsync(model, (ShareCockSizeCommand)command),
+                CommandTypes.GroupRating => await GetGroupRatingAsync(model, (GroupRatingCommand)command),
+                CommandTypes.UnknownCommand => GetAvailableBotCommandModel(model, (UnknownCommand)command),
+                CommandTypes.CompareDudes => await CompareDudesAsync(model, (CompareDudesCommand)command),
                 CommandTypes.MessageWithoutAnyCmdCommand => GetMessageWithouAnyCmdModel(model),
                 _ => throw new ArgumentOutOfRangeException($"Unknown {nameof(command)}: {command}")
             };
@@ -117,6 +104,23 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             };
 
             return updatedModel;
+        }
+
+        private async Task<CheckedDude> GetCheckedDude(ShareCockSizeCommand command)
+        {
+            var userId = long.Parse(command.ChatId);
+            var chatMember = await _groupRatingStore.GetChatMemberAsync(
+                new ChatId(command.ChatId),
+                userId);
+            var checkedDude = new CheckedDude
+            {
+                UserId = userId,
+                FirstName = chatMember.User.FirstName,
+                LastName = chatMember.User.LastName,
+                Username = chatMember.User.Username
+            };
+
+            return checkedDude;
         }
 
         private async Task<Model> GetGroupRatingAsync(Model model, GroupRatingCommand cmd)
@@ -176,23 +180,6 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             };
 
             return initialized;
-        }
-
-        private async Task<CheckedDude> GetCheckedDude(ShareCockSizeCommand command)
-        {
-            var userId = long.Parse(command.ChatId);
-            var chatMember = await _groupRatingStore.GetChatMemberAsync(
-                new ChatId(command.ChatId),
-                userId);
-            var checkedDude = new CheckedDude
-            {
-                UserId = userId,
-                FirstName = chatMember.User.FirstName,
-                LastName = chatMember.User.LastName,
-                Username = chatMember.User.Username
-            };
-            
-            return checkedDude;
         }
     }
 }

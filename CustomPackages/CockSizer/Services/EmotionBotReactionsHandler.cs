@@ -1,15 +1,9 @@
 namespace CockSizer.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     using CockSizer.Models;
 
     public class EmotionBotReactionsHandler
     {
-        private readonly CockSizeFactory _cockSizeFactory;
-
         private const string ZERO_COCK_SIZE_EMOUTION =
             ".∧＿∧" +
             "( ･ω･｡)つ━☆・*。" +
@@ -17,9 +11,11 @@ namespace CockSizer.Services
             "しーＪ...°。+ *´¨)" +
             "..........· ´¸.·*´¨) ¸.·*¨)" +
             "..........(¸.·´ (¸.·'* ☆ WOW AND YOU ARE A FAG ☆";
+
         private readonly string[] _cockSizeEmoutions =
         {
-            ZERO_COCK_SIZE_EMOUTION, "🚷", "😭", "🤣", "😂", "🥲", "🙃", "😔", "🤏", "😟", "😕", "🙁", "😣", "😖", "🙂", "🙃", "👍", "🙌",
+            ZERO_COCK_SIZE_EMOUTION, "🚷", "😭", "🤣", "😂", "🥲", "🙃", "😔", "🤏", "😟", "😕", "🙁", "😣", "😖", "🙂", "🙃",
+            "👍", "🙌",
             "👏", "🎉",
             "👄", "😘", "🥰", "😍", "😳", "😅", "😬", "😥", "😰", "😨", "😱", "🍆", "໒( 0◡0)っ✂╰⋃╯", "🦍", "🐎", "🐘", "🦣", "🏆",
             "(●≧ﻬ≦)(˘ ε ˘ʃƪ)",
@@ -27,6 +23,8 @@ namespace CockSizer.Services
             "/╲/\\╭( ͡° ͡° ͜ʖ ͡° ͡°)╮/]\\╱\\", "ಠ╭╮ಠ", "╾━╤デ╦︻( ▀̿ Ĺ̯ ▀̿├┬┴┬", "щ(ಠ益ಠщ)", "You need to ໒( 0◡0)っ✂╰⋃╯",
             "つ ◕_◕༽つ", "(づ´༎ຶU´༎ຶ)づᕙ(ᴗ ͟لᴗ)ᕗ", "┌(  ಠ_ಠ )┘"
         };
+
+        private readonly CockSizeFactory _cockSizeFactory;
 
         private readonly IReadOnlyDictionary<CockSize, EmoutionInfo> _dictCockSizeReactions;
 

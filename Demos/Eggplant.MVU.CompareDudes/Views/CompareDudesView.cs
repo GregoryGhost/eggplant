@@ -16,7 +16,7 @@
 
         /// <inheritdoc />
         public sealed override Menu<CommandTypes> InitialMenu { get; }
-        
+
         /// <inheritdoc />
         public override IView<CommandTypes> Update(IElement sourceMenu)
         {

@@ -1,18 +1,13 @@
 ﻿namespace Eggplant.MVU.GroupRating.Services
 {
-    using System.Threading.Tasks;
-
     using global::GroupRating.Models;
     using global::GroupRating.Services;
 
     using Lagalike.Telegram.Shared.Services;
 
-    using Telegram.Bot;
-    using Telegram.Bot.Types.Enums;
-
     using TelegramChatId = Telegram.Bot.Types.ChatId;
 
-    public class GroupRatingStore: IGroupRatingStore
+    public class GroupRatingStore : IGroupRatingStore
     {
         private readonly ConfiguredTelegramBotClient _client;
 
@@ -24,9 +19,11 @@
         public async Task<ChatMember> GetChatMemberAsync(ChatId chatId, long userId)
         {
             var telegramChatId = new TelegramChatId(chatId.Value);
-            
+
             var telegramChatMember = await _client.GetChatMemberAsync(telegramChatId, userId);
-            var isMember = telegramChatMember.Status is ChatMemberStatus.Administrator or ChatMemberStatus.Creator or ChatMemberStatus.Member;
+            var isMember =
+                telegramChatMember.Status is ChatMemberStatus.Administrator or ChatMemberStatus.Creator
+                    or ChatMemberStatus.Member;
             var user = new UserInfo
             {
                 FirstName = telegramChatMember.User.FirstName,

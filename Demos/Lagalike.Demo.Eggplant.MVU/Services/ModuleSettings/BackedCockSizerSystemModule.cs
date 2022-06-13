@@ -1,12 +1,10 @@
 namespace Lagalike.Demo.Eggplant.MVU.Services.ModuleSettings
 {
-    using Lagalike.Telegram.Shared.Contracts;
-
     /// <inheritdoc />
     public class BackedCockSizerSystemModule : IBackedModeSystem
     {
         /// <summary>
-        /// Initialize dependencies.
+        ///     Initialize dependencies.
         /// </summary>
         public BackedCockSizerSystemModule()
         {
@@ -14,7 +12,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services.ModuleSettings
         }
 
         /// <summary>
-        /// Startup the demo with configured services.
+        ///     Startup the demo with configured services.
         /// </summary>
         public IStartup Startup { get; }
     }

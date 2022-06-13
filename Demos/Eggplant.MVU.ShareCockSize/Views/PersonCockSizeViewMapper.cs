@@ -6,14 +6,14 @@ namespace Eggplant.MVU.ShareCockSize.Views
     using PatrickStar.MVU;
 
     /// <summary>
-    /// A default view mapper which shows actual demo model.
+    ///     A default view mapper which shows actual demo model.
     /// </summary>
     public class PersonCockSizeViewMapper : IViewMapper<CommandTypes>
     {
         private readonly UserCockSizeInfoView _userCockSizeInfoView;
 
         /// <summary>
-        /// Initial dependencies.
+        ///     Initial dependencies.
         /// </summary>
         /// <param name="userCockSizeInfoView">A demo menu view.</param>
         public PersonCockSizeViewMapper(UserCockSizeInfoView userCockSizeInfoView)

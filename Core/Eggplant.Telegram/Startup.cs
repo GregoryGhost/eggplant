@@ -1,17 +1,9 @@
 namespace Eggplant.Telegram
 {
-    using System;
-
     using Eggplant.Telegram.Services;
 
     using Lagalike.Telegram.Shared;
     using Lagalike.Telegram.Shared.Services;
-
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
 
     /// <summary>
     ///     The bot playground startup.

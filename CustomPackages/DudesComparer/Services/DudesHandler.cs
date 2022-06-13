@@ -1,15 +1,5 @@
 ﻿namespace DudesComparer.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Threading.Tasks;
-
-    using Ardalis.SmartEnum;
-
-    using CSharpFunctionalExtensions;
-
     using DudesComparer.Models;
 
     using ComparedDudesResult = CSharpFunctionalExtensions.Result<ComparedDudes, ComparedDudesErrors>;
@@ -78,27 +68,27 @@
             return comparedDudes;
         }
 
-        private async Task<Result<IReadOnlyCollection<ChatMember>, ComparedDudesErrors>> GetChatDudesAsync(ComparingDudes? comparingDudes)
+        private async Task<Result<IReadOnlyCollection<ChatMember>, ComparedDudesErrors>> GetChatDudesAsync(
+            ComparingDudes? comparingDudes)
         {
             if (comparingDudes is null)
-            {
                 return ComparedDudesErrors.UnknownChatDudes;
-            }
             var preparedChatMembers = comparingDudes.DudesUserNames
-                                                    .Select(async userName => await _store.GetChatMemberAsync(comparingDudes.ChatId, userName));
+                                                    .Select(
+                                                        async userName => await _store.GetChatMemberAsync(
+                                                            comparingDudes.ChatId,
+                                                            userName));
             var foundChatMembers = await Task.WhenAll(preparedChatMembers);
             var notChatMembers = foundChatMembers.Where(x => !x.IsMember).ToArray();
             var areThereNotChatMembers = notChatMembers.Any();
 
             var haveNoChatMembers = notChatMembers.Length == foundChatMembers.Length;
             if (haveNoChatMembers)
-            {
                 return ComparedDudesErrors.EmptyChatDudes;
-            }
 
             if (!areThereNotChatMembers)
                 return foundChatMembers;
-            
+
             var unknownChatDudes = notChatMembers.Select(x => x.User.Username).ToArray();
 
             return ComparedDudesErrors.GetUnknownChatDudes(unknownChatDudes);
@@ -158,11 +148,11 @@
 
     public sealed record DudeInfo
     {
+        public CheckedDude CheckedDude { get; init; } = null!;
+
         public CockSize CockSize { get; init; } = null!;
 
         public DudeTypes DudeType { get; init; }
-
-        public CheckedDude CheckedDude { get; init; } = null!;
     }
 
     public enum DudeTypes

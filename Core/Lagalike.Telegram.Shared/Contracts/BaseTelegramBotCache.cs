@@ -1,10 +1,6 @@
 namespace Lagalike.Telegram.Shared.Contracts
 {
-    using System;
-
     using global::PatrickStar.MVU;
-
-    using Microsoft.Extensions.Caching.Memory;
 
     /// <summary>
     ///     A basic implementation of cache for demos of a telegram bot.
@@ -28,6 +24,18 @@ namespace Lagalike.Telegram.Shared.Contracts
         }
 
         /// <inheritdoc />
+        public void Set(string chatId, TItem value)
+        {
+            TelegramCache.Set(FormatCacheKey(chatId), value);
+        }
+
+        /// <inheritdoc />
+        public bool TryGetValue(string chatId, out TItem value)
+        {
+            return TelegramCache.TryGetValue(FormatCacheKey(chatId), out value);
+        }
+
+        /// <inheritdoc />
         public void Dispose()
         {
             TelegramCache.Dispose();
@@ -40,18 +48,6 @@ namespace Lagalike.Telegram.Shared.Contracts
         public void Remove(string chatId)
         {
             TelegramCache.Remove(FormatCacheKey(chatId));
-        }
-
-        /// <inheritdoc />
-        public void Set(string chatId, TItem value)
-        {
-            TelegramCache.Set(FormatCacheKey(chatId), value);
-        }
-
-        /// <inheritdoc />
-        public bool TryGetValue(string chatId, out TItem value)
-        {
-            return TelegramCache.TryGetValue(FormatCacheKey(chatId), out value);
         }
 
         private string FormatCacheKey(string chatId)

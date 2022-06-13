@@ -1,7 +1,5 @@
 namespace Lagalike.Telegram.Shared
 {
-    using System.ComponentModel.DataAnnotations;
-
     /// <summary>
     ///     The Telegram bot configuration.
     /// </summary>

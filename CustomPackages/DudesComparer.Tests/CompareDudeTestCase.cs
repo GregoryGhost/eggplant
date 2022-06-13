@@ -1,7 +1,5 @@
 ﻿namespace DudesComparer.Tests
 {
-    using CSharpFunctionalExtensions;
-
     using DudesComparer.Services;
 
     public record CompareDudeTestCase

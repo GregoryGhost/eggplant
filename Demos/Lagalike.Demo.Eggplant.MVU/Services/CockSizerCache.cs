@@ -1,17 +1,7 @@
 namespace Lagalike.Demo.Eggplant.MVU.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using DudesComparer.Models;
-
     using Lagalike.Demo.Eggplant.MVU.Models;
     using Lagalike.Demo.Eggplant.MVU.Services.ModuleSettings;
-    using Lagalike.Telegram.Shared.Contracts;
-    using Lagalike.Telegram.Shared.Extensions;
-
-    using Microsoft.Extensions.Caching.Memory;
 
     using CockSize = GroupRating.Models.CockSize;
 
@@ -29,8 +19,8 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
         public CheckedDude? GetCheckedDude(string userName)
         {
             var foundDude = TelegramCache.GetValues<Model>()
-                                    .Select(model => model.CompareDudesModel?.CheckedDude)
-                                    .FirstOrDefault(checkedDude => checkedDude?.Username == userName);
+                                         .Select(model => model.CompareDudesModel?.CheckedDude)
+                                         .FirstOrDefault(checkedDude => checkedDude?.Username == userName);
             return foundDude;
         }
 
@@ -39,9 +29,7 @@ namespace Lagalike.Demo.Eggplant.MVU.Services
             if (!TryGetValue(userId.ToString(), out var model)
                 || model.CockSizeModel?.CockSize is null
                 || model.CompareDudesModel?.CheckedDude is null)
-            {
                 return null;
-            }
 
             var userCocksSize = new UserCockSize
             {

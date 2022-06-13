@@ -4,7 +4,7 @@ namespace Eggplant.MVU.MessageWithoutAnyCmd.Views
 
     using PatrickStar.MVU;
 
-    public record MessageWithoutAnyCmdView: BaseMenuView<CommandTypes>
+    public record MessageWithoutAnyCmdView : BaseMenuView<CommandTypes>
     {
         public MessageWithoutAnyCmdView(MenuBuilder<CommandTypes> menuBuilder)
         {

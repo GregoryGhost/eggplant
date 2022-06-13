@@ -1,7 +1,5 @@
 namespace Eggplant.MVU.ShareCockSize.Views
 {
-    using System;
-
     using CockSizer.Services;
 
     using Eggplant.MVU.ShareCockSize.Models;
@@ -23,7 +21,8 @@ namespace Eggplant.MVU.ShareCockSize.Views
             Label = "Share your cock size"
         };
 
-        public UserCockSizeInfoView(EmotionBotReactionsHandler emotionBotReactionsHandler, InlineQueryMenuBuilder inlineQueryMenuBuilder)
+        public UserCockSizeInfoView(EmotionBotReactionsHandler emotionBotReactionsHandler,
+            InlineQueryMenuBuilder inlineQueryMenuBuilder)
         {
             _emotionBotReactionsHandler = emotionBotReactionsHandler;
             InitialMenu = inlineQueryMenuBuilder
@@ -64,7 +63,7 @@ namespace Eggplant.MVU.ShareCockSize.Views
             };
             var updatedMenu = InitialMenu with
             {
-                Buttons = new []
+                Buttons = new[]
                 {
                     shareButton
                 }

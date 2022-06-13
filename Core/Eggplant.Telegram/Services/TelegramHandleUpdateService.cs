@@ -1,15 +1,6 @@
 namespace Eggplant.Telegram.Services
 {
-    using System;
-    using System.Threading.Tasks;
-
-    using global::Telegram.Bot.Exceptions;
-    using global::Telegram.Bot.Types;
-    using global::Telegram.Bot.Types.Enums;
-
     using Lagalike.Demo.Eggplant.MVU.Services;
-
-    using Microsoft.Extensions.Logging;
 
     public class TelegramHandleUpdateService
     {

@@ -1,20 +1,8 @@
 namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     using global::PatrickStar.MVU;
 
-    using global::Telegram.Bot;
-    using global::Telegram.Bot.Types.Enums;
-    using global::Telegram.Bot.Types.InlineQueryResults;
-    using global::Telegram.Bot.Types.ReplyMarkups;
-
     using Lagalike.Telegram.Shared.Services;
-
-    using Newtonsoft.Json;
 
     /// <summary>
     ///     Telegram update processor.
@@ -44,10 +32,10 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
 
                 if (update.Update.InlineQuery?.Id is null)
                     throw new ArgumentNullException(nameof(update.Update.InlineQuery.Id));
-                
+
                 await _client.AnswerInlineQueryAsync(
                     update.Update.InlineQuery.Id,
-                    inlineQueryResult, 
+                    inlineQueryResult,
                     isPersonal: true);
             }
             else
@@ -77,10 +65,11 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
         private static IReadOnlyCollection<InlineQueryResult> GetInlineQueryResult(IView<TCmdType> view)
         {
             var inlineMenu = (InlineQueryMenu)view.Menu;
-            var results = inlineMenu.Buttons.Select(button => new InlineQueryResultArticle(
-                                        button.Id,
-                                        button.Label,
-                                        new InputTextMessageContent(button.Value)))
+            var results = inlineMenu.Buttons.Select(
+                                        button => new InlineQueryResultArticle(
+                                            button.Id,
+                                            button.Label,
+                                            new InputTextMessageContent(button.Value)))
                                     .ToArray();
 
             return results;
@@ -96,7 +85,7 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
                 var msgId = update.Update.CallbackQuery?.Message?.MessageId;
                 if (msgId is null)
                     throw new ArgumentNullException(nameof(update.Update.CallbackQuery.Message.MessageId));
-                
+
                 await _client.EditMessageTextAsync(
                     update.ChatId,
                     msgId.Value,
@@ -105,12 +94,17 @@ namespace Lagalike.Telegram.Shared.Contracts.PatrickStar.MVU
                     replyMarkup: keyboard);
             }
             else if (update.RequestType is RequestTypes.Message or RequestTypes.EditedMessage)
-                await _client.SendTextMessageAsync(update.ChatId,
+            {
+                await _client.SendTextMessageAsync(
+                    update.ChatId,
                     menu.MessageElement.Text,
                     ParseMode.Html,
                     replyMarkup: keyboard);
+            }
             else
+            {
                 throw new NotImplementedException($"Cannot proccess this action {update.RequestType}");
+            }
         }
     }
 }

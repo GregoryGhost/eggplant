@@ -1,24 +1,7 @@
 namespace DudesComparer.Tests
 {
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
-
-    using CSharpFunctionalExtensions;
-
     using DudesComparer.Models;
     using DudesComparer.Services;
-
-    using FluentAssertions;
-    using FluentAssertions.CSharpFunctionalExtensions;
-
-    using FsCheck;
-
-    using Microsoft.FSharp.Core;
-
-    using Newtonsoft.Json;
-
-    using NUnit.Framework;
 
     using Random = FsCheck.Random;
 
@@ -30,6 +13,16 @@ namespace DudesComparer.Tests
         public Tests()
         {
             _dudesHandler = DudesHandlerFactory.GetInitializedDudesHandler();
+        }
+
+        [Test]
+        public void CanCompareDudesTest()
+        {
+            var userCockSizes = GenUserCockSize();
+            Prop.ForAll(
+                    userCockSizes,
+                    size => { })
+                .QuickCheck();
         }
 
         [TestCaseSource(typeof(CompareDudesCases))]
@@ -49,18 +42,6 @@ namespace DudesComparer.Tests
                     actualComparedDudes.Should().BeFailure();
                     expected.Should().BeEquivalentTo(actualComparedDudes.Error);
                 });
-        }
-
-        [Test]
-        public void CanCompareDudesTest()
-        {
-            var userCockSizes = GenUserCockSize();
-            Prop.ForAll(userCockSizes,
-                    size =>
-                    {
-                        
-                    })
-                .QuickCheck();
         }
 
         private static Arbitrary<UserCockSize> GenUserCockSize()

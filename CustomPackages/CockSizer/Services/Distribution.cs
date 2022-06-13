@@ -1,11 +1,9 @@
 ﻿namespace CockSizer.Services
 {
-    using MathNet.Numerics.Distributions;
-
-    public class Distribution: IDistribution
+    public class Distribution : IDistribution
     {
         private readonly Gamma _gammaDistribution;
-        
+
         public Distribution()
         {
             _gammaDistribution = new Gamma(6, 4);

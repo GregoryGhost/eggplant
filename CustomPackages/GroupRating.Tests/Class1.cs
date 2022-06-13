@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GroupRating.Tests
+﻿namespace GroupRating.Tests
 {
     public class Class1
     {

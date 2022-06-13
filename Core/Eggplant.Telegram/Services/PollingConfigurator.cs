@@ -1,17 +1,6 @@
 namespace Eggplant.Telegram.Services
 {
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-
-    using global::Telegram.Bot;
-    using global::Telegram.Bot.Extensions.Polling;
-    using global::Telegram.Bot.Types.Enums;
-
     using Lagalike.Telegram.Shared.Services;
-
-    using Microsoft.Extensions.Hosting;
-    using Microsoft.Extensions.Logging;
 
     public class PollingConfigurator : IHostedService
     {
@@ -32,7 +21,7 @@ namespace Eggplant.Telegram.Services
             _botClient = botClient;
             _updateHandler = updateHandler;
             _telegramClientCancellationToken = new CancellationTokenSource();
-            
+
             var receiveAllUpdateTypes = Array.Empty<UpdateType>();
             _receiverOptions = new ReceiverOptions
             {

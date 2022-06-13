@@ -8,5 +8,5 @@
     {
         /// <inheritdoc />
         public override CommandTypes Type => CommandTypes.MessageWithoutAnyCmdCommand;
-    };
+    }
 }

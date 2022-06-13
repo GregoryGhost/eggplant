@@ -1,7 +1,7 @@
 namespace Lagalike.Telegram.Shared.Contracts
 {
     /// <summary>
-    /// An inputed command from a user. 
+    ///     An inputed command from a user.
     /// </summary>
     /// <param name="UserLabel">Displaying user label in a demo commands menu.</param>
     /// <param name="CommandValue">What's going to do when the command was selected.</param>

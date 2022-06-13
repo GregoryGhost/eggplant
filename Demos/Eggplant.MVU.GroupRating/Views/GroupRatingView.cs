@@ -9,8 +9,8 @@
         public GroupRatingView(MenuBuilder<CommandTypes> menuBuilder)
         {
             InitialMenu = menuBuilder
-                           .Row()
-                           .Build("It's no a group or members to size their cocks.");
+                          .Row()
+                          .Build("It's no a group or members to size their cocks.");
             Menu = InitialMenu;
         }
 

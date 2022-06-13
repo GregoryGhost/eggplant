@@ -1,16 +1,12 @@
 ﻿namespace GroupRating.Services
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     using GroupRating.Models;
 
     public class GroupRatingHandler
     {
-        private readonly ICockSizerCache _userCockSizer;
-
         private readonly IGroupRatingStore _groupRatingStore;
+
+        private readonly ICockSizerCache _userCockSizer;
 
         public GroupRatingHandler(ICockSizerCache userCockSizer,
             IGroupRatingStore groupRatingStore)
@@ -32,6 +28,15 @@
             };
 
             return groupRatingInfo;
+        }
+
+        private static string FormatUserFullName(ChatMember chatMember)
+        {
+            var fullName = $"{chatMember.User.FirstName} {chatMember.User.LastName}";
+            var userName = $"(@{chatMember.User.Username})";
+            var formatted = $"{fullName} {userName}".Trim();
+
+            return formatted;
         }
 
         private async Task<IReadOnlyCollection<GroupUserInfo>> GetUsersInGroupAsync(string groupId)
@@ -57,17 +62,8 @@
                                               CockSize = x.UserCockSize
                                           })
                                       .ToList();
-            
-            return checkedUsersInGroup;
-        }
 
-        private static string FormatUserFullName(ChatMember chatMember)
-        {
-            var fullName = $"{chatMember.User.FirstName} {chatMember.User.LastName}";
-            var userName = $"(@{chatMember.User.Username})";
-            var formatted = $"{fullName} {userName}".Trim();
-            
-            return formatted;
+            return checkedUsersInGroup;
         }
     }
 }

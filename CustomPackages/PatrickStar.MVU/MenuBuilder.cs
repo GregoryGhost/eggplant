@@ -1,11 +1,7 @@
 namespace PatrickStar.MVU
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     /// <summary>
-    /// A menu builder.
+    ///     A menu builder.
     /// </summary>
     /// <typeparam name="TCommandType">A type of available commands.</typeparam>
     public class MenuBuilder<TCommandType>
@@ -16,7 +12,7 @@ namespace PatrickStar.MVU
         private readonly List<Button<TCommandType>> _row = new();
 
         /// <summary>
-        /// Build a menu.
+        ///     Build a menu.
         /// </summary>
         /// <param name="messageText">A message text in a menu.</param>
         /// <returns>Returns a built menu.</returns>
@@ -37,7 +33,7 @@ namespace PatrickStar.MVU
         }
 
         /// <summary>
-        /// Add a button to a menu.
+        ///     Add a button to a menu.
         /// </summary>
         /// <param name="label">A button label.</param>
         /// <param name="cmd">A used command on a button click.</param>
@@ -55,7 +51,7 @@ namespace PatrickStar.MVU
         }
 
         /// <summary>
-        /// Add a row to a menu.
+        ///     Add a row to a menu.
         /// </summary>
         /// <returns>Returns a building menu.</returns>
         public MenuBuilder<TCommandType> Row()
@@ -65,6 +61,7 @@ namespace PatrickStar.MVU
                 _row.Clear();
                 return this;
             }
+
             _buttons.Add(_row.ToArray());
             _row.Clear();
 

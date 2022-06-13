@@ -1,11 +1,6 @@
 ﻿namespace Lagalike.Demo.Eggplant.MVU.Services
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
     using global::Eggplant.Types.Shared;
-
-    using global::Telegram.Bot.Types;
 
     public record BotCommandInfo
     {

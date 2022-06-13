@@ -1,11 +1,5 @@
 ﻿namespace Eggplant.MVU.CompareDudes.Views
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using CSharpFunctionalExtensions;
-
     using DudesComparer.Services;
 
     using Eggplant.MVU.CompareDudes.Models;
@@ -13,7 +7,7 @@
 
     using PatrickStar.MVU;
 
-    public class CompareDudesViewMapper: IViewMapper<CommandTypes>
+    public class CompareDudesViewMapper : IViewMapper<CommandTypes>
     {
         private readonly CompareDudesView _view;
 
@@ -27,12 +21,10 @@
         {
             var model = (CompareDudesModel)sourceModel;
             if (model.ComparedDudes is null)
-            {
                 return _view.Update(_view.InitialMenu);
-            }
 
-            var menu = (Menu<CommandTypes>) _view.Menu;
-            var comparedDudes = (Result<ComparedDudes, ComparedDudesErrors>) model.ComparedDudes;
+            var menu = (Menu<CommandTypes>)_view.Menu;
+            var comparedDudes = (Result<ComparedDudes, ComparedDudesErrors>)model.ComparedDudes;
             var formattedUsers = GetComparedDudes(comparedDudes);
             var msg = menu.MessageElement with
             {
@@ -47,11 +39,38 @@
             return updatedView;
         }
 
-        private static string GetComparedDudes(Result<ComparedDudes, ComparedDudesErrors> comparedDudes)
+        private static string FormatComparedDudes(IReadOnlyCollection<DudeInfo> comparedDudes)
         {
-            var formatted = comparedDudes.Match(
-                value => FormatComparedDudes(value.DudeInfos),
-                FormatErrorMsg);
+            var haveNoDudes = !comparedDudes.Any();
+            if (haveNoDudes)
+            {
+                const string HaveNoDudesInGroup = "The provided dudes are not in the group.";
+
+                return HaveNoDudesInGroup;
+            }
+
+            var formattedDudes = FormatDudes(comparedDudes);
+
+            return formattedDudes;
+        }
+
+        private static string FormatDudes(IReadOnlyCollection<DudeInfo> comparedDudes)
+        {
+            var winnerInfo = comparedDudes.First(x => x.DudeType == DudeTypes.Winner);
+            var losers = comparedDudes.Where(x => x.DudeType == DudeTypes.Loser)
+                                      .Select(x => $"@{x.CheckedDude.Username}")
+                                      .ToArray();
+
+            var winner = winnerInfo.CheckedDude;
+            var winnerCockSize = winnerInfo.CockSize.Size;
+            var winnerUser = $"<b>{winner.LastName} {winner.FirstName}</b> (@{winner.Username})";
+            var formattedWinner = $"💕👄👄👄💕💕💕\n{winnerUser} [<b>{winnerCockSize} cm]</b>\n💕💕💕👄👄👄💕";
+            if (!losers.Any())
+                return formattedWinner;
+
+            var formattedListLosers = string.Join(";\n", losers);
+            var formattedLosers = $"🦶🎢 🗑🗑🗑💩💩💩👇:\n{formattedListLosers}";
+            var formatted = $"{formattedWinner}\n\n{formattedLosers}";
 
             return formatted;
         }
@@ -75,40 +94,11 @@
             return $"Unknown dudes - might be not measured or wrong nicknames dudes:\n{formatted}";
         }
 
-        private static string FormatComparedDudes(IReadOnlyCollection<DudeInfo> comparedDudes)
+        private static string GetComparedDudes(Result<ComparedDudes, ComparedDudesErrors> comparedDudes)
         {
-            var haveNoDudes = !comparedDudes.Any();
-            if (haveNoDudes)
-            {
-                const string HaveNoDudesInGroup = "The provided dudes are not in the group.";
-                
-                return HaveNoDudesInGroup;
-            }
-
-            var formattedDudes = FormatDudes(comparedDudes);
-
-            return formattedDudes;
-        }
-
-        private static string FormatDudes(IReadOnlyCollection<DudeInfo> comparedDudes)
-        {
-            var winnerInfo = comparedDudes.First(x => x.DudeType == DudeTypes.Winner);
-            var losers = comparedDudes.Where(x => x.DudeType == DudeTypes.Loser)
-                                      .Select(x => $"@{x.CheckedDude.Username}")
-                                      .ToArray();
-
-            var winner = winnerInfo.CheckedDude;
-            var winnerCockSize = winnerInfo.CockSize.Size;
-            var winnerUser = $"<b>{winner.LastName} {winner.FirstName}</b> (@{winner.Username})";
-            var formattedWinner = $"💕👄👄👄💕💕💕\n{winnerUser} [<b>{winnerCockSize} cm]</b>\n💕💕💕👄👄👄💕";
-            if (!losers.Any())
-            {
-                return formattedWinner;
-            }
-
-            var formattedListLosers = string.Join(";\n", losers);
-            var formattedLosers = $"🦶🎢 🗑🗑🗑💩💩💩👇:\n{formattedListLosers}";
-            var formatted = $"{formattedWinner}\n\n{formattedLosers}";
+            var formatted = comparedDudes.Match(
+                value => FormatComparedDudes(value.DudeInfos),
+                FormatErrorMsg);
 
             return formatted;
         }

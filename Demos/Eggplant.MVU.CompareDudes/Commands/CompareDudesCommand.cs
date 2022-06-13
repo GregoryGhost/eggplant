@@ -9,7 +9,7 @@
     public record CompareDudesCommand : BaseCommand<CommandTypes>
     {
         public ComparingDudes? ComparingDudes { get; init; } = null!;
-        
+
         /// <inheritdoc />
         public override CommandTypes Type => CommandTypes.CompareDudes;
     }

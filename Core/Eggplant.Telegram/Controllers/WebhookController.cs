@@ -1,13 +1,6 @@
 namespace Eggplant.Telegram.Controllers
 {
-    using System.Reflection;
-    using System.Threading.Tasks;
-
     using Eggplant.Telegram.Services;
-
-    using global::Telegram.Bot.Types;
-
-    using Microsoft.AspNetCore.Mvc;
 
     public class WebhookController : ControllerBase
     {

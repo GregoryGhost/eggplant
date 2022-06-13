@@ -5,11 +5,12 @@ namespace Eggplant.MVU.ShareCockSize.Commands
     using PatrickStar.MVU;
 
     /// <summary>
-    /// Command to share random current user cock size with other users.
+    ///     Command to share random current user cock size with other users.
     /// </summary>
     public record ShareCockSizeCommand : BaseCommand<CommandTypes>
     {
-        public string ChatId { get; init; } = null!; 
+        public string ChatId { get; init; } = null!;
+
         /// <inheritdoc />
         public override CommandTypes Type => CommandTypes.ShareCockSize;
     }
